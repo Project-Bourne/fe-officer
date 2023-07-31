@@ -1,18 +1,18 @@
 import React from 'react'
 import { Header, NavBar } from '@/components/layouts';
 
-function AppLayout({ children }) {
+function AppLayout({children}) {
 
     return (
-        <div className='bg-white h-full w-full flex flex-row overflow-x-hidden'>
+        <div className='bg-white w-full h-[100vh] z-30 relative flex flex-row'>
             {/* Nav Bar Component */}
-            <NavBar />
+            <NavBar/>
 
-            <div className='h-full bg-white w-full md:w-[80vw] ml-[15vw] md:ml-[20vw]' >
+            <div className='bg-white w-full md:w-[80vw] ml-[15vw] md:ml-[20vw] h-full'>
                 {/* Layout header */}
-                <Header />
+                <Header/>
 
-                {/* wrapper childen */}
+                {/* wrapper childer */}
                 <div className='mt-[120px]'>
                     {children}
                 </div>
@@ -21,4 +21,4 @@ function AppLayout({ children }) {
     )
 }
 
-export default AppLayout; 
+export default AppLayout;

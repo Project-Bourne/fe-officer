@@ -97,48 +97,102 @@ function DropdownWithFlag(props: DropdownModel) {
         name: 'Nigeria',
         flag: 'https://flagcdn.com/ng.svg'
     })
+    const [ filteredCountries, setFilteredCountries ] = useState(countries);
+    const [ countrySearch, setCountrySearch ] = useState("");
+    const searchInput = useRef();
+
+    const dropdownRef = useRef();
+    useOnClickOutside(dropdownRef, () => {
+        setDropdown(false);
+        setCountrySearch("");
+    });
 
     // toggle dropdown if component is not disabled 
     const handleDropdown = () => {
-        setDropdown(!dropdown)
+        setDropdown(!dropdown);
+        // if (dropdown) {
+        //     document.getElementById('country-search').addEventListener('click', () => {
+        //         document.getElementById('country-search').focus()
+        //     })
+        // }
     }
     // add a selected country from dropdown 
     const handleItemSelect = (country, flag) => {
         setCountry({ name: country, flag })
         setDropdown(false);
         selectItem(country);
+        setFilteredCountries(countries);
+        setCountrySearch("");
+    }
+
+    const filterCountries = (event) => {
+        // event.preventDefault();
+        // setCountrySearch(event.target.value);
+        console.log('Filtering', event.target.value);
+        let filteredCountries = countries.filter((country) => {
+            if (country.name.toLowerCase().startsWith(event.target.value.toLocaleLowerCase())) {
+                return country;
+            }
+        });
+        setFilteredCountries(filteredCountries);
+        // searchInput.current.focues();
+        // document.getElementById('country-search').focus();
     }
 
     // dropdwon compoent 
     const Menu = () => {
         // close dropdown menu when outside is clicked 
         const menuRef = useRef();
-        useOnClickOutside(menuRef, () => setDropdown(false));
+        useOnClickOutside(menuRef, () => {
+            setDropdown(false);
+            setCountrySearch("");
+        });
 
         return (
-            <div ref={menuRef} className={`h-[170px] hover:cursor-pointer w-full shadow-md overflow-scroll bg-white absolute z-7`}>
-                {countries.map((item: any, index: number) => (
-                    <div
-                        key={index}
-                        className={`flex gap-2 px-2 py-1 hover:bg-gray-200 cursor-pointer items-center`}
-                        onClick={() => handleItemSelect(item.name, item.image)}>
-                        <Image
-                            src={item.image}
-                            alt="Filter"
-                            height={20}
-                            width={20}
-                            className='rounded-full h-[20px] w-[20px]'
-                            priority
-                        />
-                        <div className="text-[15px] font-light">{item.name}</div>
-                    </div>
-                ))}
+            <div 
+                // ref={menuRef} 
+                className={`h-[170px] hover:cursor-pointer w-full shadow-md overflow-scroll bg-white absolute z-7`}>
+                {/* <input 
+                    className="static w-[400px] mx-auto px-4 mb-2 border-b-2 h-[40px] text-black" 
+                    id="country-search"
+                    placeholder="Search"
+                    type="text"
+                    onChange={(event: any) => {
+                        event.preventDefault();
+                        setCountrySearch(event.target.value);
+                        filterCountries(event);
+                    }}
+                    key={'search-input'}
+                    // ref={searchInput}
+                    value={countrySearch}
+                /> */}
+                <div className="">
+                    {filteredCountries.sort((a, b) => {
+                            if (a.name > b.name) return 1;
+                            if (a.name < b.name) return -1;
+                        }).map((item: any, index: number) => (
+                        <div
+                            key={index}
+                            className={`flex gap-2 px-2 py-1 hover:bg-gray-200 cursor-pointer items-center`}
+                            onClick={() => handleItemSelect(item.name, item.image)}>
+                            <Image
+                                src={item.image}
+                                alt="Filter"
+                                height={20}
+                                width={20}
+                                className='rounded-full h-[20px] w-[20px]'
+                                priority
+                            />
+                            <div className="text-[15px] font-light">{item.name}</div>
+                        </div>
+                    ))}
+                </div>
             </div>
         )
     }
 
     return (
-        <div className={`relative ${style}`}>
+        <div ref={dropdownRef} className={`relative ${style}`}>
             <div
                 className={`flex justify-between items-center py-2 px-3 rounded-md border-[1px] border-gray-100 hover:cursor-pointer`}
                 onClick={handleDropdown}>
@@ -155,7 +209,25 @@ function DropdownWithFlag(props: DropdownModel) {
                 </div>
                 <div>&#8964; </div>
             </div>
-            {dropdown && <Menu />}
+            {dropdown && 
+                <>
+                    <input 
+                        className="static w-[400px] mx-auto px-4 mb-2 border-b-2 h-[40px] text-black" 
+                        id="country-search"
+                        placeholder="Search"
+                        type="text"
+                        onChange={(event: any) => {
+                            event.preventDefault();
+                            setCountrySearch(event.target.value);
+                            filterCountries(event);
+                        }}
+                        key={'search-input'}
+                        // ref={searchInput}
+                        value={countrySearch}
+                    />
+                    <Menu />
+                </>
+            }
         </div>
     )
 }
@@ -201,7 +273,7 @@ function LanguagesDropdown(props: DropdownModel) {
     return (
         <div className={`relative flex cursor-pointer flex-row flex-wrap items-center border-b-2 border-sirp-primary mb-[-2px] cursor-pointer ${style}`}>
             <div
-                className={`flex justify-between items-center my-2 w-[150px] px-1 rounded-md hover:cursor-pointer`}
+                className={`flex justify-between items-center my-2 w-[150px] px-1 rounded-md border-gray-100 hover:cursor-pointer`}
                 onClick={handleDropdown}>
                 <div className="flex gap-2 items-center">
                     <div className="text-[15px] font-normal text-gray-700">{country.name}</div>

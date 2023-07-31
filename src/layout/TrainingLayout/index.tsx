@@ -19,11 +19,11 @@ const TrainingLayout = ({children}: LayoutType) => {
         
         {/* Header */}
         <div className='flex flex-row w-full py-7 px-7 items-center justify-between'>
-            <h1 className='text-[18px] font-semibold'>Help</h1>
+            <h1 className='text-[18px] font-semibold'>Training</h1>
         </div>
 
         {/* Settings tabs */}
-        <div className='w-[100%] flex flex-row flex-wrap items-center border-b overscroll-y-auto-'>
+        <div className='w-[100%] flex flex-row items-center border-b overscroll-y-auto-'>
             {
                 TrainingData.map((item, index) => (
                     <TabComp item={item} index={index} key={index} route={route} />

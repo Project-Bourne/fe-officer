@@ -12,10 +12,11 @@ type TabCompType = {
         selectedIcon: string
     },
     index: number,
-    route: string
+    route: string,
+    callback?: Function
 }
 
-const TabComp = ({item, index, route}: TabCompType) => {
+const TabComp = ({item, index, route, callback}: TabCompType) => {
   
   const router = useRouter();
   
@@ -26,6 +27,8 @@ const TabComp = ({item, index, route}: TabCompType) => {
   const updatePath = (e: any) => {
     // e.preventDefault();
     setPath(item.route);
+    console.log('item', item, route);
+    // callback();
     // console.log(route, path, route, `${path}` == `${route}`, )
     router.push(
       {
@@ -43,13 +46,13 @@ const TabComp = ({item, index, route}: TabCompType) => {
   return (    
     <div 
       className={
-        item.route == router.pathname ? 'flex flex-row items-center h-10 flex-wrap gap-2 mr-10 border-b-2 border-sirp-primary cursor-pointer'
-        : 'flex flex-row items-center gap-2 cursor-pointer mr-10  flex-wrap text-sirp-grey'
+        item.route == router.pathname ? 'md:px-8 px-0 min-w-[max-content] h-full mx-5 pt-3 flex md:flex-row flex-wrap items-center border-b-2 text-sirp-primary border-sirp-primary pb-3 md:mr-10 mr-0 mb-[-2px] cursor-pointer'
+        : 'md:px-8 px-1 pt-3 flex md:flex-row flex-wrap min-w-[max-content] h-full mx-5 items-center border-b pb-3 md:mr-15 mr-0 mb-[-2px] cursor-pointer text-sirp-grey'
       }
       onClick={updatePath}
     >
       <Image
-        src={router.pathname == item.route ? require(`../../../../assets/icons/${item.selectedIcon}`) : require(`../../../../assets/icons/${item.icon}`)}
+        src={router.pathname == `${item.route}` ? require(`../../../../assets/icons/${item.selectedIcon}`) : require(`../../../../assets/icons/${item.icon}`)}
         // item.route.includes(route) ? require(`../../../../assets/icons/on.${item.icon}`) : 
         alt="settings tab"
         width={18}
@@ -58,7 +61,7 @@ const TabComp = ({item, index, route}: TabCompType) => {
         priority
       />
 
-      <h2 className={router.pathname == item.route  ? 'text-[12px] font-semibold text-sirp-primary' : 'text-[12px] font-semibold '}>{item.name}</h2>
+      <h2 className={router.pathname == `${item.route}`  ? 'text-[12px] font-semibold' : 'text-[12px] font-semibold '}>{item.name}</h2>
     </div>
   )
 }

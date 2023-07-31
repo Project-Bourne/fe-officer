@@ -25,3 +25,11 @@ export interface CustomSwitchType extends React.ButtonHTMLAttributes<HTMLButtonE
    title: string,
    content: string
 }
+
+export interface CustomCardModal {
+    imgSrc: any,
+    mainText: string,
+    subText: string,
+    linkText?: string,
+    url?: string,
+}

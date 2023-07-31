@@ -2,13 +2,14 @@ import { Dropdown, DropdownWithFlag } from '@/components/ui';
 import Image from 'next/image';
 import React, { useState } from 'react'
 import { UserRoles } from '@/utils/constants';
+import { useCountries } from 'use-react-countries';
 import { useRouter } from 'next/router';
 
 const View2 = () => {
 
 
     const router = useRouter();
-    const countries = [];
+    const { countries } = useCountries()
 
     const [country, setCountry] = useState(null);
     const [role, setRole] = useState("");
@@ -27,7 +28,7 @@ const View2 = () => {
     };
 
   return (
-    <div className='py-4 w-full mt-3 border-b-[1.5px]'>
+    <div className='py-4 md:w-full w-[70%]  mt-3 border-b-[1.5px]'>
         <div className='flex flex-col w-full'>
         <h2 className='font-semibold text-[13px] px-8'>Profile Picture</h2>
         <div className='flex flex-row w-full items-center my-4 border-b px-8 pb-2'>
@@ -74,32 +75,32 @@ const View2 = () => {
         </div>
 
         {/* Roles */}
-        <div className='flex flex-row items-center my-[20px] w-full px-8'>
-        <div className='w-[80px]'>
-            <label htmlFor='email' className='text-[12px] text-sirp-grey'>Role: </label>
-        </div>
-        
-        <Dropdown
-            data={UserRoles}
-            onChange={(e) => setRole(e.target.value)}
-            className='text-[12px] text-black border-[1.5px] rounded-md py-2 px-2 mx-4 w-[38%]'
-            style={{fontSize: 12}}
-        />
+        <div className='flex flex-row items-start my-[20px] w-full px-8'>
+            <div className='w-[80px]'>
+                <label htmlFor='email' className='text-[12px] text-sirp-grey'>Role: </label>
+            </div>
+            
+            <Dropdown
+                data={UserRoles}
+                onChange={(e) => setRole(e.target.value)}
+                className='text-[12px] text-black border-[1.5px] rounded-md py-2 px-2 mx-4 w-[38%]'
+                style={{fontSize: 12}}
+            />
         </div>
 
 
         {/* Countries */}
         <div className='flex flex-row items-center my-[20px] w-full px-8'>
-        <div className='w-[80px]'>
-            <label htmlFor='email' className='text-[12px] text-sirp-grey'>Country: </label>
-        </div>
+            <div className='w-[80px]'>
+                <label htmlFor='email' className='text-[12px] text-sirp-grey'>Country: </label>
+            </div>
 
-        <DropdownWithFlag
-            data={countries}
-            selectItem={setCountry}
-            className='text-[12px] text-black border-[1.5px] rounded-md py-2 px-7  w-[38%]'
-            style={"w-[38%] mx-4"}
-        />
+            <DropdownWithFlag
+                data={countries}
+                selectItem={setCountry}
+                className='text-[12px] text-black border-[1.5px] rounded-md py-2 px-7  w-[38%]'
+                style={"w-[38%] mx-4"}
+            />
         </div>
     </div>
   )

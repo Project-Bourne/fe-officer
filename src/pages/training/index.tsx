@@ -7,7 +7,7 @@ function Training() {
   useEffect(() => {
     router.push(
       {
-        pathname: `/help/all`,
+        pathname: `/training/all`,
       },
       undefined,
       { shallow: true }

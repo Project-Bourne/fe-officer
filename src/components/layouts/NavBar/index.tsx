@@ -15,7 +15,7 @@ function NavBar() {
                 className='md:mr-[20px]'
                 priority
             />
-            <h1 className='text-sirp-primary font-semibold text-[30px] hidden md:block'>Interrogator</h1>
+            <h1 className='text-sirp-primary font-semibold text-[30px] hidden md:block'>Summarizer</h1>
         </div>
         {/* items-center justify-center py-4 md:px-5 w-[100%] flex flex-row self-center */}
         <div 
@@ -27,7 +27,7 @@ function NavBar() {
                 alt="Start/Refresh Crawler"
                 width={20}
                 height={20}
-                className='md:mr-[20px] rotate-animation'
+                className='md:mr-[20px]'
                 priority
             />
 
