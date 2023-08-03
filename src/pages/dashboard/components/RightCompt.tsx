@@ -12,11 +12,10 @@ function RightCompt() {
               alt="crawled-content"
               className="pl-10 cursor-pointer"
               width={100}
-
             />
           </div>
           <div>
-            <p className= "font-bold text-black">4000</p>
+            <p className="font-bold text-black">4000</p>
             <span className="font-light text-black">Total content crawled</span>
           </div>
         </div>

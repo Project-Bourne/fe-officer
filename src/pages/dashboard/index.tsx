@@ -1,7 +1,7 @@
-import React from 'react';
-import Left from './components/LeftCompt';
-import Right from './components/RightCompt';
-import Card from './components/Card';
+import React from "react";
+import Left from "./components/LeftCompt";
+import Right from "./components/RightCompt";
+import Group1 from "./components/Group1";
 
 const index = () => {
   return (
@@ -15,9 +15,8 @@ const index = () => {
         <Left />
         <Right />
       </div>
-      {/* <dashboard cards /> */}
-      <div className="mt-5 mb-5 mx-5 px-1 flex justify-start items-start md:justify-evenly md:flex-row flex-wrap gap-x-5 md:gap-x-0">
-        <Card />
+      <div className="mt-5 mb-5">
+        <Group1 />
       </div>
     </div>
   );

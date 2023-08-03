@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react'
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 
 function Training() {
   const router = useRouter();
@@ -10,13 +10,11 @@ function Training() {
         pathname: `/training/all`,
       },
       undefined,
-      { shallow: true }
-    )
+      { shallow: true },
+    );
   }, []);
 
-  return (
-    <></>
-  )
+  return <></>;
 }
 
 export default Training;
