@@ -9,7 +9,7 @@ function NavBar() {
         <div className='flex flex-row items-center cursor-pointer mb-20'>
             <Image
                 src={require("../../../assets/svg/logo.svg")}
-                alt="SIRP Logo"
+                alt="IRP Logo"
                 width={50}
                 height={50}
                 className='md:mr-[20px]'

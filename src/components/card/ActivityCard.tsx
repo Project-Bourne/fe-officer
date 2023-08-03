@@ -8,7 +8,7 @@ export function ActivityCard({ time, actionText, activityText, docId }: Activity
             <h3 className="text-[14px] text-[#6F7A82]">{time}</h3>
             <div className="w-full grid rounded-2xl bg-[#F9F9F9] p-6">
                 <div>
-                    <h2 className="inline-block rounded-2xl border-[1px] border-gray-300 bg-white mb-2 px-2 py-1 text-[14px]">SIRP</h2>
+                    <h2 className="inline-block rounded-2xl border-[1px] border-gray-300 bg-white mb-2 px-2 py-1 text-[14px]">IRP</h2>
                 </div>
                 <div className="grid md:flex justify-between items-center">
                     <div className="flex gap-x-3">

@@ -28,7 +28,7 @@ export  default function ActivityLogSection() {
             <div>
                 <ActivityCard 
                     time={'9:00PM'}
-                    actionText={'Uploaded documents to SIRP'}
+                    actionText={'Uploaded documents to IRP'}
                     activityText={'Redesigned Naira: CBN launches Cash Swap Programme for rural '}
                     docId={2}
                 />
