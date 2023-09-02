@@ -1,5 +1,5 @@
-import React from "react";
-import { Header, NavBar } from "@/components/layouts";
+import React from 'react';
+import { Header, NavBar } from '../../components/layouts';
 
 function AppLayout({ children }) {
   return (

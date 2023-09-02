@@ -8,7 +8,7 @@ const moreOptions = () => {
       <div className="border cursor-pointer bg-sirp-dashbordb1 w-[100rem] flex text-md text-gray-500 gap-5 justify-center items-center py-3 rounded-[2rem]">
         <p className="text-md">More information</p>
         <Image
-          src={require(`../../../assets/icons/down.svg`)}
+          src={require(`../../../../public/icons/down.svg`)}
           alt="upload image"
           width={20}
           height={20}

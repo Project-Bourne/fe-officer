@@ -25,7 +25,7 @@ const InputSearch = () => {
         <div className="flex align-middle align w-full border-2 rounded-full border-[#E5E7EB]-500 border-dotted">
           <span className="flex align-middle justify-center mx-3">
             <Image
-              src={require(`../../../assets/icons/search.svg`)}
+              src={require(`../../../../public/icons/search.svg`)}
               alt="upload image"
               width={20}
               height={20}
@@ -44,7 +44,7 @@ const InputSearch = () => {
             <span className="flex align-middle justify-center mx-3">
               <Image
                 className="flex align-middle justify-center font-light text-[#A1ADB5] cursor-pointer"
-                src={require(`../../../assets/icons/x.svg`)}
+                src={require(`../../../../public/icons/x.svg`)}
                 alt="upload image"
                 width={20}
                 height={20}

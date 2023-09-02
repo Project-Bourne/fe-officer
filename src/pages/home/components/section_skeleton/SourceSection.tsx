@@ -2,7 +2,22 @@ import React from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-function SourceSection({ isLoading, sources }) {
+const sources =  [
+    {
+      id: 1,
+      key: "Twitter",
+    },
+    {
+      id: 2,
+      key: "Facebook",
+    },
+    {
+      id: 3,
+      key: "CNN",
+    },
+  ]
+
+function SourceSection({ isLoading }) {
   return (
     <div className="w-[25rem] border-l-2 border-sirp-keynotebg pl-10">
       <p className="text-gray-500">

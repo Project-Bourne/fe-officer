@@ -1,5 +1,5 @@
-import { HomeData } from "@/utils/constants";
-import React, { ReactNode, useState } from "react";
+import { HomeData } from '@/utils/constants';
+import React, { ReactNode, useState } from 'react';
 
 type LayoutType = {
   children: ReactNode;

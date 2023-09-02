@@ -1,5 +1,5 @@
 // contains all type model for authentication pages
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export interface AuthLayoutModel {
   children: ReactNode;

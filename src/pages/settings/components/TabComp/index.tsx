@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 type TabCompType = {
   item: {
@@ -12,28 +12,28 @@ type TabCompType = {
     selectedIcon: string;
   };
   index: number;
-  route: string;
+  route: any;
 };
 
 const TabComp = ({ item, index, route }: TabCompType) => {
   const router = useRouter();
 
   // States
-  const [path, setPath] = useState("");
-
+  const [path, setPath] = useState<string>('');
   // Functions
-  const updatePath = (e: any) => {
+  const updatePath:any = (e: any) => {
     // e.preventDefault();
-    setPath(item.route);
+    const newPath = item.route || '';
+    setPath(newPath);
     // console.log(route, path, route, `${path}` == `${route}`, )
     router.push(
       {
-        pathname: item.route,
+        pathname: item.route
       },
       undefined,
       {
-        shallow: true,
-      },
+        shallow: true
+      }
     );
   };
 
@@ -41,16 +41,16 @@ const TabComp = ({ item, index, route }: TabCompType) => {
     <div
       className={
         item.route == router.pathname
-          ? "md:px-8 px-0  pt-3 flex md:flex-row flex-wrap items-center border-b-2 border-sirp-primary pb-3 md:mr-10 mr-0 mb-[-2px] cursor-pointer"
-          : "md:px-8 px-1 pt-3 flex md:flex-row flex-wrap items-center border-b pb-3 md:mr-15 mr-0 mb-[-2px] cursor-pointer text-sirp-grey"
+          ? 'md:px-8 px-0  pt-3 flex md:flex-row flex-wrap items-center border-b-2 border-sirp-primary pb-3 md:mr-10 mr-0 mb-[-2px] cursor-pointer'
+          : 'md:px-8 px-1 pt-3 flex md:flex-row flex-wrap items-center border-b pb-3 md:mr-15 mr-0 mb-[-2px] cursor-pointer text-sirp-grey'
       }
       onClick={updatePath}
     >
       <Image
         src={
           router.pathname == item.route
-            ? require(`../../../../assets/icons/${item.selectedIcon}`)
-            : require(`../../../../assets/icons/${item.icon}`)
+            ? require(`../../../../../public/icons/${item.selectedIcon}`)
+            : require(`../../../../../public/icons/${item.icon}`)
         }
         // item.route.includes(route) ? require(`../../../../assets/icons/on.${item.icon}`) :
         alt="settings tab"
@@ -63,8 +63,8 @@ const TabComp = ({ item, index, route }: TabCompType) => {
       <h2
         className={
           router.pathname == item.route
-            ? "text-[12px] font-semibold text-sirp-primary"
-            : "text-[12px] font-semibold "
+            ? 'text-[12px] font-semibold text-sirp-primary'
+            : 'text-[12px] font-semibold '
         }
       >
         {item.name}

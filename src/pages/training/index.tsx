@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 
 function Training() {
   const router = useRouter();
@@ -7,10 +7,10 @@ function Training() {
   useEffect(() => {
     router.push(
       {
-        pathname: `/training/all`,
+        pathname: `/training/all`
       },
       undefined,
-      { shallow: true },
+      { shallow: true }
     );
   }, []);
 

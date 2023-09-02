@@ -1,12 +1,12 @@
-import Link from "next/link";
-import { useTruncate } from "@/components/custom-hooks";
-import { ActivityCardModel } from "@/global/users.module";
+import Link from 'next/link';
+import { useTruncate } from '../../components/custom-hooks';
+import { ActivityCardModel } from '../../global/users.module';
 
 export function ActivityCard({
   time,
   actionText,
   activityText,
-  docId,
+  docId
 }: ActivityCardModel) {
   return (
     <div className="w-[90%] mt-[2rem] grid md:flex gap-x-2 mx-auto">
@@ -14,7 +14,7 @@ export function ActivityCard({
       <div className="w-full grid rounded-2xl bg-[#F9F9F9] p-6">
         <div>
           <h2 className="inline-block rounded-2xl border-[1px] border-gray-300 bg-white mb-2 px-2 py-1 text-[14px]">
-            IRP
+            SIRP
           </h2>
         </div>
         <div className="grid md:flex justify-between items-center">

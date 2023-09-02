@@ -1,7 +1,7 @@
-import React from "react";
-import Left from "./components/LeftCompt";
-import Right from "./components/RightCompt";
-import Group1 from "./components/Group1";
+import React from 'react';
+import Left from './components/LeftCompt';
+import Right from './components/RightCompt';
+import Group1 from './components/Group1';
 
 const index = () => {
   return (

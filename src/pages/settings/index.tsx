@@ -1,9 +1,5 @@
-import Image from "next/image";
-import React, { useEffect } from "react";
-import { TabComp } from "./components";
-import { SettingsData } from "@/utils/constants";
-import ProfileSettings from "./profile";
-import { useRouter } from "next/router";
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 function Settings() {
   const router = useRouter();
@@ -11,10 +7,10 @@ function Settings() {
   useEffect(() => {
     router.push(
       {
-        pathname: `/settings/profile`,
+        pathname: `/settings/profile`
       },
       undefined,
-      { shallow: true },
+      { shallow: true }
     );
   }, []);
 

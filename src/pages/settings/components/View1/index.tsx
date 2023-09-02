@@ -1,13 +1,13 @@
-import Image from "next/image";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
 const View1 = () => {
   const router = useRouter();
 
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [email, setEmail] = useState("");
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [email, setEmail] = useState('');
 
   return (
     <div className="py-4 px-8 md:w-full w-[90%] mt-3 border-b-[1.5px]">
@@ -15,7 +15,7 @@ const View1 = () => {
         <h2 className="font-semibold text-[13px]">Personal Information</h2>
         <div className="flex flex-row items-center border border-sirp-primary rounded-md px-4 py-3 cursor-pointer">
           <Image
-            src={require(`../../../../assets/icons/edit.svg`)}
+            src={require(`../../../../../public/icons/edit.svg`)}
             alt="Edit btn"
             width={18}
             height={18}
@@ -29,7 +29,7 @@ const View1 = () => {
       {/* Names */}
       <div className="flex flex-row items-center my-[20px] w-full">
         <label htmlFor="name" className="text-[12px] text-sirp-grey">
-          Name:{" "}
+          Name:{' '}
         </label>
 
         <div className="ml-[3vh] w-full">
@@ -52,12 +52,12 @@ const View1 = () => {
       {/* Email */}
       <div className="flex flex-row items-center my-[20px] w-full">
         <label htmlFor="email" className="text-[12px] text-sirp-grey">
-          Email:{" "}
+          Email:{' '}
         </label>
 
         <div className="ml-[3vh] w-full items-center flex flex-row relative">
           <Image
-            src={require(`../../../../assets/icons/mail.svg`)}
+            src={require(`../../../../../public/icons/mail.svg`)}
             alt="mail"
             width={16}
             height={16}

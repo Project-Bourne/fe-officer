@@ -6,7 +6,7 @@ function RightComp() {
     <div className="flex flex-row items-center self-start">
       <div className={`${styles.view1} bg-white`}>
         <Image
-          src={require('../../../assets/icons/notification.svg')}
+          src={require('../../../../public/icons/notification.svg')}
           alt="notification"
           width={20}
           height={20}
@@ -17,7 +17,7 @@ function RightComp() {
       </div>
       <div className={`${styles.view1} hidden md:flex`}>
         <Image
-          src={require('../../../assets/icons/dashboard.svg')}
+          src={require('../../../../public/icons/dashboard.svg')}
           alt="dashbaord"
           width={20}
           height={20}
@@ -30,7 +30,7 @@ function RightComp() {
       <div className="bg-sirp-lightGrey flex flex-row mr-2 py-3 px-3 md:px-5 h-[45px] rounded-[12px] items-center justify-center cursor-pointer">
         <div className="flex flex-row items-center justify-center">
           <Image
-            src={require('../../../assets/images/user1.jpg')}
+            src={require('../../../../public/images/user1.jpg')}
             alt="userImage"
             width={25}
             height={25}
@@ -39,7 +39,7 @@ function RightComp() {
           />
 
           <Image
-            src={require('../../../assets/icons/down.svg')}
+            src={require('../../../../public/icons/down.svg')}
             alt="down"
             width={18}
             height={18}
@@ -56,7 +56,7 @@ function RightComp() {
           <h2 className="text-sirp-primary text-[11px]">Admin</h2>
         </div>
         <Image
-          src={require('../../../assets/icons/down.svg')}
+          src={require('../../../../public/icons/down.svg')}
           alt="ellipsis"
           width={18}
           height={18}

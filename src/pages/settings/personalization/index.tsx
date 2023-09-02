@@ -1,6 +1,6 @@
-import SettingsLayout from "@/layout/SettingsLayout";
-import React from "react";
-import { SettingsData } from "@/utils/constants";
+import SettingsLayout from '../../../layout/SettingsLayout';
+import React from 'react';
+import { SettingsData } from '../../../utils/constants';
 
 const PersonalizationSettings = () => {
   return (

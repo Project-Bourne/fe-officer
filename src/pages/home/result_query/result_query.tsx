@@ -11,7 +11,7 @@ const result_query = () => {
       <div className="border-b-2 pb-5 pt-5 pl-10 flex flex-col">
         <Image
           className="flex align-middle justify-center font-light text-[#A1ADB5] cursor-pointer"
-          src={require(`../../../assets/icons/arrow-narrow-left 1.svg`)}
+          src={require(`../../../../public/icons/arrow-narrow-left 1.svg`)}
           alt="upload image"
           width={20}
           height={20}

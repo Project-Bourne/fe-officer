@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { Dispatch } from 'react';
 
 export interface InputModel
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -20,7 +20,7 @@ export interface ButtonModel
   value?: any;
   background: string;
   classNameStyle?: string;
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 export interface CustomSwitchType

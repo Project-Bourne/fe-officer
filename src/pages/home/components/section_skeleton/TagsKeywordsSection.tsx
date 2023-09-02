@@ -2,7 +2,22 @@ import React from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-function TagsKeywordsSection({ isLoading, tags }) {
+const tags =  [
+    {
+      id: 1,
+      key: "UI Design",
+    },
+    {
+      id: 2,
+      key: "Web 3 Design",
+    },
+    {
+      id: 3,
+      key: "Tutorial",
+    },
+  ]
+
+function TagsKeywordsSection({ isLoading}) {
   return (
     <div className="w-[25rem]">
       <p className="text-gray-500">

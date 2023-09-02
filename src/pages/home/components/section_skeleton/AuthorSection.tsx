@@ -3,7 +3,7 @@ import Image from "next/image";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-function AuthorSection({ isLoading, author }) {
+function AuthorSection({ isLoading }) {
   return (
     <div className="mt-3 w-[25rem]">
       <p className="text-gray-500 mt-3">
@@ -14,7 +14,7 @@ function AuthorSection({ isLoading, author }) {
           <Skeleton circle width={50} height={50} />
         ) : (
           <Image
-            src={require("../../../../assets/icons/Avatarmeta.svg")}
+            src={require("../../../../../public/icons/Avatarmeta.svg")}
             alt="documents"
             className="cursor-pointer"
             width={50}
@@ -22,10 +22,10 @@ function AuthorSection({ isLoading, author }) {
         )}
         <div>
           <p className="font-bold">
-            {isLoading ? <Skeleton width={150} /> : author.name}
+            {isLoading ? <Skeleton width={150} /> : 'Peter Duru'}
           </p>
           <p className="text-gray-500 text-sm">
-            {isLoading ? <Skeleton width={150} /> : author.location}
+            {isLoading ? <Skeleton width={150} /> : 'Transcorp Hilton Abuja'}
           </p>
         </div>
       </div>

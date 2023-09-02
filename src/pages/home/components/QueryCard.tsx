@@ -54,7 +54,7 @@ const QueryCard = () => {
                         Use Option
                       </small>
                       <Image
-                        src={require("../../../assets/icons/blueArrow.svg")}
+                        src={require("../../../../public/icons/blueArrow.svg")}
                         alt="Blue Arrow Icon"
                         width={14}
                         height={50}

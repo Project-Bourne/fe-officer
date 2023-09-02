@@ -1,8 +1,8 @@
-import SettingsLayout from "@/layout/SettingsLayout";
-import { ActivityCard } from "@/components/card";
-import { LogData } from "@/utils/constants";
-import { SettingsData } from "@/utils/constants";
-import React from "react";
+import SettingsLayout from '../../../layout/SettingsLayout';
+import { ActivityCard } from '../../../components/card';
+import { LogData } from '../../../utils/constants';
+import { SettingsData } from '../../../utils/constants';
+import React from 'react';
 
 const LogSettings = () => {
   return (
@@ -13,7 +13,7 @@ const LogSettings = () => {
             time={item.time}
             actionText={item.action}
             activityText={
-              "Redesigned Naira: CBN launches Cash Swap Programme for rural "
+              'Redesigned Naira: CBN launches Cash Swap Programme for rural '
             }
             docId={item.id}
             key={item.id}
