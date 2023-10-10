@@ -4,7 +4,7 @@ import React from 'react';
 export const LeftComp = props => {
   return (
     <div className="flex relative flex-row items-center w-full self-start">
-      <div className="bg-sirp-lightGrey flex flex-row w-full mr-2 py-3 px-5 h-[45px] rounded-[12px]">
+      {/* <div className="bg-sirp-lightGrey flex flex-row w-full mr-2 py-3 px-5 h-[45px] rounded-[12px]">
         <Image
           src={require('../../../../public/icons/search.svg')}
           alt="Search"
@@ -32,7 +32,7 @@ export const LeftComp = props => {
           style={{ alignSelf: 'center' }}
           priority
         />
-      </div>
+      </div> */}
     </div>
   );
 };

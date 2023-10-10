@@ -6,7 +6,7 @@ import { NavBarContents } from "../../../utils/constants";
 function NavBar() {
   return (
     <div className="w-[15vw] md:w-[20vw] h-full border-3 border-r bg-white px-3 py-10 md:p-10 fixed z-[20]">
-      <div className="flex flex-row items-center cursor-pointer mb-20">
+      <div className="flex flex-col items-center cursor-pointer mb-20">
         <Image
           src={require("../../../../public/svg/logo.svg")}
           alt="IRP Logo"
