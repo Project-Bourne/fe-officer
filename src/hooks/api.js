@@ -7,7 +7,7 @@ import { Cookies } from "react-cookie";
 const cookies = new Cookies();
 let access = "";
 if (typeof window !== "undefined") {
-  access = cookies.get("deep-access") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJhOGQxODE0LWY5NjUtNDcwYi1iZjg0LTllZjk1MTk0ZDQxMiIsImlhdCI6MTY5NjU5OTEyNSwiZXhwIjoxNjk2Njg1NTI1fQ.-5VcU3X7X-aAmWUMvc2RqsbNmNJiYJy9g66qaXh9voI";
+  access = cookies.get("deep-access") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJhOGQxODE0LWY5NjUtNDcwYi1iZjg0LTllZjk1MTk0ZDQxMiIsImlhdCI6MTY5NjkzNTkyOSwiZXhwIjoxNjk3MDIyMzI5fQ.0njI_lsmhKrjRjFZmO7exHZrKBU3Fl3IC4CpKDmBMFQ";
 }
 
 export const requestHeader = {

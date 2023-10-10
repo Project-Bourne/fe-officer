@@ -22,7 +22,6 @@ function Home() {
       setLoading(false)
       if(res?.status){
         setAllInterrogations(res?.data);
-        console.log(res?.data);
       }
       else{
         setLoading(false);
@@ -54,7 +53,7 @@ function Home() {
       <div className="bg-sirp-listBg border h-[100%] my-5 md:mx-10  rounded-t-[1rem]">
         <div className="flex gap-x-4 items-center justify-end w-[100%] px-2 border-b-2 py-3">
           <Link 
-            href="home/inputQuery"
+            href="home/newQuery"
             className="py-2 px-3 text-[13px] rounded-md bg-sirp-primary text-white hover:bg-sirp-primary/[0.8] relative right-7">New Query</Link>
         </div>
 

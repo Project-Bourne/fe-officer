@@ -1,6 +1,15 @@
-import { useFormatDate } from "@/components/custom-hooks"
+import { useFormatDate } from "@/components/custom-hooks";
+import Chat from "@mui/material/Icon";
+import ChatIcon from '@mui/icons-material/Chat';
+import { useRouter } from "next/router";
 
 function Content({ data }){
+    const router = useRouter();
+
+    const handleRoute = (id) => {
+        router.push(`/home/query/${id}`)
+    }
+
     return(
         <div>
             {/* table header */}
@@ -13,9 +22,9 @@ function Content({ data }){
             {data?.length > 0 ?
                 <ul>
                 { data.map((item, index) => (
-                    <li key={index} className="flex hover:cursor-pointer px-3 py-1.5 text-[13px] hover:bg-sirp-primaryLess2">
-                        <p className="w-[5%]"></p>
-                        <p className="w-[80%]">{item?.title}</p>
+                    <li key={index} onClick={() => handleRoute(item?.uuid)} className="flex items-center hover:cursor-pointer px-3 py-1.5 text-[13px] hover:bg-sirp-primaryLess2">
+                        <p className="w-[5%]"><ChatIcon style={{ fontSize: "17px"}} className="text-gray-300" /></p>
+                        <p className="w-[80%] first-letter:capitalize">{item?.title}</p>
                         <p className="w-[15%]">{useFormatDate(item?.updatedAt)}</p>
                     </li>
                 ))}
