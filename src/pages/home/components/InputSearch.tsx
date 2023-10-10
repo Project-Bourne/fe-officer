@@ -6,7 +6,7 @@ function InputSearch({ QueryInputChange, handleQueryRequest, showInput, loading 
     return (
         <>
             {showInput && (
-                <div className="md:w-[55%] w-[70%] md:pr-5 pr-3 pl-3  md:h-[8%] h-[5%] flex items-center bg-white shadow-xl rounded-lg fixed bottom-3 md:left-[33%] left-[23%]">
+                <div className="md:w-[55%] w-[70%] md:pr-5 pr-3 pl-3  md:h-[8%] h-[6%] flex items-center bg-white shadow-xl rounded-lg fixed bottom-3 md:left-[33%] left-[23%]">
                     <input
                         type="text"
                         onChange={QueryInputChange}

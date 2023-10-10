@@ -4,6 +4,7 @@ import analyzerInvert from "../../../../public/icons/analyzerInvert.svg";
 import TypewriterComponent from "typewriter-effect";
 import MetaData from "./MetaData";
 
+
 function QueryDisplay({
     docText,
     addedQuestion,
@@ -12,7 +13,6 @@ function QueryDisplay({
     facts,
     time,
     loading,
-    questionLoading
 }){
     const textareaRef = useRef(null);
     const [dHeight, setDHeight] = useState('15%')
@@ -49,13 +49,14 @@ function QueryDisplay({
                 onInput={handleInput}
                 ref={textareaRef}
                 className={`w-full text-[13px] overflow-y-hidden resize-none bg-gray-50  pl-3 pr-7  pt-3 h-[${dHeight}]`}> 
-                    {facts &&
+                    {facts?.length > 0 &&
                      <div className="mb-7">
                         <MetaData facts={facts} />
                     </div>
                     }
                     <div className="mb-5text-justify">{text}</div>
                     {!loading && <h3 className="font-semibold">Related Questions</h3>}
+
                     <div className="flex flex-col text-justify w-fit">
                         {addedQuestion?.length > 0 &&
                             addedQuestion.map((question, index) => (

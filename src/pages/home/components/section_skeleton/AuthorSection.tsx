@@ -15,12 +15,12 @@ function AuthorSection({ isLoading, author }) {
             src={require("../../../../../public/icons/Avatarmeta.svg")}
             alt="documents"
             className="cursor-pointer"
-            width={50}
+            width={45}
           />
         <div>
           <p className="font-bold">
             {authorName.map((item, index) => (
-              <span>{item}</span>
+              <span key={index}>{item}</span>
             ))}
           </p>
           {/* <p className="text-gray-500 text-sm">

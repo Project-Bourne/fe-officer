@@ -15,7 +15,6 @@ const QueryPage = () => {
   const [queryResponse, setQueryResponse] = useState<any[]>([]);
   const [inputFieldDisplay, setInputFieldDisplay] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [questionLoading, setQuestionLoading] = useState(false)
 
   const queryScreenRef = useRef(null);
   const router = useRouter();
@@ -60,9 +59,9 @@ const QueryPage = () => {
         const answer = res?.data?.answer;
         const uuid = res?.data?.interrogationUuid;
         const time = res?.data?.updatedAt;
-        const facts = res?.data?.factCheck?.confidence;
+        const facts = [];
 
-        console.log('facts-indx2', facts)
+        // console.log('facts-indx2', facts)
         // Remove the 'loading' object from queryResponse
         const updatedResponseArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
 
@@ -89,7 +88,7 @@ const QueryPage = () => {
     } catch (error: any) {
       setLoading(false);
       const respArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
-      setQuery(respArr);
+      setQueryResponse(respArr);
 
       NotificationService.error({
         message: 'Something went wrong',
@@ -129,7 +128,7 @@ const QueryPage = () => {
           const time = res?.data?.interrogation?.updatedAt;
           const facts = res?.data?.interrogation?.factCheck?.confidence;
 
-          console.log('facts-indx1', facts)
+          // console.log('facts-indx1', facts)
 
           // Remove the 'loading' object from queryResponse
           const updatedResponseArr = preResponseArr?.filter(item => item.uuid !== 'loading');
@@ -184,8 +183,8 @@ const QueryPage = () => {
 
       <div ref={queryScreenRef} className="lg:h-[73vh] h-[90vh] bg-gray-100 overflow-y-auto pb-[10rem]">
         { queryResponse?.length > 0 ?
-          queryResponse?.map((response) => (
-            <div key={response?.uuid}>
+          queryResponse?.map((response, index) => (
+            <div key={index}>
               <QuestionsDisplay 
                 questionText={response?.title} 
                 />
@@ -197,7 +196,6 @@ const QueryPage = () => {
                 time={response?.time}
                 convoId={response?.uuid}
                 loading={loading}
-                questionLoading={questionLoading}
                 />
             </div>
           )) : <></>
