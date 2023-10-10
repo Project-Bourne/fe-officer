@@ -4,7 +4,7 @@ import React from 'react';
 function RightComp() {
   return (
     <div className="flex flex-row items-center self-start">
-      <div className={`${styles.view1} bg-white`}>
+      {/* <div className={`${styles.view1} bg-white`}>
         <Image
           src={require('../../../../public/icons/notification.svg')}
           alt="notification"
@@ -14,7 +14,7 @@ function RightComp() {
           style={{ alignSelf: 'center' }}
           priority
         />
-      </div>
+      </div> */}
       <div className={`${styles.view1} hidden md:flex`}>
         <Image
           src={require('../../../../public/icons/dashboard.svg')}

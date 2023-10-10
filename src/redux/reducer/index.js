@@ -1,5 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import AnalyzerSlice from './analyzerSlice';
+import AnalyzerSlice from './interrogatorSlice';
 import TabSlice from './tabSlice'
 
 const rootReducer = combineReducers({ 

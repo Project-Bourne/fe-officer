@@ -2,39 +2,23 @@ import React from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const sources =  [
-    {
-      id: 1,
-      key: "Twitter",
-    },
-    {
-      id: 2,
-      key: "Facebook",
-    },
-    {
-      id: 3,
-      key: "CNN",
-    },
-  ]
 
-function SourceSection({ isLoading }) {
+
+function SourceSection({ isLoading, allSources }) {
+  const sources = allSources?.length > 0 ? allSources : ['No sources found']
   return (
     <div className="w-[25rem] border-l-2 border-sirp-keynotebg pl-10">
       <p className="text-gray-500">
-        {isLoading ? <Skeleton width={50} /> : "Source"}
+        Source
       </p>
       <div className="flex gap-3 items-center mt-3">
         <div>
           <ul className="flex flex-wrap gap-2">
             {sources.map((source) => (
               <div key={source.id}>
-                {isLoading ? (
-                  <Skeleton width={70} />
-                ) : (
                   <li className="border p-2 rounded-[0.7rem] text-[0.7rem] bg-sirp-keynotebg">
                     {source.key}
                   </li>
-                )}
               </div>
             ))}
           </ul>

@@ -2,14 +2,15 @@ import React from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-function ProgressBar() {
+function ProgressBar({ value }) {
+  const confidence = value && typeof value === 'string' ? parseFloat(value) :
+                value && typeof value === 'number' ? value : 0
   return (
     <div>
       <CircularProgressbar
-        value={76.6}
-        text="76.6"
+        value={confidence}
+        text={`${confidence}`}
         strokeWidth={11}
-        counterClockwise
         styles={{
           path: {
             stroke: "#4582C4",

@@ -1,61 +1,33 @@
-import React, { useState } from "react";
-import Image from "next/image";
+import SendIcon from '@mui/icons-material/Send';
+import Image from 'next/image';
+import LoaderGif from "../../../../public/icons/loader_dots.svg";
 
-const InputSearch = () => {
-  const [formData, setFormData] = useState("");
-
-  const handleChange = (e) => {
-    const value = e.target.value;
-    setFormData(value);
-    console.log("Form Data:", value);
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    setFormData("");
-  };
-
-  const handleClearInput = () => {
-    setFormData("");
-  };
-  return (
-    <div>
-      <form onSubmit={handleFormSubmit} className="mt-5 px-10">
-        <div className="flex align-middle align w-full border-2 rounded-full border-[#E5E7EB]-500 border-dotted">
-          <span className="flex align-middle justify-center mx-3">
-            <Image
-              src={require(`../../../../public/icons/search.svg`)}
-              alt="upload image"
-              width={20}
-              height={20}
-              priority
-              onClick={handleFormSubmit}
-              className="cursor-pointer"
-            />
-          </span>
-          <input
-            placeholder="Enter search query"
-            className="py-5 w-[95%] bg-sirp-secondary2 outline-none focus:ring-0"
-            value={formData}
-            onChange={handleChange}
-          />
-          {formData && (
-            <span className="flex align-middle justify-center mx-3">
-              <Image
-                className="flex align-middle justify-center font-light text-[#A1ADB5] cursor-pointer"
-                src={require(`../../../../public/icons/x.svg`)}
-                alt="upload image"
-                width={20}
-                height={20}
-                onClick={handleClearInput}
-              />
-            </span>
-          )}
-        </div>
-      </form>
-    </div>
-  );
-};
+function InputSearch({ QueryInputChange, handleQueryRequest, showInput, loading }) {
+    return (
+        <>
+            {showInput && (
+                <div className="md:w-[55%] w-[70%] md:pr-5 pr-3 pl-3  md:h-[8%] h-[5%] flex items-center bg-white shadow-xl rounded-lg fixed bottom-3 md:left-[33%] left-[23%]">
+                    <input
+                        type="text"
+                        onChange={QueryInputChange}
+                        placeholder="Send a query"
+                        className="text-[13px] font-lighter w-full h-full px-3 bg-transparent border-none border-0 outline-none text-gray-700"
+                    />
+                    <button 
+                        className='hover:cursor-pointer text-gray-400'
+                    >
+                        {loading ? 
+                        <Image src={LoaderGif} alt="loader" width={25} /> :
+                        <SendIcon 
+                            onClick={handleQueryRequest}
+                            titleAccess='send query'
+                        />
+                        }
+                    </button>
+                </div>
+            )}
+        </>
+    )
+}
 
 export default InputSearch;
