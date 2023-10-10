@@ -15,6 +15,7 @@ const QueryPage = () => {
   const [queryResponse, setQueryResponse] = useState<any[]>([]);
   const [inputFieldDisplay, setInputFieldDisplay] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [questionLoading, setQuestionLoading] = useState(false)
 
   const queryScreenRef = useRef(null);
   const router = useRouter();
@@ -36,9 +37,12 @@ const QueryPage = () => {
 // handle when a question is clicked 
   const handleQuestionClick = async (id, question) => {
     if(!id || !question) return;
-    setLoading(true);
 
+    setLoading(true);
+    const data = { question }
+    console.log('question:', data)
     const preResponseArr = queryResponse;
+
     preResponseArr.push({
       uuid: 'loading',
       title: question,
@@ -47,25 +51,28 @@ const QueryPage = () => {
 
     try{
        // Assuming interrogatorService.sendQuestion returns a promise
-       const res = await interrogatorService.sendQuestion(id, question);
+       const res = await interrogatorService.sendQuestion(id, data);
        setLoading(false);
 
-       if (res?.status) {
-        const quesArr = res?.data?.questions;
-        const ques = res?.data?.interrogation?.title;
-        const answer = res?.data?.interrogation?.documentText;
-        const uuid = res?.data?.interrogation?.uuid;
-        const time = res?.data?.interrogation?.updatedAt;
+      if (res?.status) {
+        const quesArr = res?.data?.fivewhQuestions;
+        const ques = res?.data?.question;
+        const answer = res?.data?.answer;
+        const uuid = res?.data?.interrogationUuid;
+        const time = res?.data?.updatedAt;
+        const facts = res?.data?.factCheck?.confidence;
 
+        console.log('facts-indx2', facts)
         // Remove the 'loading' object from queryResponse
-        const updatedResponseArr = preResponseArr?.filter(item => item.uuid !== 'loading');
+        const updatedResponseArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
 
         updatedResponseArr.push({
           uuid,
           title: ques,
           response: answer,
           time,
-          moreQuestions: quesArr
+          moreQuestions: quesArr,
+          facts
         });
 
         setQueryResponse(updatedResponseArr);
@@ -75,7 +82,8 @@ const QueryPage = () => {
 
         NotificationService.error({
           message: 'Query request failed!',
-          addedText: res?.message
+          addedText: res?.message,
+          position: "top-center"
         });
       }
     } catch (error: any) {
@@ -85,7 +93,8 @@ const QueryPage = () => {
 
       NotificationService.error({
         message: 'Something went wrong',
-        addedText: error?.message
+        addedText: error?.message,
+        position: "top-center"
       });
     }
   }
@@ -118,6 +127,9 @@ const QueryPage = () => {
           const answer = res?.data?.interrogation?.documentText;
           const uuid = res?.data?.interrogation?.uuid;
           const time = res?.data?.interrogation?.updatedAt;
+          const facts = res?.data?.interrogation?.factCheck?.confidence;
+
+          console.log('facts-indx1', facts)
 
           // Remove the 'loading' object from queryResponse
           const updatedResponseArr = preResponseArr?.filter(item => item.uuid !== 'loading');
@@ -127,7 +139,8 @@ const QueryPage = () => {
             title: ques,
             response: answer,
             time,
-            moreQuestions: quesArr
+            moreQuestions: quesArr,
+            facts
           });
 
           setQueryResponse(updatedResponseArr);
@@ -139,7 +152,8 @@ const QueryPage = () => {
 
           NotificationService.error({
             message: 'Query request failed!',
-            addedText: res?.message
+            addedText: res?.message,
+            position: "top-center"
           });
         }
       } catch (error: any) {
@@ -149,7 +163,8 @@ const QueryPage = () => {
 
         NotificationService.error({
           message: 'Something went wrong',
-          addedText: error?.message
+          addedText: error?.message,
+          position: "top-center"
         });
       }
     }
@@ -175,11 +190,14 @@ const QueryPage = () => {
                 questionText={response?.title} 
                 />
               <QueryDisplay 
+                facts={response?.facts}
                 addedQuestion={response?.moreQuestions}
                 questionClick={handleQuestionClick}
                 docText={response?.response} 
                 time={response?.time}
+                convoId={response?.uuid}
                 loading={loading}
+                questionLoading={questionLoading}
                 />
             </div>
           )) : <></>

@@ -11,7 +11,7 @@ export default function Home() {
   useEffect(() => {
     router.push(
       {
-        pathname: `/dashboard`
+        pathname: `/home`
       },
       undefined,
       { shallow: true }

@@ -29,7 +29,7 @@ export const requestHeader = {
  */
 
 // const API_USER_URL = 'http://localhost:4040/'
-const API_USER_URL = "https://ca31-102-91-4-217.ngrok-free.app/"  // "http://192.81.213.226:81/87/";
+const API_USER_URL =  "http://192.81.213.226:81/87/";
 
 export async function request(url, method, payload, token, text, form) {
   requestHeader["Content-Type"] = form === true ? "multipart/form-data" : "application/json";

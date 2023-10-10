@@ -27,7 +27,7 @@ class InterrogatorService {
   async sendQuestion(id, data) {
     try {
       const response = await request(
-        `interrogations/${id}`,
+        `interrogation/${id}`,
         "POST",
         data,
         true,
@@ -39,7 +39,7 @@ class InterrogatorService {
       throw error;
     }
   }
-  
+
 
   async getAllQueries(){
     try{

@@ -4,6 +4,7 @@ import QueryUpload from "./components/QueryUpload";
 import Link from "next/link";
 import Content from "./components/Content";
 import InterrogatorService from "@/services/interrogator.service";
+import NotificationService from "@/services/notification.service";
 
 function Home() {
   const [loading, setLoading] =  useState(false);
@@ -20,13 +21,22 @@ function Home() {
       const res = await interrogationService.getAllQueries();
       setLoading(false)
       if(res?.status){
-        console.log(res)
+        setAllInterrogations(res?.data);
+        console.log(res?.data);
       }
       else{
         setLoading(false);
+        NotificationService.error({
+          message: 'Failed to get interrogations!',
+          addedText: res?.message
+        })
       }
-    }catch(err){
+    }catch(err: any){
       setLoading(false);
+      NotificationService.error({
+        message: 'Failed to get interrogations!',
+        addedText: err?.message
+      })
     }
   }
 

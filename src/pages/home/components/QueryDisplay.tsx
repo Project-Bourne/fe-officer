@@ -2,13 +2,17 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import analyzerInvert from "../../../../public/icons/analyzerInvert.svg";
 import TypewriterComponent from "typewriter-effect";
+import MetaData from "./MetaData";
 
 function QueryDisplay({
     docText,
     addedQuestion,
     questionClick,
+    convoId,
+    facts,
     time,
-    loading
+    loading,
+    questionLoading
 }){
     const textareaRef = useRef(null);
     const [dHeight, setDHeight] = useState('15%')
@@ -27,7 +31,7 @@ function QueryDisplay({
         questionClick(id, question)
     }
 
-    const text = loading ? <i>loading response...</i> : <TypewriterComponent options={{ strings: docText, autoStart: true, delay: 5, loop: false }} />
+    const text = convoId === 'loading' ? <i>loading response...</i> : <TypewriterComponent options={{ strings: docText, autoStart: true, delay: 5, loop: false }} />
   
 
     return (
@@ -44,17 +48,22 @@ function QueryDisplay({
                 <div 
                 onInput={handleInput}
                 ref={textareaRef}
-                className={`w-full text-[13px] overflow-y-hidden resize-none bg-gray-50  pl-3 pr-7  pt-3 h-[${dHeight}]`}>
-                    <div className="mb-5">{text}</div>
-                    {!loading && <h3>Related Questions</h3>}
-                    <div className="flex flex-wrap">
+                className={`w-full text-[13px] overflow-y-hidden resize-none bg-gray-50  pl-3 pr-7  pt-3 h-[${dHeight}]`}> 
+                    {facts &&
+                     <div className="mb-7">
+                        <MetaData facts={facts} />
+                    </div>
+                    }
+                    <div className="mb-5text-justify">{text}</div>
+                    {!loading && <h3 className="font-semibold">Related Questions</h3>}
+                    <div className="flex flex-col text-justify w-fit">
                         {addedQuestion?.length > 0 &&
                             addedQuestion.map((question, index) => (
-                                <button
+                                <p
                                 key={index}
-                                onClick={(e) => handleQuestionClick(e, 'id', 'question')}
+                                onClick={(e) => handleQuestionClick(e, convoId, question)}
                                 className="hover:cursor-pointer hover:text-sirp-primary hover:underline"
-                                ><TypewriterComponent options={{ strings: question, autoStart: true, delay: 5, loop: false }} /></button>
+                                ><TypewriterComponent options={{ strings: question, autoStart: true, delay: 5, loop: false }} /></p>
                             ))
                         }
                     </div>
