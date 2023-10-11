@@ -4,6 +4,7 @@ import Tab from "./Tab";
 import Button from "./Button";
 import CustomSwitch from "./CustomSwitch";
 import Breadcrumbs from "./Breadcrumbs";
+import Loader from "./Loader";
 
 export {
   Input,
@@ -13,4 +14,5 @@ export {
   CustomSwitch,
   Tab,
   Breadcrumbs,
+  Loader,
 };

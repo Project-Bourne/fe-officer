@@ -5,6 +5,8 @@ import Link from "next/link";
 import Content from "./components/Content";
 import InterrogatorService from "@/services/interrogator.service";
 import NotificationService from "@/services/notification.service";
+import CustomModal from "@/components/ui/CustomModal";
+import { Loader } from "@/components/ui";
 
 function Home() {
   const [loading, setLoading] =  useState(false);
@@ -61,10 +63,16 @@ function Home() {
           <Content data={allInterrogations} />
         </div>
       </div>
+
+        {loading && (
+          <CustomModal
+            style="bg-transparent w-full relative top-[20%] rounded-xl mx-auto pt-3 px-3 pb-5 flex justify-center"
+            closeBtn={false}
+          >
+            <Loader />
+          </CustomModal>
+        )}
     </div>
-
-
-
 
   );
 }

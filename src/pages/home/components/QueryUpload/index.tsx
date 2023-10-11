@@ -9,12 +9,10 @@ const QueryUpload = () => {
   const handleChange = (e) => {
     const value = e.target.value;
     setFormData(value);
-    console.log("Form Data:", value);
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
     router.push("/home/inputQuery/input_query");
     setFormData("");
   };
