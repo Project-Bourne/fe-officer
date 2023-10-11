@@ -1,15 +1,17 @@
 import { useRouter } from "next/router";
 import QueryDisplay from "../components/QueryDisplay";
 import QuestionsDisplay from "../components/QuestionsDisplay";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import NotificationService from "@/services/notification.service";
 import InterrogatorService from "@/services/interrogator.service";
+import { Loader } from "@/components/ui";
 
 function QueryHistoryInfo() {
     const router = useRouter();
     const queryScreenRef = useRef<any>(null); 
     const interrogatorService = new InterrogatorService();
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [initialLoading, setInitialLoading] = useState(false);
     const [queryResponse, setQueryResponse] = useState<any[]>([]);
     const { id } = router.query;
 
@@ -18,10 +20,44 @@ function QueryHistoryInfo() {
         queryScreenRef.current.scrollTop = queryScreenRef.current.scrollHeight;
     };
 
+    useEffect(() => {
+        setInitialLoading(true)
+        try{
+            interrogatorService.getInterrogationStream(id)
+            .then((res) => {
+                setInitialLoading(false);
+                if(res?.status){
+                    console.log(res?.data)
+                    setQueryResponse(res?.data);
+                }else{
+                    NotificationService.error({
+                        message: 'Unable to fetch Queries!',
+                        addedText: res?.message,
+                        position: "top-center"
+                    });
+                }
+            }).catch((err) => {
+                setInitialLoading(false);
+                NotificationService.error({
+                    message: 'Unable to fetch Queries!',
+                    addedText: err?.message,
+                    position: "top-center"
+                });
+            })
+        }catch(err: any){
+            setInitialLoading(false);
+            NotificationService.error({
+                message: 'Unable to fetch Queries!',
+                addedText: err?.message,
+                position: "top-center"
+            });
+        }
+    },[])
+
 
     // handle when a question is clicked 
-  const handleQuestionClick = async (id, question) => {
-    if(!id || !question) return;
+  const handleQuestionClick = async (intId, question) => {
+    if(!intId || !question) return;
 
     setLoading(true);
     const data = { question }
@@ -35,7 +71,7 @@ function QueryHistoryInfo() {
 
     try{
        // Assuming interrogatorService.sendQuestion returns a promise
-       const res = await interrogatorService.sendQuestion(id, data);
+       const res = await interrogatorService.sendQuestion(intId, data);
        setLoading(false);
 
       if (res?.status) {
@@ -83,7 +119,6 @@ function QueryHistoryInfo() {
     }
   }
 
-  console.log('id', id)
 
     return (
         <div className="mt-[5rem] h-full mx-5 ">
@@ -111,6 +146,9 @@ function QueryHistoryInfo() {
                             />
                         </div>
                     )) : <></>
+                }
+                {initialLoading && 
+                    <Loader />
                 }
             </div>
         </div>

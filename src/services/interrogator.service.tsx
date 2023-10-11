@@ -59,6 +59,22 @@ class InterrogatorService {
   
 
 
+  async getInterrogationStream(id){
+    try{
+      const response = await request(
+        `interrogation/${id}`,
+        "GET",
+        {},
+        true,
+        false,
+        false,
+      );
+      return response;
+    } catch(error){
+      throw error
+    }
+  }
+
 
   /**
    * Get a workspace by its ID.

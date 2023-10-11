@@ -121,7 +121,7 @@ function DropdownWithFlag(props: DropdownModel) {
   const filterCountries = (event) => {
     // event.preventDefault();
     // setCountrySearch(event.target.value);
-    console.log("Filtering", event.target.value);
+    // console.log("Filtering", event.target.value);
     let filteredCountries = countries.filter((country) => {
       if (
         country.name
