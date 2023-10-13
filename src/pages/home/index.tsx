@@ -7,14 +7,23 @@ import InterrogatorService from "@/services/interrogator.service";
 import NotificationService from "@/services/notification.service";
 import CustomModal from "@/components/ui/CustomModal";
 import { Loader } from "@/components/ui";
+import { useCookies } from "react-cookie";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "@/redux/reducer/authReducer";
 
 function Home() {
   const [loading, setLoading] =  useState(false);
-  const [allInterrogations, setAllInterrogations] = useState([])
+  const [allInterrogations, setAllInterrogations] = useState([]);
+  const [cookies] = useCookies(['deep-token']);
+  const accessToken = cookies['deep-token'];
+  const url = 'http://192.81.213.226:81/80/token/user';
+
   const interrogationService = new InterrogatorService();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getInterrogations();
+    getUserInfo();
   },[]);
 
   const getInterrogations = async() => {
@@ -40,6 +49,38 @@ function Home() {
       })
     }
   }
+
+  const getUserInfo = async () => {
+    try {
+      const response: any = await fetch(url,
+        {
+          method: "GET",
+          headers: {
+            "deep-token": accessToken,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      
+      if (response?.ok) {
+        const data = await response.json();
+        dispatch(setUserInfo(data?.data));
+      } else {
+        const data = await response.json();
+        NotificationService.error({
+          message: "Error: failed to fetch user data",
+          addedText: data?.message,
+          position: "top-center",
+        });
+      }
+    } catch (err: any) {
+      NotificationService.error({
+        message: "Error: failed to fetch user data ",
+        addedText: err?.message,
+        position: "top-center",
+      });
+    }
+  };
 
 
   return (

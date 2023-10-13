@@ -27,8 +27,8 @@ function QueryHistoryInfo() {
             .then((res) => {
                 setInitialLoading(false);
                 if(res?.status){
-                    console.log(res?.data)
-                    setQueryResponse(res?.data);
+                    console.log('stream', res?.data?.messages)
+                    setQueryResponse(res?.data?.messages);
                 }else{
                     NotificationService.error({
                         message: 'Unable to fetch Queries!',
@@ -133,15 +133,15 @@ function QueryHistoryInfo() {
                     queryResponse?.map((response, index) => (
                         <div key={index}>
                         <QuestionsDisplay 
-                            questionText={response?.title} 
+                            questionText={response?.title || response?.question} 
                             />
                         <QueryDisplay 
                             facts={response?.facts}
-                            addedQuestion={response?.moreQuestions}
+                            addedQuestion={response?.moreQuestions || response?.fivewhQuestions}
                             questionClick={handleQuestionClick}
-                            docText={response?.response} 
-                            time={response?.time}
-                            convoId={response?.uuid}
+                            docText={response?.response || response?.answer} 
+                            time={response?.time || response?.updatedAt}
+                            convoId={response?.uuid }
                             loading={loading}
                             />
                         </div>

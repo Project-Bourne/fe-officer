@@ -31,7 +31,7 @@ function QueryDisplay({
         questionClick(id, question)
     }
 
-    const text = convoId === 'loading' ? <i>loading response...</i> : <TypewriterComponent options={{ strings: docText, autoStart: true, delay: 5, loop: false }} />
+    const text = convoId === 'loading' ? <i>Fetching response...</i> : <TypewriterComponent options={{ strings: docText, autoStart: true, delay: 5, loop: false }} />
   
 
     return (
