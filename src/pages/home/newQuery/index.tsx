@@ -9,6 +9,8 @@ import QueryDisplay from "../components/QueryDisplay";
 import QuestionsDisplay from "../components/QuestionsDisplay";
 import InterrogatorService from "@/services/interrogator.service";
 import NotificationService from "@/services/notification.service";
+import { Button } from "@/components/ui";
+import AddIcon from '@mui/icons-material/Add';
 
 const QueryPage = () => {
   const [query, setQuery] = useState<any>(null);
@@ -99,7 +101,6 @@ const QueryPage = () => {
   }
 
 
-
   // handle when a query is first made 
   const handleQueryRequest = async (e) => {
     e.preventDefault();
@@ -172,13 +173,30 @@ const QueryPage = () => {
   };
 
   
+  const handleNewQuery = () => {
+    setQueryResponse([]);
+    setQuery(null)
+    setInputFieldDisplay(true);
+  }
 
   return (
     <div className="mt-[5rem] h-full mx-5 ">
       <p className="hover:cursor-pointer text-[13px] font-semibold pb-3" onClick={() => router.back()}>&larr;&nbsp;Back</p>
 
-      <div className="border-b-[1px] py-5 rounded-t-[1rem] bg-gray-50">
+      <div className="border-b-[1px] py-5 rounded-t-[1rem] bg-gray-50 flex justify-between">
         <h1 className="text-2xl pl-10 font-bold">Input Query</h1>
+
+        {queryResponse?.length > 0 &&
+        <div className="flex items-center w-[14%]">
+          <Button
+            value={<><AddIcon fontSize="small" />&nbsp; New Query</>}
+            onClick={handleNewQuery}
+            background="bg-sirp-primary"
+            classNameStyle="text-white bg-sirp-primary text-[13px]  py-2 mr-5"
+            size="xl"
+          />
+        </div>
+        } 
       </div>
 
       <div ref={queryScreenRef} className="lg:h-[73vh] h-[90vh] bg-gray-100 overflow-y-auto pb-[10rem]">
@@ -198,7 +216,8 @@ const QueryPage = () => {
                 loading={loading}
                 />
             </div>
-          )) : <></>
+          )) : 
+        <></>
         }
         <InputSearch
           QueryInputChange={handleInputSearch}

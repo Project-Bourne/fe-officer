@@ -43,7 +43,7 @@ export async function request(url, method, payload, token, text, form) {
       .then((res) => {
         if (res.status === 403) {
           // Redirect to the login page
-          window.location.href = '/auth/login';
+          window.location.href = 'http://192.81.213.226:30/auth/login';
           throw new Error('Access forbidden. Redirecting to login page.');
         }else if (text === true) {
           return res.text();
@@ -65,7 +65,7 @@ export async function request(url, method, payload, token, text, form) {
       .then((res) => {
         if (res.status === 403) {
           // Redirect to the login page
-          window.location.href = '/auth/login';
+          window.location.href = 'http://192.81.213.226:30/auth/login';
           throw new Error('Access forbidden. Redirecting to login page.');
         }else if (text === true) {
           return res.text();

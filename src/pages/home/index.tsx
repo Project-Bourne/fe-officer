@@ -20,6 +20,7 @@ function Home() {
 
   const interrogationService = new InterrogatorService();
   const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     getInterrogations();
@@ -66,6 +67,9 @@ function Home() {
         const data = await response.json();
         dispatch(setUserInfo(data?.data));
       } else {
+        if(response.status === 403){
+          router.push('http://192.81.213.226:30/auth/login')
+        }
         const data = await response.json();
         NotificationService.error({
           message: "Error: failed to fetch user data",
