@@ -41,10 +41,12 @@ export async function request(url, method, payload, token, text, form) {
       headers: Object.assign(requestHeader),
     })
       .then((res) => {
-        if (text === true) {
+        if (res.status === 403) {
+          // Redirect to the login page
+          window.location.href = '/auth/login';
+          throw new Error('Access forbidden. Redirecting to login page.');
+        }else if (text === true) {
           return res.text();
-        } else if (res) {
-          return res.json();
         } else {
           return res.json();
         }
@@ -61,10 +63,12 @@ export async function request(url, method, payload, token, text, form) {
       body: form === true ? payload : JSON.stringify(payload),
     })
       .then((res) => {
-        if (text === true) {
+        if (res.status === 403) {
+          // Redirect to the login page
+          window.location.href = '/auth/login';
+          throw new Error('Access forbidden. Redirecting to login page.');
+        }else if (text === true) {
           return res.text();
-        } else if (res) {
-          return res.json();
         } else {
           return res.json();
         }
