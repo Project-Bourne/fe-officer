@@ -14,8 +14,7 @@ import { setUserInfo } from "@/redux/reducer/authReducer";
 function Home() {
   const [loading, setLoading] =  useState(false);
   const [allInterrogations, setAllInterrogations] = useState([]);
-  const [cookies] = useCookies(['deep-token']);
-  const accessToken = cookies['deep-token'];
+  const [cookies, setCookies] = useCookies(['deep-token']);
   const url = 'http://192.81.213.226:81/80/token/user';
 
   const interrogationService = new InterrogatorService();
@@ -25,6 +24,7 @@ function Home() {
   useEffect(() => {
     getInterrogations();
     getUserInfo();
+    console.log('ck', cookies)
   },[]);
 
   const getInterrogations = async() => {
@@ -51,15 +51,17 @@ function Home() {
     }
   }
 
+  const headers: any = {
+    "deep-token": cookies,
+    "Content-Type": "application/json",
+  }
+
   const getUserInfo = async () => {
     try {
       const response: any = await fetch(url,
         {
           method: "GET",
-          headers: {
-            "deep-token": accessToken,
-            "Content-Type": "application/json",
-          },
+          headers,
         },
       );
       

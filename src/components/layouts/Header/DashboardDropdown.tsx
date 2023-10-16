@@ -8,52 +8,59 @@ import translator from "../../../../public/icons/translator.svg";
 import collab from "../../../../public/icons/collab.svg";
 import analyzer from "../../../../public/icons/analyzer.svg";
 import deep_chat from "../../../../public/icons/deep.svg";
+import admin from "../../../public/icons/admin-gray.svg";
 
 const BASE_URL = "http://192.81.213.226";
 
 const dropdownItems = [
+    {
+      name: "Admin",
+      to: `${BASE_URL}:38/home`,
+      key: "admin",
+      icon: admin,
+    },
     {
         name: "IRP",
         to: `${BASE_URL}:30/home`, 
         key: "irp",
         icon: irp,
     },
-  {
-    name: "Analyzer",
-    to: `${BASE_URL}:31/home`,
-    key: "analyser",
-    icon: analyzer,
-  },
-  {
-    name: "Summarizer",
-    to: `${BASE_URL}:32/home`,
-    key: "summarizer",
-    icon: summarizer,
-  },
-  {
-    name: "Translator",
-    to: `${BASE_URL}:33/home`,
-    key: "translator",
-    icon: translator,
-  },
-  {
-    name: "Fact Checker",
-    to: `${BASE_URL}:34/home`,
-    key: "fact checker",
-    icon: fact_checker,
-  },
-  {
-    name: "Collab",
-    to: `${BASE_URL}:36/home`,
-    key: "collab",
-    icon: collab,
-  },
-  {
-    name: "Deep Chat",
-    to: `${BASE_URL}:35/home`,
-    key: "deep chat",
-    icon: deep_chat,
-  },
+    {
+        name: "Analyzer",
+        to: `${BASE_URL}:31/home`,
+        key: "analyser",
+        icon: analyzer,
+    },
+    {
+        name: "Summarizer",
+        to: `${BASE_URL}:32/home`,
+        key: "summarizer",
+        icon: summarizer,
+    },
+    {
+        name: "Translator",
+        to: `${BASE_URL}:33/home`,
+        key: "translator",
+        icon: translator,
+    },
+    {
+        name: "Fact Checker",
+        to: `${BASE_URL}:34/home`,
+        key: "fact checker",
+        icon: fact_checker,
+    },
+    {
+        name: "Collab",
+        to: `${BASE_URL}:36/home`,
+        key: "collab",
+        icon: collab,
+    },
+    {
+        name: "Deep Chat",
+        to: `${BASE_URL}:35/home`,
+        key: "deep chat",
+        icon: deep_chat,
+    },
 ];
 
 function DashboardDropdown() {
