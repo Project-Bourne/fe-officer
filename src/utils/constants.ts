@@ -11,12 +11,12 @@ export const NavBarContents = [
     id: 3,
     route: '/training'
   },
-  {
-    name: 'Settings',
-    icon: 'settings.svg',
-    id: 4,
-    route: '/settings'
-  }
+  // {
+  //   name: 'Settings',
+  //   icon: 'settings.svg',
+  //   id: 4,
+  //   route: '/settings'
+  // }
 ];
 
 export const SettingsData = [

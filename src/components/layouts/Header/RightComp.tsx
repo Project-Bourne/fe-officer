@@ -108,7 +108,7 @@ function RightComp() {
         {/* line break */}
         <div className="h-[100%] w-[0.5px] bg-sirp-grey hidden md:block" />
 
-        <div className="ml-3 bg-sirp-lightGrey w-full self-center hidden md:block">
+        <div className="ml-3 bg-sirp-lightGrey w-full self-center hidden md:block" onClick={() => router.push("http://192.81.213.226:30/settings/profile")}>
           <h2 className="text-sirp-grey text-[13px] capitalize">
             {userInfo?.firstName && useTruncate(userName(), 14) || 'Jane Doe'}
           </h2>
@@ -116,6 +116,7 @@ function RightComp() {
             {userInfo?.role?.roleName || 'Role'}
           </h2>
         </div>
+
         <Image
           src={down}
           alt="ellipsis"
