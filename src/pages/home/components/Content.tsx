@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 function Content({ data }){
     const router = useRouter();
 
-    const handleRoute = (id) => {
-        router.push(`/home/query/${id}`)
+    const handleRoute = (incoming) => {
+        router.push(`/home/query/${incoming}`)
     }
 
     return(
