@@ -5,15 +5,22 @@ import { useEffect, useRef, useState } from "react";
 import NotificationService from "@/services/notification.service";
 import InterrogatorService from "@/services/interrogator.service";
 import { Loader } from "@/components/ui";
+import { useDispatch, useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
+import { setUserInfo } from "@/redux/reducer/authReducer";
 
 function QueryHistoryInfo() {
     const router = useRouter();
+    const dispatch = useDispatch();
     const queryScreenRef = useRef<any>(null); 
     const interrogatorService = new InterrogatorService();
+    const { id } = router.query;
     const [loading, setLoading] = useState(false);
     const [initialLoading, setInitialLoading] = useState(false);
     const [queryResponse, setQueryResponse] = useState<any[]>([]);
-    const { id } = router.query;
+    const [cookies, setCookies] = useCookies(['deep-token']);
+    const { userInfo } = useSelector((state: any) => state.auth )
+    const url = 'http://192.81.213.226:81/80/token/user';
 
 
     const scrollToBottom = () => {
@@ -21,36 +28,9 @@ function QueryHistoryInfo() {
     };
 
     useEffect(() => {
-        setInitialLoading(true)
-        try{
-            interrogatorService.getInterrogationStream(id)
-            .then((res) => {
-                setInitialLoading(false);
-                if(res?.status){
-                    console.log('stream', res?.data?.messages)
-                    setQueryResponse(res?.data?.messages);
-                }else{
-                    NotificationService.error({
-                        message: 'Unable to fetch Queries!',
-                        addedText: res?.message,
-                        position: "top-center"
-                    });
-                }
-            }).catch((err) => {
-                setInitialLoading(false);
-                NotificationService.error({
-                    message: 'Unable to fetch Queries!',
-                    addedText: err?.message,
-                    position: "top-center"
-                });
-            })
-        }catch(err: any){
-            setInitialLoading(false);
-            NotificationService.error({
-                message: 'Unable to fetch Queries!',
-                addedText: err?.message,
-                position: "top-center"
-            });
+        getQueries();
+        if(!userInfo){
+            getUserInfo();
         }
     },[])
 
@@ -119,6 +99,78 @@ function QueryHistoryInfo() {
     }
   }
 
+  const getQueries = () => {
+    setInitialLoading(true)
+    try{
+        interrogatorService.getInterrogationStream(id)
+        .then((res) => {
+            setInitialLoading(false);
+            if(res?.status){
+                console.log('stream', res?.data?.messages)
+                setQueryResponse(res?.data?.messages);
+            }else{
+                NotificationService.error({
+                    message: 'Unable to fetch Queries!',
+                    addedText: res?.message,
+                    position: "top-center"
+                });
+            }
+        }).catch((err) => {
+            setInitialLoading(false);
+            NotificationService.error({
+                message: 'Unable to fetch Queries!',
+                addedText: err?.message,
+                position: "top-center"
+            });
+        })
+    }catch(err: any){
+        setInitialLoading(false);
+        NotificationService.error({
+            message: 'Unable to fetch Queries!',
+            addedText: err?.message,
+            position: "top-center"
+        });
+    }
+  }
+
+
+  const headers: any = {
+    "deep-token": cookies["deep-token"],
+    "Content-Type": "application/json",
+  }
+  
+  const getUserInfo = async () => {
+    try {
+      const response: any = await fetch(url,
+        {
+          method: "GET",
+          headers,
+        },
+      );
+      
+      if (response?.ok) {
+        const data = await response.json();
+        dispatch(setUserInfo(data?.data));
+      } else {
+        if(response.status === 403){
+          router.push('http://192.81.213.226:30/auth/login')
+        }
+        const data = await response.json();
+        NotificationService.error({
+          message: "Error: failed to fetch user data",
+          addedText: data?.message,
+          position: "top-center",
+        });
+      }
+    } catch (err: any) {
+      NotificationService.error({
+        message: "Error: failed to fetch user data ",
+        addedText: err?.message,
+        position: "top-center",
+      });
+    }
+  };
+
 
     return (
         <div className="mt-[5rem] h-full mx-5 ">
@@ -148,7 +200,7 @@ function QueryHistoryInfo() {
                     )) : <></>
                 }
                 {initialLoading && 
-                    <Loader />
+                    <div className="flex justify-center items-center"><Loader /></div>
                 }
             </div>
         </div>

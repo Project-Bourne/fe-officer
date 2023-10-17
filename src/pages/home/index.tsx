@@ -8,13 +8,14 @@ import NotificationService from "@/services/notification.service";
 import CustomModal from "@/components/ui/CustomModal";
 import { Loader } from "@/components/ui";
 import { useCookies } from "react-cookie";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "@/redux/reducer/authReducer";
 
 function Home() {
   const [loading, setLoading] =  useState(false);
   const [allInterrogations, setAllInterrogations] = useState([]);
   const [cookies, setCookies] = useCookies(['deep-token']);
+  const { userInfo } = useSelector((state: any) => state.auth )
   const url = 'http://192.81.213.226:81/80/token/user';
 
   const interrogationService = new InterrogatorService();
@@ -23,8 +24,9 @@ function Home() {
 
   useEffect(() => {
     getInterrogations();
-    getUserInfo();
-    console.log('ck', cookies)
+    if(!userInfo){
+      getUserInfo();
+    }
   },[]);
 
   const getInterrogations = async() => {
@@ -52,7 +54,7 @@ function Home() {
   }
 
   const headers: any = {
-    "deep-token": cookies,
+    "deep-token": cookies["deep-token"],
     "Content-Type": "application/json",
   }
 
