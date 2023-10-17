@@ -41,6 +41,23 @@ class InterrogatorService {
   }
 
 
+  async interrogateImportDoc(data) {
+    try {
+      const response = await request(
+        `interrogation/text`,
+        "POST",
+        data,
+        true,
+        false,
+        false,
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
   async getAllQueries(){
     try{
       const response = await request(
