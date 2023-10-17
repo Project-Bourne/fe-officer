@@ -8,7 +8,7 @@ import translator from "../../../../public/icons/translator.svg";
 import collab from "../../../../public/icons/collab.svg";
 import analyzer from "../../../../public/icons/analyzer.svg";
 import deep_chat from "../../../../public/icons/deep.svg";
-import admin from "../../../public/icons/admin-gray.svg";
+import admin from "../../../../public/icons/admin-gray.svg";
 
 const BASE_URL = "http://192.81.213.226";
 

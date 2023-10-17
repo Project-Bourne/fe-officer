@@ -7,7 +7,7 @@ import { Cookies } from "react-cookie";
 const cookies = new Cookies();
 let access = "";
 if (typeof window !== "undefined") {
-  access = cookies.get("deep-access") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjljMmZmNTNmLTdkZjYtNDQ2OS04ZGNjLTI5OTg3YTVmYjkxNiIsImlhdCI6MTY5NzQ4MDczOCwiZXhwIjoxNjk3NTY3MTM4fQ.cTfzl62BerHqcg8VL0i0FhtI34oKfFm37h36hYindB8";
+  access = cookies.get("deep-access");
 }
 
 export const requestHeader = {
