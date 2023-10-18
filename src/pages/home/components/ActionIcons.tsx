@@ -28,9 +28,9 @@ const ActionIcons = ({  docId, }: ActionIconsProps) => {
 
   const handleRoute = (id: string, to: string) => {
     if (to === "collab") {
-      router.push(`http://192.81.213.226:36/documents/${id}&interrogator`);
+      router.push(`http://192.81.213.226:36/document/${id}&interrogator`);
     }
-    if (to === "analyzer") {
+    if (to === "analyser") {
       router.push(`http://192.81.213.226:31/home/${id}&interrogator`);
     }
     if (to === "summarizer") {
@@ -90,7 +90,7 @@ const ActionIcons = ({  docId, }: ActionIconsProps) => {
               alt="analyzer"
               className=" cursor-pointer drop-shadow-md"
               width={33}
-              onClick={() => handleRoute(docId, "analyzer")}
+              onClick={() => handleRoute(docId, "analyser")}
             />
           </Tooltip>
         {/* )} */}
