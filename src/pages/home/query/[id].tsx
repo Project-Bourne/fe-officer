@@ -185,26 +185,26 @@ function QueryHistoryInfo() {
         try{
             switch (routeName) {
                 case "summarizer":
-                getDocById(`http://192.81.213.226:81/82/summary/${routeId}`,routeName);
-                break;
+                    getDocById(`http://192.81.213.226:81/82/summary/${routeId}`,routeName);
+                    break;
                 case "translator":
-                getDocById(`http://192.81.213.226:81/83/translation/${routeId}`,routeName);
-                break;
+                    getDocById(`http://192.81.213.226:81/83/translation/${routeId}`,routeName);
+                    break;
                 case "factcheck":
-                getDocById(`http://192.81.213.226:81/84/fact/${routeId}`,routeName);
-                break;
+                    getDocById(`http://192.81.213.226:81/84/fact/${routeId}`,routeName);
+                    break;
                 case "irp":
-                getDocById(`http://192.81.213.226:81/84/fact/${routeId}`,routeName);
-                break;
+                    getDocById(`http://192.81.213.226:81/84/fact/${routeId}`,routeName);
+                    break;
                 case "deepchat":
-                getDocById(`http://192.81.213.226:81/85/deepchat/${routeId}`,routeName);
-                break;
+                    getDocById(`http://192.81.213.226:81/85/deepchat/${routeId}`,routeName);
+                    break;
                 case "analyzer":
-                getDocById(`http://192.81.213.226:81/81/analysis/${routeId}`,routeName);
-                break;
+                    getDocById(`http://192.81.213.226:81/81/analysis/${routeId}`,routeName);
+                    break;
                 case "collab":
-                getDocById(`http://192.81.213.226:81/86/api/v1/doc/${routeId}`,routeName);
-                break;
+                    getDocById(`http://192.81.213.226:81/86/api/v1/doc/${routeId}`,routeName);
+                    break;
                 default:
                 throw new Error("Invalid routeName");
             }
