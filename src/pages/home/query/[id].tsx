@@ -48,7 +48,7 @@ function QueryHistoryInfo() {
 
 
     const headers: any = {
-        "deep-token": cookies["deep-token"],
+        "deep-token": cookies["deep-access"],
         "Content-Type": "application/json",
       }
       
@@ -234,18 +234,18 @@ function QueryHistoryInfo() {
                 getDocInterrogation(data?.data?.confidence?.content);
                 break;
             case "irp":
-                getDocInterrogation(data?.data?.confidence?.content);
+                getDocInterrogation(data?.data?.confidence?.content5wh);
                 break;
             case "summarizer":
                 getDocInterrogation(data?.data?.summaryArray[0].summary);
                 break;
             // case "deepchat":
-            // case "collab":
-            //   const  collabData: string[] = data?.data?.data?.ops.map((el) => {
-            //     return el.insert
-            //   })
-            //   setExportData(collabData.join(' '))
-            //   break;
+            case "collab":
+              const  collabData: string[] = data?.data?.data?.ops.map((el) => {
+                return el.insert
+              })
+              getDocInterrogation(collabData.join(' '))
+              break;
             default:
             break;
         }
