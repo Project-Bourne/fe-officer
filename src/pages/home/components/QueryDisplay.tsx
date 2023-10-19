@@ -13,6 +13,7 @@ function QueryDisplay({
     questionClick,
     convoId,
     facts,
+    loadingId,
     time,
     loading,
 }){
@@ -34,7 +35,7 @@ function QueryDisplay({
         questionClick(id, question)
     }
 
-    const text = convoId === 'loading' ? <i>Fetching response...</i> : <TypewriterComponent options={{ strings: docText, autoStart: true, delay: 5, loop: false }} />
+    const text = loadingId === 'loading' ? <i>Fetching response...</i> : <TypewriterComponent options={{ strings: docText, autoStart: true, delay: 5, loop: false }} />
   
 
     return (
@@ -61,7 +62,7 @@ function QueryDisplay({
                     </div>
                     }
                     <div className="mb-5text-justify">{text}</div>
-                    {convoId !== 'loading' && <h3 className="font-semibold py-1">Related Questions</h3>}
+                    {loadingId !== 'loading' || docText !== 'Related Questions' && <h3 className="font-semibold py-1">Related Questions</h3>}
 
                     <div className="flex flex-col text-justify w-fit">
                         {addedQuestion?.length > 0 &&
@@ -88,7 +89,7 @@ function QueryDisplay({
 
             {iconsToggle &&
                 <div className="absolute right-2 -top-6">
-                    <ActionIcons docId={convoId} />
+                    <ActionIcons docId={loadingId} />
                 </div>
             }
         </div>

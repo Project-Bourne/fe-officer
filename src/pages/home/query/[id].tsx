@@ -8,6 +8,7 @@ import { Loader } from "@/components/ui";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { setUserInfo } from "@/redux/reducer/authReducer";
+import Link from "next/link";
 
 function QueryHistoryInfo() {
     const router = useRouter();
@@ -15,11 +16,11 @@ function QueryHistoryInfo() {
     const queryScreenRef = useRef<any>(null); 
     const interrogatorService = new InterrogatorService();
     const { id } = router.query;
-    const { incoming } = router.query;
+    // const { incoming } = router.query;
     const [loading, setLoading] = useState(false);
     const [initialLoading, setInitialLoading] = useState(false);
     const [queryResponse, setQueryResponse] = useState<any[]>([]);
-    const [cookies, setCookies] = useCookies(['deep-token']);
+    const [cookies, setCookies] = useCookies(['deep-access']);
     const { userInfo } = useSelector((state: any) => state.auth )
     const url = 'http://192.81.213.226:81/80/token/user';
 
@@ -29,22 +30,24 @@ function QueryHistoryInfo() {
     };
 
     useEffect(() => {
-        console.log(id);
-        console.log('incomung', incoming)
-        if(id){ 
-            getQueries();
-        }
-        if(incoming){
-            if(typeof incoming === 'string' && incoming.includes('&')) {
-                const [routeId, routeName] = incoming.split("&");
-                getQueriesForImports(routeId, routeName);
+        console.log('id', id);
+        console.log('incoming', router.query)
+        
+        if(id){
+            if(typeof id === 'string'){
+                if(id.includes('&')) {
+                    const [routeId, routeName] = id.split("&");
+                    getQueriesForImports(routeId, routeName);
+                }else{
+                    getQueries();
+                }
             }
         }
 
         if(!userInfo){
             getUserInfo();
         }
-    },[])
+    },[id])
 
 
     const headers: any = {
@@ -129,9 +132,9 @@ function QueryHistoryInfo() {
             setQueryResponse(respArr);
 
             NotificationService.error({
-            message: 'Query request failed!',
-            addedText: res?.message,
-            position: "top-center"
+                message: 'Query request failed!',
+                addedText: res?.message,
+                position: "top-center"
             });
         }
         } catch (error: any) {
@@ -276,11 +279,11 @@ function QueryHistoryInfo() {
         try{
             const res = await interrogatorService.interrogateImportDoc(data)
             if (res?.status) {
-                const quesArr = res?.data?.fivewhQuestions;
-                const ques = res?.data?.question;
-                const answer = res?.data?.answer;
-                const uuid = res?.data?.interrogationUuid;
-                const time = res?.data?.updatedAt;
+                const quesArr = res?.data?.questions;
+                const ques = content;
+                const answer = "Related Questions";
+                const uuid = res?.data?.interrogation?.uuid;
+                const time = res?.data?.interrogation?.updatedAt;
                 const facts = [];
 
                 // Remove the 'loading' object from queryResponse
@@ -322,7 +325,7 @@ function QueryHistoryInfo() {
 
     return (
         <div className="mt-[5rem] h-full mx-5 ">
-            <p className="hover:cursor-pointer text-[13px] font-semibold pb-3" onClick={() => router.back()}>&larr;&nbsp;Back</p>
+            <Link href={'/home'} className="hover:cursor-pointer text-[13px] font-semibold pb-3">&larr;&nbsp;Back</Link>
 
             <div className="border-b-[1px] py-5 rounded-t-[1rem] bg-gray-50">
                 <h1 className="text-2xl pl-10 font-bold">Query history</h1>
@@ -341,7 +344,8 @@ function QueryHistoryInfo() {
                             questionClick={handleQuestionClick}
                             docText={response?.response || response?.answer} 
                             time={response?.time || response?.updatedAt}
-                            convoId={response?.uuid }
+                            convoId={id}
+                            loadingId={response?.uuid}
                             loading={loading}
                             />
                         </div>

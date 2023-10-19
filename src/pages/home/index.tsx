@@ -1,129 +1,234 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import QueryUpload from "./components/QueryUpload";
-import Link from "next/link";
-import Content from "./components/Content";
+// import Interpratation from "../components/Interpratation";
+// import QueryCard from "../components/QueryCard";
+// import MoreOption from "../components/moreOptions";
+// import DummyText from "../components/dummyText";
+import InputSearch from "./components/InputSearch";
+import QueryDisplay from "./components/QueryDisplay";
+import QuestionsDisplay from "./components/QuestionsDisplay";
 import InterrogatorService from "@/services/interrogator.service";
 import NotificationService from "@/services/notification.service";
-import CustomModal from "@/components/ui/CustomModal";
-import { Loader } from "@/components/ui";
-import { useCookies } from "react-cookie";
-import { useDispatch, useSelector } from "react-redux";
-import { setUserInfo } from "@/redux/reducer/authReducer";
+import { Button } from "@/components/ui";
+import AddIcon from '@mui/icons-material/Add';
 
-function Home() {
-  const [loading, setLoading] =  useState(false);
-  const [allInterrogations, setAllInterrogations] = useState([]);
-  const [cookies, setCookies] = useCookies(['deep-token']);
-  const { userInfo } = useSelector((state: any) => state.auth )
-  const url = 'http://192.81.213.226:81/80/token/user';
+const QueryPage = () => {
+  const [query, setQuery] = useState<any>(null);
+  const [queryResponse, setQueryResponse] = useState<any[]>([]);
+  const [inputFieldDisplay, setInputFieldDisplay] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const interrogationService = new InterrogatorService();
-  const dispatch = useDispatch();
+  const queryScreenRef = useRef(null);
   const router = useRouter();
+  const interrogatorService = new InterrogatorService();
 
-  useEffect(() => {
-    getInterrogations();
-    if(!userInfo){
-      getUserInfo();
-    }
-  },[]);
-
-  const getInterrogations = async() => {
-    setLoading(true);
-    try{
-      const res = await interrogationService.getAllQueries();
-      setLoading(false)
-      if(res?.status){
-        setAllInterrogations(res?.data);
-      }
-      else{
-        setLoading(false);
-        NotificationService.error({
-          message: 'Failed to get interrogations!',
-          addedText: res?.message
-        })
-      }
-    }catch(err: any){
-      setLoading(false);
-      NotificationService.error({
-        message: 'Failed to get interrogations!',
-        addedText: err?.message
-      })
-    }
-  }
-
-  const headers: any = {
-    "deep-token": cookies["deep-token"],
-    "Content-Type": "application/json",
-  }
-
-  const getUserInfo = async () => {
-    try {
-      const response: any = await fetch(url,
-        {
-          method: "GET",
-          headers,
-        },
-      );
-      
-      if (response?.ok) {
-        const data = await response.json();
-        dispatch(setUserInfo(data?.data));
-      } else {
-        if(response.status === 403){
-          router.push('http://192.81.213.226:30/auth/login')
-        }
-        const data = await response.json();
-        NotificationService.error({
-          message: "Error: failed to fetch user data",
-          addedText: data?.message,
-          position: "top-center",
-        });
-      }
-    } catch (err: any) {
-      NotificationService.error({
-        message: "Error: failed to fetch user data ",
-        addedText: err?.message,
-        position: "top-center",
-      });
-    }
+  const scrollToBottom = () => {
+    queryScreenRef.current.scrollTop = queryScreenRef.current.scrollHeight;
   };
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [queryResponse]); 
+
+
+  const handleInputSearch = (e) => {
+    setQuery({query: e.target.value})
+  }
+
+// handle when a question is clicked 
+  const handleQuestionClick = async (id, question) => {
+    if(!id || !question) return;
+
+    setLoading(true);
+    const data = { question }
+    console.log('question:', data)
+    const preResponseArr = queryResponse;
+
+    preResponseArr.push({
+      uuid: 'loading',
+      title: question,
+      response: 'fetching response...'
+    });
+
+    try{
+       // Assuming interrogatorService.sendQuestion returns a promise
+       const res = await interrogatorService.sendQuestion(id, data);
+       setLoading(false);
+
+      if (res?.status) {
+        const quesArr = res?.data?.fivewhQuestions;
+        const ques = res?.data?.question;
+        const answer = res?.data?.answer;
+        const uuid = res?.data?.interrogationUuid;
+        const time = res?.data?.updatedAt;
+        const facts = [];
+
+        // console.log('facts-indx2', facts)
+        // Remove the 'loading' object from queryResponse
+        const updatedResponseArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
+
+        updatedResponseArr.push({
+          uuid,
+          title: ques,
+          response: answer,
+          time,
+          moreQuestions: quesArr,
+          facts
+        });
+
+        setQueryResponse(updatedResponseArr);
+      } else {
+        const respArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
+        setQueryResponse(respArr);
+
+        NotificationService.error({
+          message: 'Query request failed!',
+          addedText: res?.message,
+          position: "top-center"
+        });
+      }
+    } catch (error: any) {
+      setLoading(false);
+      const respArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
+      setQueryResponse(respArr);
+
+      NotificationService.error({
+        message: 'Something went wrong',
+        addedText: error?.message,
+        position: "top-center"
+      });
+    }
+  }
+
+
+  // handle when a query is first made 
+  const handleQueryRequest = async (e) => {
+    e.preventDefault();
+
+    if (query){
+      setLoading(true);
+
+      const preResponseArr = queryResponse;
+      preResponseArr.push({
+        uuid: 'loading',
+        title: query.query,
+        response: 'fetching response...'
+      });
+
+      try {
+        // Assuming interrogatorService.sendQuery returns a promise
+        const res = await interrogatorService.sendQuery(query);
+
+        setLoading(false);
+
+        if (res?.status) {
+          const quesArr = res?.data?.questions;
+          const ques = res?.data?.interrogation?.title;
+          const answer = res?.data?.interrogation?.documentText;
+          const uuid = res?.data?.interrogation?.uuid;
+          const time = res?.data?.interrogation?.updatedAt;
+          const facts = res?.data?.interrogation?.factCheck?.confidence;
+
+          // console.log('facts-indx1', facts)
+
+          // Remove the 'loading' object from queryResponse
+          const updatedResponseArr = preResponseArr?.filter(item => item.uuid !== 'loading');
+
+          updatedResponseArr.push({
+            uuid,
+            title: ques,
+            response: answer,
+            time,
+            moreQuestions: quesArr,
+            facts
+          });
+
+          setQueryResponse(updatedResponseArr);
+          setQuery(null);
+          setInputFieldDisplay(false);
+        } else {
+          const respArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
+          setQueryResponse(respArr);
+
+          NotificationService.error({
+            message: 'Query request failed!',
+            addedText: res?.message,
+            position: "top-center"
+          });
+        }
+      } catch (error: any) {
+        setLoading(false);
+        const respArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
+        setQueryResponse(respArr);
+
+        NotificationService.error({
+          message: 'Something went wrong',
+          addedText: error?.message,
+          position: "top-center"
+        });
+      }
+    }
+
+
+  };
+
+  
+  const handleNewQuery = () => {
+    setQueryResponse([]);
+    setQuery(null)
+    setInputFieldDisplay(true);
+  }
 
   return (
-    <div className="pb-7">
-        <div>
-          <h1 className="text-[20px] md:text-[28px] font-bold md:ml-10 ml-5 mb-5">
-            Query History
-          </h1>
+    <div className="mt-[5rem] h-full mx-5 ">
+      {/* <p className="hover:cursor-pointer text-[13px] font-semibold pb-3" onClick={() => router.back()}>&larr;&nbsp;Back</p> */}
+
+      <div className="border-b-[1px] py-5 rounded-t-[1rem] bg-gray-50 flex justify-between">
+        <h1 className="text-2xl pl-10 font-bold">Input Query</h1>
+
+        {queryResponse?.length > 0 &&
+        <div className="flex items-center w-[14%]">
+          <Button
+            value={<><AddIcon fontSize="small" />&nbsp; New Query</>}
+            onClick={handleNewQuery}
+            background="bg-sirp-primary"
+            classNameStyle="text-white bg-sirp-primary text-[13px]  py-2 mr-5"
+            size="xl"
+          />
         </div>
-
-
-
-      <div className="bg-sirp-listBg border h-[100%] my-5 md:mx-10  rounded-t-[1rem]">
-        <div className="flex gap-x-4 items-center justify-end w-[100%] px-2 border-b-2 py-3">
-          <Link 
-            href="home/newQuery"
-            className="py-2 px-3 text-[13px] rounded-md bg-sirp-primary text-white hover:bg-sirp-primary/[0.8] relative right-7">New Query</Link>
-        </div>
-
-        <div className="w-full">
-          <Content data={allInterrogations} />
-        </div>
+        } 
       </div>
 
-        {loading && (
-          <CustomModal
-            style="bg-transparent w-full relative top-[20%] rounded-xl mx-auto pt-3 px-3 pb-5 flex justify-center"
-            closeBtn={false}
-          >
-            <Loader />
-          </CustomModal>
-        )}
+      <div ref={queryScreenRef} className="lg:h-[73vh] h-[90vh] bg-gray-100 overflow-y-auto pb-[10rem]">
+        { queryResponse?.length > 0 ?
+          queryResponse?.map((response, index) => (
+            <div key={index}>
+              <QuestionsDisplay 
+                questionText={response?.title} 
+                />
+              <QueryDisplay 
+                facts={response?.facts}
+                addedQuestion={response?.moreQuestions}
+                questionClick={handleQuestionClick}
+                docText={response?.response} 
+                time={response?.time}
+                convoId={response?.uuid}
+                loadingId={response?.uuid}
+                loading={loading}
+                />
+            </div>
+          )) : 
+        <></>
+        }
+        <InputSearch
+          QueryInputChange={handleInputSearch}
+          handleQueryRequest={handleQueryRequest}
+          showInput={inputFieldDisplay}
+          loading={loading}
+         />
+      </div>
     </div>
-
   );
-}
+};
 
-export default Home;
+export default QueryPage;
