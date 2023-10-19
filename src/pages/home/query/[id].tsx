@@ -30,8 +30,6 @@ function QueryHistoryInfo() {
     };
 
     useEffect(() => {
-        console.log('id', id);
-        console.log('incoming', router.query)
         
         if(id){
             if(typeof id === 'string'){
@@ -157,7 +155,6 @@ function QueryHistoryInfo() {
             .then((res) => {
                 setInitialLoading(false);
                 if(res?.status){
-                    console.log('stream', res?.data?.messages)
                     setQueryResponse(res?.data?.messages);
                 }else{
                     NotificationService.error({
