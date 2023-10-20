@@ -12,7 +12,7 @@ function AuthorSection({ isLoading, author }) {
       </p>
       <div className="flex gap-3 items-center my-5 cursor-pointer">
           <Image
-            src={require("../../../../../public/icons/Avatarmeta.svg")}
+            src={require("../../../../../public/icons/avatarmeta.svg")}
             alt="documents"
             className="cursor-pointer"
             width={45}

@@ -7,7 +7,7 @@ export const NavBarContents = [
   },
   {
     name: 'History',
-    icon: 'History.svg',
+    icon: 'history.svg',
     id: 2,
     route: '/history'
   },
