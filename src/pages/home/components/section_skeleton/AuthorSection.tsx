@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 // import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import avatarmeta from "../../../../../public/icons/avatarmeta.svg";
 
 function AuthorSection({ isLoading, author }) {
   const authorName = author?.length > 0 ? author : ["No author"]
@@ -12,7 +13,7 @@ function AuthorSection({ isLoading, author }) {
       </p>
       <div className="flex gap-3 items-center my-5 cursor-pointer">
           <Image
-            src={require("../../../../../public/icons/avatarmeta.svg")}
+            src={avatarmeta}
             alt="documents"
             className="cursor-pointer"
             width={45}
