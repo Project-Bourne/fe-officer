@@ -33,7 +33,7 @@ function Input(props: InputModel) {
           >
             {!toggle ? (
               <Image
-                src={require('../../../public/icons/Hide.svg')}
+                src={require('../../../public/icons/hide.svg')}
                 alt="Filter"
                 width={20}
                 height={20}

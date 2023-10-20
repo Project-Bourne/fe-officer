@@ -9,7 +9,7 @@ function Group1() {
           <div className="flex flex-row items-center gap-3 pt-5">
             <div>
               <Image
-                src={require('../../../../public/icons/Frame 05.svg')}
+                src={require('../../../../public/icons/frame05.svg')}
                 alt="documents"
                 className="cursor-pointer"
                 width={100}
@@ -34,7 +34,7 @@ function Group1() {
           <div className="flex flex-row items-center gap-3 pt-5">
             <div>
               <Image
-                src={require('../../../../public/icons/Frame 06.svg')}
+                src={require('../../../../public/icons/frame06.svg')}
                 alt="documents"
                 className="cursor-pointer"
                 width={75}
@@ -57,7 +57,7 @@ function Group1() {
           <div className="flex flex-row items-center gap-3 pt-5">
             <div>
               <Image
-                src={require('../../../../public/icons/Frame 07.svg')}
+                src={require('../../../../public/icons/frame07.svg')}
                 alt="documents"
                 className="cursor-pointer"
                 width={100}
@@ -82,7 +82,7 @@ function Group1() {
           <div className="flex flex-row items-center gap-3 pt-5">
             <div>
               <Image
-                src={require('../../../../public/icons/Frame 08.svg')}
+                src={require('../../../../public/icons/frame08.svg')}
                 alt="documents"
                 className="cursor-pointer"
                 width={100}
@@ -107,7 +107,7 @@ function Group1() {
           <div className="flex flex-row items-center gap-3 pt-5">
             <div>
               <Image
-                src={require('../../../../public/icons/Frame 09.svg')}
+                src={require('../../../../public/icons/frame09.svg')}
                 alt="documents"
                 className="cursor-pointer"
                 width={100}
@@ -132,7 +132,7 @@ function Group1() {
           <div className="flex flex-row items-center gap-3 pt-5">
             <div>
               <Image
-                src={require('../../../../public/icons/Frame 0100.svg')}
+                src={require('../../../../public/icons/frame0100.svg')}
                 alt="documents"
                 className="cursor-pointer"
                 width={100}
@@ -155,7 +155,7 @@ function Group1() {
           <div className="flex flex-row items-center gap-3 pt-5">
             <div>
               <Image
-                src={require('../../../../public/icons/Frame 011.svg')}
+                src={require('../../../../public/icons/frame011.svg')}
                 alt="documents"
                 className=" cursor-pointer"
                 width={100}
@@ -180,7 +180,7 @@ function Group1() {
           <div className="flex flex-row items-center gap-3 pt-5">
             <div>
               <Image
-                src={require('../../../../public/icons/Frame 012.svg')}
+                src={require('../../../../public/icons/frame012.svg')}
                 alt="documents"
                 className="cursor-pointer"
                 width={100}
@@ -205,7 +205,7 @@ function Group1() {
           <div className="flex flex-row items-center gap-3 pt-5">
             <div>
               <Image
-                src={require('../../../../public/icons/Frame 013.svg')}
+                src={require('../../../../public/icons/frame013.svg')}
                 alt="documents"
                 className="cursor-pointer"
                 width={100}
