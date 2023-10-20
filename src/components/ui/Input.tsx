@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 import { InputModel, DropdownModel } from '../../models/ui/components.models';
 import { useOnClickOutside } from '../custom-hooks';
+import hide from '../../../public/icons/hide.svg'
 
 const countries = require('../../utils/countries.json');
 const languages = require('../../utils/languages.json');
@@ -33,7 +34,7 @@ function Input(props: InputModel) {
           >
             {!toggle ? (
               <Image
-                src={require('../../../public/icons/hide.svg')}
+                src={hide}
                 alt="Filter"
                 width={20}
                 height={20}
