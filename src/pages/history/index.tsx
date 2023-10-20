@@ -101,6 +101,9 @@ function Home() {
 
 
 
+      {loading ? 
+      <div className="flex justify-center items-center mt-10"><Loader /></div>
+      :
       <div className="bg-sirp-listBg border h-[100%] my-5 md:mx-10  rounded-t-[1rem]">
         <div className="flex gap-x-4 items-center justify-end w-[100%] px-2 border-b-2 py-3">
           <Link 
@@ -112,15 +115,8 @@ function Home() {
           <Content data={allInterrogations} />
         </div>
       </div>
+      }
 
-        {loading && (
-          <CustomModal
-            style="bg-transparent w-full relative top-[20%] rounded-xl mx-auto pt-3 px-3 pb-5 flex justify-center"
-            closeBtn={false}
-          >
-            <Loader />
-          </CustomModal>
-        )}
     </div>
 
   );
