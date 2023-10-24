@@ -21,6 +21,8 @@ function QueryDisplay({
     const [dHeight, setDHeight] = useState('15%');
     const [iconsToggle, setIconsToggle] = useState(false);
 
+    console.log(loadingId)
+
     const handleInput = () => {
         if(textareaRef?.current){
             const textarea = textareaRef?.current;
@@ -62,9 +64,9 @@ function QueryDisplay({
                     </div>
                     }
                     <div className="mb-5text-justify">{text}</div>
-                    {loadingId !== 'loading' || docText !== 'Related Questions' && <h3 className="font-semibold py-1">Related Questions</h3>}
+                    {loadingId !== 'loading' || docText === 'Related Questions' && <h3 className="font-semibold py-1">Related Questions</h3>}
 
-                    <div className="flex flex-col text-justify w-fit">
+                    <div className="flex flex-col text-justify w-fit mt-3">
                         {addedQuestion?.length > 0 &&
                             addedQuestion.map((question, index) => (
                                 <p

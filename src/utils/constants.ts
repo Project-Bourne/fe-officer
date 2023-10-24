@@ -1,6 +1,6 @@
 export const NavBarContents = [
   {
-    name: 'Home',
+    name: 'Interrogate',
     icon: 'home.svg',
     id: 1,
     route: '/home'
@@ -11,12 +11,12 @@ export const NavBarContents = [
     id: 2,
     route: '/history'
   },
-  {
-    name: 'Help',
-    icon: 'training.svg',
-    id: 3,
-    route: '/training'
-  },
+  // {
+  //   name: 'Help',
+  //   icon: 'training.svg',
+  //   id: 3,
+  //   route: '/training'
+  // },
   // {
   //   name: 'Settings',
   //   icon: 'settings.svg',

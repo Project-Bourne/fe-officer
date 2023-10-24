@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import notification from "../../../../public/icons/notification.svg";
 import dashboard from "../../../../public/icons/dashboard.svg";
 import down from "../../../../public/icons/down.svg";
-import { useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import CustomModal from "@/components/ui/CustomModal";
 import DashboardDropdown from "./DashboardDropdown";
 import { logout } from "@/redux/reducer/authReducer";
@@ -19,22 +19,36 @@ function RightComp() {
   const dispatch = useDispatch();
   const router = useRouter();
   const authService = new AuthService();
-  const { userInfo } = useSelector((state: any) => state?.auth);
+  const { userInfo, userAccessToken } = useSelector((state: any) => state?.auth);
   const [dropdown, setDropdown] = useState(false);
   const [toggleDashboard, setToggleDashboard] = useState(false);
   const [logoutConfirmation, setLogoutConfirmation] = useState(false);
+  const cookies = new Cookies();
 
   const handleLogout = async (event: any) => {
     event.stopPropagation();
-    dispatch(logout());
-    localStorage.clear();
 
-    removeCookie("deep-access", { path: "/" });
-    router.push("http://192.81.213.226:30/auth/login");
+    const access = cookies.get("deep-access");
 
-    NotificationService.success({
-      message: "Logout operation successful!",
-    });
+    const refreshToken = userAccessToken || access
+    authService.logout({ refreshToken })
+    .then((res) => {
+      if(res){
+          dispatch(logout());
+          localStorage.clear();
+
+          removeCookie("deep-access", { path: "/" });
+          router.push("http://192.81.213.226:30/auth/login");
+
+          NotificationService.success({
+            message: "Logout operation successful!",
+          });
+        }else{
+          NotificationService.error({
+            message: "Logout Failed!",
+          });
+        }
+      })
     setDropdown(false);
   };
 
@@ -69,23 +83,29 @@ function RightComp() {
           priority
         />
       </div> */}
-
-      <div className={`${styles.view1} hidden md:flex relative`}>
-        <Image
-          src={dashboard}
-          alt="dashboard"
-          width={20}
-          height={20}
-          className="self-center"
-          onClick={handleDashboardToggle}
-          style={{ alignSelf: "center" }}
-          priority
-        />
-        {toggleDashboard && <DashboardDropdown />}
+    <div className="relative">
+      <div className="grid justify-center mt-3.5" onClick={handleDashboardToggle}>
+        <div className={`${styles.view1} hidden md:flex`} >
+          <Image
+            src={dashboard}
+            alt="dashboard"
+            width={20}
+            height={20}
+            className="self-center"
+            style={{ alignSelf: "center" }}
+            id="dashboard"
+            priority
+          />
+        </div>
+        <label 
+            className="text-[12px] mx-2 hover:cursor-pointer" 
+            htmlFor="dashboard">Menu</label>
       </div>
+      {toggleDashboard && <DashboardDropdown />}
+    </div>
 
       <div className="relative bg-sirp-lightGrey flex flex-row mr-2 py-2 px-2 md:px-5 h-[45px] rounded-[12px] items-center justify-center cursor-pointer">
-        <div className="flex flex-row items-center justify-center">
+        <div className="flex flex-row items-center justify-center" onClick={handleLogoutToggle}>
           <img
             src={userInfo?.image || userInitials() || avatar }
             alt="userImage"
@@ -101,7 +121,6 @@ function RightComp() {
             height={18}
             className="mx-3 object-contain hidden md:block"
             priority
-            onClick={handleLogoutToggle}
           />
         </div>
 
@@ -166,7 +185,7 @@ function RightComp() {
 
 const styles = {
   view1:
-    "bg-sirp-lightGrey cursor-pointer flex py-2 px-2 rounded-[15px] w-[45px] h-[45px] items-center justify-center content-center mr-4",
+    "bg-sirp-lightGrey cursor-pointer flex py-1 px-1 rounded-[15px] w-[45px] h-[40px] items-center justify-center content-center mr-4",
 };
 
 export default RightComp;
