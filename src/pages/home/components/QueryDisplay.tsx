@@ -37,7 +37,8 @@ function QueryDisplay({
         questionClick(id, question)
     }
 
-    const text = loadingId === 'loading' ? <i>Fetching response...</i> : <p>{docText}</p>
+    const text = loadingId === 'loading' ? <i>Fetching response, may take a while...</i> : <TypewriterComponent options={{ strings: docText, autoStart: true, delay: 5, loop: false }} />
+    // const text = loadingId === 'loading' ? <i>Fetching response...</i> : <p>{docText}</p>
   
 
     return (
