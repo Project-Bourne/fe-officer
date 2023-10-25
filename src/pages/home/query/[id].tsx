@@ -89,6 +89,8 @@ function QueryHistoryInfo() {
     const handleQuestionClick = async (intId, question) => {
         if(!intId || !question) return;
 
+        intId = intId.split("&")[0]
+
         setLoading(true);
         const data = { question }
         const preResponseArr = queryResponse;
@@ -341,8 +343,8 @@ function QueryHistoryInfo() {
                             questionClick={handleQuestionClick}
                             docText={response?.response || response?.answer} 
                             time={response?.time || response?.updatedAt}
-                            convoId={id}
-                            loadingId={response?.uuid}
+                            loadingId={id}
+                            convoId={response?.uuid}
                             loading={loading}
                             />
                         </div>
