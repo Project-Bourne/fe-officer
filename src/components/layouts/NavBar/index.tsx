@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import NavBarItem from "./NavBarItem";
 import { NavBarContents } from "../../../utils/constants";
+import disclaimerIcon from "../../../../public/icons/disclaimer-icon.svg";
 
 function NavBar() {
   return (
@@ -42,6 +43,17 @@ function NavBar() {
         {NavBarContents.map((item, index) => (
           <NavBarItem item={item} index={index} key={index} />
         ))}
+      </div>
+
+
+
+      <div className="absolute bottom-10 text-[10px] px-5 -left-3">
+        <div className="bg-gray-50 p-3 rounded">
+          <h3 className="justify-center font-semibold flex items-center mb-2">
+            <Image src={disclaimerIcon} alt="disclaimer" height={12} width={12} />&nbsp; DISCLAIMER
+          </h3>
+          <p>The information presented is intended for general informational purposes only. It is imperative that users independently verify and assess the output before making any consequential decisions. <br/>Kindly be advised that the application's output may not comprehensively address individual needs and circumstances.</p> 
+        </div>
       </div>
     </div>
   );
