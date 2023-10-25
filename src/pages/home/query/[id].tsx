@@ -343,8 +343,8 @@ function QueryHistoryInfo() {
                             questionClick={handleQuestionClick}
                             docText={response?.response || response?.answer} 
                             time={response?.time || response?.updatedAt}
-                            convoId={id}
-                            loadingId={response?.uuid}
+                            loadingId={id}
+                            convoId={response?.uuid}
                             loading={loading}
                             />
                         </div>
