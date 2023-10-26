@@ -35,7 +35,7 @@ function Home() {
       const res = await interrogationService.getAllQueries();
       setLoading(false)
       if(res?.status){
-        setAllInterrogations(res?.data);
+        setAllInterrogations(res?.data?.interrogations);
       }
       else{
         setLoading(false);
