@@ -11,24 +11,74 @@ import InterrogatorService from "@/services/interrogator.service";
 import NotificationService from "@/services/notification.service";
 import { Button } from "@/components/ui";
 import AddIcon from '@mui/icons-material/Add';
+import { setUserInfo } from "@/redux/reducer/authReducer";
+import { useDispatch } from "react-redux";
+import { useCookies } from "react-cookie";
 
 const QueryPage = () => {
   const [query, setQuery] = useState<any>(null);
   const [queryResponse, setQueryResponse] = useState<any[]>([]);
   const [inputFieldDisplay, setInputFieldDisplay] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [cookies, setCookies] = useCookies(['deep-access']);
 
   const queryScreenRef = useRef(null);
   const router = useRouter();
+  const dispatch = useDispatch();
   const interrogatorService = new InterrogatorService();
+  const url = 'http://192.81.213.226:81/80/token/user';
 
   const scrollToBottom = () => {
     queryScreenRef.current.scrollTop = queryScreenRef.current.scrollHeight;
   };
 
   useEffect(() => {
+    getUserInfo();
+  },[])
+
+  useEffect(() => {
     scrollToBottom();
   }, [queryResponse]); 
+
+
+const headers: any = {
+    "deep-token": cookies["deep-access"],
+    "Content-Type": "application/json",
+  }
+  
+const getUserInfo = async () => {
+    try {
+      const response: any = await fetch(url,
+        {
+          method: "GET",
+          headers,
+        },
+      );
+      
+      if (response?.ok) {
+        const data = await response.json();
+        dispatch(setUserInfo(data?.data));
+      } else {
+        if(response.status === 403){
+          router.push('http://192.81.213.226:30/auth/login')
+        }
+        const data = await response.json();
+        NotificationService.error({
+          message: "Error: failed to fetch user data",
+          addedText: data?.message,
+          position: "top-center",
+        });
+      }
+    } catch (err: any) {
+      NotificationService.error({
+        message: "Error: failed to fetch user data ",
+        addedText: err?.message,
+        position: "top-center",
+      });
+    }
+};
+
+
 
 
   const handleInputSearch = (e) => {

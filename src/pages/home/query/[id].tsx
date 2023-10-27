@@ -29,8 +29,7 @@ function QueryHistoryInfo() {
         queryScreenRef.current.scrollTop = queryScreenRef.current.scrollHeight;
     };
 
-    useEffect(() => {
-        
+    useEffect(() => {     
         if(id){
             if(typeof id === 'string'){
                 if(id.includes('&')) {
@@ -42,10 +41,11 @@ function QueryHistoryInfo() {
             }
         }
 
-        if(!userInfo){
-            getUserInfo();
-        }
     },[id])
+
+    useEffect(() => {
+        getUserInfo();
+    },[])
 
 
     const headers: any = {
@@ -324,8 +324,6 @@ function QueryHistoryInfo() {
 
     return (
         <div className="mt-[5rem] h-full mx-5 ">
-            <Link href={'/home'} className="hover:cursor-pointer text-[13px] font-semibold pb-3">&larr;&nbsp;Back</Link>
-
             <div className="border-b-[1px] py-5 rounded-t-[1rem] bg-gray-50">
                 <h1 className="text-2xl pl-10 font-bold">Query history</h1>
             </div>

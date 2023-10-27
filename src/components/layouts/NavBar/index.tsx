@@ -7,7 +7,7 @@ import disclaimerIcon from "../../../../public/icons/disclaimer-icon.svg";
 function NavBar() {
   return (
     <div className="w-[15vw] md:w-[20vw] h-full border-3 border-r bg-white px-3 py-10 md:p-10 fixed z-[20]">
-      <div className="flex flex-col items-center cursor-pointer mb-20">
+      <div className="flex flex-row flex-wrap items-center cursor-pointer mb-20">
         <Image
           src={require("../../../../public/svg/logo.svg")}
           alt="IRP Logo"
@@ -16,8 +16,8 @@ function NavBar() {
           className="md:mr-[20px]"
           priority
         />
-        <h1 className="text-sirp-primary font-semibold text-[30px] hidden md:block">
-          Interrogator
+        <h1 className="text-sirp-primary font-semibold text-[27px] hidden md:block">
+          Deep soul
         </h1>
       </div>
       {/* items-center justify-center py-4 md:px-5 w-[100%] flex flex-row self-center */}
