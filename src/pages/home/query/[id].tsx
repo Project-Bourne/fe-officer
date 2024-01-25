@@ -342,7 +342,7 @@ function QueryHistoryInfo() {
                             docText={response?.response || response?.answer} 
                             time={response?.time || response?.updatedAt}
                             loadingId={id}
-                            convoId={response?.uuid}
+                            convoId={response?.interrogation?.uuid}
                             loading={loading}
                             />
                         </div>
