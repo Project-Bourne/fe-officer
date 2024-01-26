@@ -49,7 +49,8 @@ function QueryHistoryInfo() {
 
 
     const headers: any = {
-        "deep-token": cookies["deep-access"],
+        // "deep-token": cookies["deep-access"],
+        "deep-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM5MjI1ZDk1LTM1ZTktNGZhOS1iMWVlLWZmMjQyODYyYjZiZiIsImlhdCI6MTcwNjI2MjEzOSwiZXhwIjoxNzA2MjY1NzM5fQ.BOT9H-6rMjShXjs7NqGy_EZG1nzFTTZOSG3L3GDpncs",
         "Content-Type": "application/json",
       }
       
@@ -87,9 +88,10 @@ function QueryHistoryInfo() {
 
     // handle when a question is clicked 
     const handleQuestionClick = async (intId, question) => {
+        console.log(intId, question)
         if(!intId || !question) return;
 
-        intId = intId.split("&")[0]
+        // intId = intId.split("&")[0]
 
         setLoading(true);
         const data = { question }
@@ -118,7 +120,7 @@ function QueryHistoryInfo() {
             const updatedResponseArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
 
             updatedResponseArr.push({
-            uuid,
+            interrogationUuid:uuid,
             title: ques,
             response: answer,
             time,
@@ -335,6 +337,7 @@ function QueryHistoryInfo() {
                         <QuestionsDisplay 
                             questionText={response?.title || response?.question} 
                             />
+                            {/* {JSON.stringify(response)} */}
                         <QueryDisplay 
                             facts={response?.facts}
                             addedQuestion={response?.moreQuestions || response?.fivewhQuestions}
@@ -342,7 +345,7 @@ function QueryHistoryInfo() {
                             docText={response?.response || response?.answer} 
                             time={response?.time || response?.updatedAt}
                             loadingId={id}
-                            convoId={response?.interrogation?.uuid}
+                            convoId={response?.interrogationUuid}
                             loading={loading}
                             />
                         </div>
