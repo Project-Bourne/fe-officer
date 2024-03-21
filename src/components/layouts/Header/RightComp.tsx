@@ -38,7 +38,7 @@ function RightComp() {
           localStorage.clear();
 
           removeCookie("deep-access", { path: "/" });
-          router.push("http://192.81.213.226:30/auth/login");
+          router.replace("http://192.81.213.226:30/auth/login");
 
           NotificationService.success({
             message: "Logout operation successful!",
