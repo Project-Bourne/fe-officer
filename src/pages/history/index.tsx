@@ -72,7 +72,7 @@ function Home() {
         dispatch(setUserInfo(data?.data));
       } else {
         if(response.status === 403){
-          router.push('http://192.81.213.226:30/auth/login')
+          router.replace('http://192.81.213.226:30/auth/login')
         }
         const data = await response.json();
         NotificationService.error({
