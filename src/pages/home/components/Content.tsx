@@ -7,7 +7,7 @@ function Content({ data }){
     const router = useRouter();
 
     const handleRoute = (incoming) => {
-        router.push(`/home/query/${incoming}`)
+        router.replace(`/home/query/${incoming}`)
     }
 
     return(

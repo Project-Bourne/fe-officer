@@ -5,7 +5,7 @@ function Settings() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push(
+    router.replace(
       {
         pathname: `/settings/profile`
       },

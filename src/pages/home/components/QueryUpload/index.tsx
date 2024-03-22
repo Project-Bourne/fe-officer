@@ -13,7 +13,7 @@ const QueryUpload = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    router.push("/home/inputQuery/input_query");
+    router.replace("/home/inputQuery/input_query");
     setFormData("");
   };
 

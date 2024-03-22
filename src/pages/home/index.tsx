@@ -10,7 +10,7 @@ import QuestionsDisplay from "./components/QuestionsDisplay";
 import InterrogatorService from "@/services/interrogator.service";
 import NotificationService from "@/services/notification.service";
 import { Button } from "@/components/ui";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 import { setUserInfo } from "@/redux/reducer/authReducer";
 import { useDispatch } from "react-redux";
 import { useCookies } from "react-cookie";
@@ -20,13 +20,13 @@ const QueryPage = () => {
   const [queryResponse, setQueryResponse] = useState<any[]>([]);
   const [inputFieldDisplay, setInputFieldDisplay] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [cookies, setCookies] = useCookies(['deep-access']);
+  const [cookies, setCookies] = useCookies(["deep-access"]);
 
   const queryScreenRef = useRef(null);
   const router = useRouter();
   const dispatch = useDispatch();
   const interrogatorService = new InterrogatorService();
-  const url = 'http://192.81.213.226:81/80/token/user';
+  const url = "http://192.81.213.226:81/80/token/user";
 
   const scrollToBottom = () => {
     queryScreenRef.current.scrollTop = queryScreenRef.current.scrollHeight;
@@ -34,33 +34,30 @@ const QueryPage = () => {
 
   useEffect(() => {
     getUserInfo();
-  },[])
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [queryResponse]); 
+  }, [queryResponse]);
 
-
-const headers: any = {
+  const headers: any = {
     "deep-token": cookies["deep-access"],
     "Content-Type": "application/json",
-  }
-  
-const getUserInfo = async () => {
+  };
+
+  const getUserInfo = async () => {
     try {
-      const response: any = await fetch(url,
-        {
-          method: "GET",
-          headers,
-        },
-      );
-      
+      const response: any = await fetch(url, {
+        method: "GET",
+        headers,
+      });
+
       if (response?.ok) {
         const data = await response.json();
         dispatch(setUserInfo(data?.data));
       } else {
-        if(response.status === 403){
-          router.replace('http://192.81.213.226:30/auth/login')
+        if (response.status === 403) {
+          router.replace("http://192.81.213.226:30/auth/login");
         }
         const data = await response.json();
         NotificationService.error({
@@ -76,34 +73,31 @@ const getUserInfo = async () => {
         position: "top-center",
       });
     }
-};
-
-
-
+  };
 
   const handleInputSearch = (e) => {
-    setQuery({query: e.target.value})
-  }
+    setQuery({ query: e.target.value });
+  };
 
-// handle when a question is clicked 
+  // handle when a question is clicked
   const handleQuestionClick = async (id, question) => {
-    if(!id || !question) return;
+    if (!id || !question) return;
 
     setLoading(true);
-    const data = { question }
-    console.log('question:', data)
+    const data = { question };
+    console.log("question:", data);
     const preResponseArr = queryResponse;
 
     preResponseArr.push({
-      uuid: 'loading',
+      uuid: "loading",
       title: question,
-      response: 'fetching response...'
+      response: "fetching response...",
     });
 
-    try{
-       // Assuming interrogatorService.sendQuestion returns a promise
-       const res = await interrogatorService.sendQuestion(id, data);
-       setLoading(false);
+    try {
+      // Assuming interrogatorService.sendQuestion returns a promise
+      const res = await interrogatorService.sendQuestion(id, data);
+      setLoading(false);
 
       if (res?.status) {
         const quesArr = res?.data?.fivewhQuestions;
@@ -115,7 +109,9 @@ const getUserInfo = async () => {
 
         // console.log('facts-indx2', facts)
         // Remove the 'loading' object from queryResponse
-        const updatedResponseArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
+        const updatedResponseArr = preResponseArr?.filter(
+          (item) => item?.uuid !== "loading"
+        );
 
         updatedResponseArr.push({
           uuid,
@@ -123,46 +119,49 @@ const getUserInfo = async () => {
           response: answer,
           time,
           moreQuestions: quesArr,
-          facts
+          facts,
         });
 
         setQueryResponse(updatedResponseArr);
       } else {
-        const respArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
+        const respArr = preResponseArr?.filter(
+          (item) => item?.uuid !== "loading"
+        );
         setQueryResponse(respArr);
 
         NotificationService.error({
-          message: 'Query request failed!',
+          message: "Query request failed!",
           addedText: res?.message,
-          position: "top-center"
+          position: "top-center",
         });
       }
     } catch (error: any) {
       setLoading(false);
-      const respArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
+      const respArr = preResponseArr?.filter(
+        (item) => item?.uuid !== "loading"
+      );
       setQueryResponse(respArr);
 
       NotificationService.error({
-        message: 'Something went wrong',
+        message: "Something went wrong",
         addedText: error?.message,
-        position: "top-center"
+        position: "top-center",
       });
     }
-  }
+  };
 
-
-  // handle when a query is first made 
+  // handle when a query is first made
   const handleQueryRequest = async (e) => {
     e.preventDefault();
 
-    if (query){
+    if (query) {
       setLoading(true);
 
       const preResponseArr = queryResponse;
       preResponseArr.push({
-        uuid: 'loading',
+        uuid: "loading",
         title: query.query,
-        response: 'fetching response...'
+        response: "fetching response...",
       });
 
       try {
@@ -182,7 +181,9 @@ const getUserInfo = async () => {
           // console.log('facts-indx1', facts)
 
           // Remove the 'loading' object from queryResponse
-          const updatedResponseArr = preResponseArr?.filter(item => item.uuid !== 'loading');
+          const updatedResponseArr = preResponseArr?.filter(
+            (item) => item.uuid !== "loading"
+          );
 
           updatedResponseArr.push({
             uuid,
@@ -190,44 +191,45 @@ const getUserInfo = async () => {
             response: answer,
             time,
             moreQuestions: quesArr,
-            facts
+            facts,
           });
 
           setQueryResponse(updatedResponseArr);
           setQuery(null);
           setInputFieldDisplay(false);
         } else {
-          const respArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
+          const respArr = preResponseArr?.filter(
+            (item) => item?.uuid !== "loading"
+          );
           setQueryResponse(respArr);
 
           NotificationService.error({
-            message: 'Query request failed!',
+            message: "Query request failed!",
             addedText: res?.message,
-            position: "top-center"
+            position: "top-center",
           });
         }
       } catch (error: any) {
         setLoading(false);
-        const respArr = preResponseArr?.filter(item => item?.uuid !== 'loading');
+        const respArr = preResponseArr?.filter(
+          (item) => item?.uuid !== "loading"
+        );
         setQueryResponse(respArr);
 
         NotificationService.error({
-          message: 'Something went wrong',
+          message: "Something went wrong",
           addedText: error?.message,
-          position: "top-center"
+          position: "top-center",
         });
       }
     }
-
-
   };
 
-  
   const handleNewQuery = () => {
     setQueryResponse([]);
-    setQuery(null)
+    setQuery(null);
     setInputFieldDisplay(true);
-  }
+  };
 
   return (
     <div className="mt-[5rem] h-full mx-5 ">
@@ -236,46 +238,53 @@ const getUserInfo = async () => {
       <div className="border-b-[1px] py-5 rounded-t-[1rem] bg-gray-50 flex justify-between">
         <h1 className="text-2xl pl-10 font-bold">Input Query</h1>
 
-        {queryResponse?.length > 0 &&
-        <div className="flex items-center w-[14%]">
-          <Button
-            value={<><AddIcon fontSize="small" />&nbsp; New Query</>}
-            onClick={handleNewQuery}
-            background="bg-sirp-primary"
-            classNameStyle="text-white bg-sirp-primary text-[13px]  py-2 mr-5"
-            size="xl"
-          />
-        </div>
-        } 
+        {queryResponse?.length > 0 && (
+          <div className="flex items-center w-[14%]">
+            <Button
+              value={
+                <>
+                  <AddIcon fontSize="small" />
+                  &nbsp; New Query
+                </>
+              }
+              onClick={handleNewQuery}
+              background="bg-sirp-primary"
+              classNameStyle="text-white bg-sirp-primary text-[13px]  py-2 mr-5"
+              size="xl"
+            />
+          </div>
+        )}
       </div>
 
-      <div ref={queryScreenRef} className="lg:h-[73vh] h-[90vh] bg-gray-100 overflow-y-auto pb-[10rem]">
-        { queryResponse?.length > 0 ?
+      <div
+        ref={queryScreenRef}
+        className="lg:h-[73vh] h-[90vh] bg-gray-100 overflow-y-auto pb-[10rem]"
+      >
+        {queryResponse?.length > 0 ? (
           queryResponse?.map((response, index) => (
             <div key={index}>
-              <QuestionsDisplay 
-                questionText={response?.title} 
-                />
-              <QueryDisplay 
+              <QuestionsDisplay questionText={response?.title} />
+              <QueryDisplay
                 facts={response?.facts}
                 addedQuestion={response?.moreQuestions}
                 questionClick={handleQuestionClick}
-                docText={response?.response} 
+                docText={response?.response}
                 time={response?.time}
                 convoId={response?.uuid}
                 loadingId={response?.uuid}
                 loading={loading}
-                />
+              />
             </div>
-          )) : 
-        <></>
-        }
+          ))
+        ) : (
+          <></>
+        )}
         <InputSearch
           QueryInputChange={handleInputSearch}
           handleQueryRequest={handleQueryRequest}
           showInput={inputFieldDisplay}
           loading={loading}
-         />
+        />
       </div>
     </div>
   );
