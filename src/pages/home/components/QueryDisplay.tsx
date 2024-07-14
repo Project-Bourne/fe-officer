@@ -22,6 +22,7 @@ function QueryDisplay({
     const [iconsToggle, setIconsToggle] = useState(false);
 
     console.log(loadingId)
+    console.log("Convo: ", convoId);
 
     const handleInput = () => {
         if(textareaRef?.current){

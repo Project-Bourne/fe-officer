@@ -68,14 +68,14 @@ function QueryHistoryInfo() {
         NotificationService.error({
           message: "Error: failed to fetch user data",
           addedText: data?.message,
-          position: "top-center",
+          position: "top-right",
         });
       }
     } catch (err: any) {
       NotificationService.error({
         message: "Error: failed to fetch user data ",
         addedText: err?.message,
-        position: "top-center",
+        position: "top-right",
       });
     }
   };
@@ -106,7 +106,7 @@ function QueryHistoryInfo() {
         const quesArr = res?.data?.fivewhQuestions;
         const ques = res?.data?.question;
         const answer = res?.data?.answer;
-        const uuid = res?.data?.interrogationUuid;
+        const uuid = res?.data?.interrogationUuid || res?.data?.interrogation?.uuid;
         const time = res?.data?.updatedAt;
         const facts = [];
 
@@ -134,7 +134,7 @@ function QueryHistoryInfo() {
         NotificationService.error({
           message: "Query request failed!",
           addedText: res?.message,
-          position: "top-center",
+          position: "top-right",
         });
       }
     } catch (error: any) {
@@ -147,7 +147,7 @@ function QueryHistoryInfo() {
       NotificationService.error({
         message: "Something went wrong",
         addedText: error?.message,
-        position: "top-center",
+        position: "top-right",
       });
     }
   };
@@ -158,14 +158,16 @@ function QueryHistoryInfo() {
       interrogatorService
         .getInterrogationStream(id)
         .then((res) => {
+
+          console.log('RES 1: ', res);
           setInitialLoading(false);
           if (res?.status) {
-            setQueryResponse(res?.data?.messages);
+            setQueryResponse(res?.data.messages);
           } else {
             NotificationService.error({
               message: "Unable to fetch Queries!",
               addedText: res?.message,
-              position: "top-center",
+              position: "top-right",
             });
           }
         })
@@ -174,7 +176,7 @@ function QueryHistoryInfo() {
           NotificationService.error({
             message: "Unable to fetch Queries!",
             addedText: err?.message,
-            position: "top-center",
+            position: "top-right",
           });
         });
     } catch (err: any) {
@@ -182,7 +184,7 @@ function QueryHistoryInfo() {
       NotificationService.error({
         message: "Unable to fetch Queries!",
         addedText: err?.message,
-        position: "top-center",
+        position: "top-right",
       });
     }
   };
@@ -274,7 +276,7 @@ function QueryHistoryInfo() {
       NotificationService.error({
         message: "Error!",
         addedText: <p>{`${error.message}, please try again`}</p>,
-        position: "top-center",
+        position: "top-right",
       });
     } finally {
       setLoading(false);
@@ -306,6 +308,8 @@ function QueryHistoryInfo() {
           (item) => item?.uuid !== "loading"
         );
 
+        console.log('Items: ', updatedResponseArr);
+
         updatedResponseArr.push({
           uuid,
           title: ques,
@@ -325,7 +329,7 @@ function QueryHistoryInfo() {
         NotificationService.error({
           message: "Query request failed!",
           addedText: res?.message,
-          position: "top-center",
+          position: "top-right",
         });
       }
     } catch (error: any) {
@@ -337,7 +341,7 @@ function QueryHistoryInfo() {
       NotificationService.error({
         message: "Something went wrong",
         addedText: error?.message,
-        position: "top-center",
+        position: "top-right",
       });
     }
   };
@@ -353,26 +357,29 @@ function QueryHistoryInfo() {
         className="lg:h-[73vh] h-[90vh] bg-gray-100 overflow-y-auto pb-[10rem]"
       >
         {queryResponse?.length > 0 ? (
-          queryResponse?.map((response, index) => (
-            <div key={index}>
-              <QuestionsDisplay
-                questionText={response?.title || response?.question}
-              />
-              {/* {JSON.stringify(response)} */}
-              <QueryDisplay
-                facts={response?.facts}
-                addedQuestion={
-                  response?.moreQuestions || response?.fivewhQuestions
-                }
-                questionClick={handleQuestionClick}
-                docText={response?.response || response?.answer}
-                time={response?.time || response?.updatedAt}
-                loadingId={id}
-                convoId={response?.interrogationUuid}
-                loading={loading}
-              />
-            </div>
-          ))
+          queryResponse?.map((response, index) => {
+            console.log('Response: ', response);
+            return (
+              <div key={index}>
+                <QuestionsDisplay
+                  questionText={response?.title || response?.question}
+                />
+                {/* {JSON.stringify(response)} */}
+                <QueryDisplay
+                  facts={response?.facts}
+                  addedQuestion={
+                    response?.moreQuestions || response?.fivewhQuestions
+                  }
+                  questionClick={handleQuestionClick}
+                  docText={response?.response || response?.answer}
+                  time={response?.time || response?.updatedAt}
+                  loadingId={id}
+                  convoId={response?.interrogationUuid || response?.interrogation?.uuid || id}
+                  loading={loading}
+                />
+              </div>
+            )
+          })
         ) : (
           <></>
         )}

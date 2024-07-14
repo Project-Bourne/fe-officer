@@ -4,7 +4,7 @@ import Image from "next/image";
 export interface ToastModel { 
     message: any;
     addedText?: any | null;
-    position?: 'bottom-left' | 'bottom-right' | 'bottom-center' | 'top-right' | 'top-left' | 'top-center'  ;
+    position?: 'bottom-left' | 'bottom-right' | 'bottom-center' | 'top-right' | 'top-left' | 'top-right'  ;
     type: 'success' | 'error' | 'warn' | '';
 }
 
@@ -28,7 +28,7 @@ function CustomToast({ message, addedText, position, type }: ToastModel) {
         if(position === 'bottom-center') return  'bottom-[6rem] left-[30%] right-[30%]';
         if(position === 'top-right') return  'top-7 right-7';
         if(position === 'top-left') return  'top-7 left-7';
-        if(position === 'top-center') return  'top-[2.5rem] left-[30%] right-[30%]';
+        if(position === 'top-right') return  'top-[2.5rem] left-[30%] right-[30%]';
       }
 
 

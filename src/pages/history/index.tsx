@@ -78,14 +78,14 @@ function Home() {
         NotificationService.error({
           message: "Error: failed to fetch user data",
           addedText: data?.message,
-          position: "top-center",
+          position: "top-right",
         });
       }
     } catch (err: any) {
       NotificationService.error({
         message: "Error: failed to fetch user data ",
         addedText: err?.message,
-        position: "top-center",
+        position: "top-right",
       });
     }
   };

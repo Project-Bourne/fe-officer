@@ -63,14 +63,14 @@ const QueryPage = () => {
         NotificationService.error({
           message: "Error: failed to fetch user data",
           addedText: data?.message,
-          position: "top-center",
+          position: "top-right",
         });
       }
     } catch (err: any) {
       NotificationService.error({
         message: "Error: failed to fetch user data ",
         addedText: err?.message,
-        position: "top-center",
+        position: "top-right",
       });
     }
   };
@@ -132,7 +132,7 @@ const QueryPage = () => {
         NotificationService.error({
           message: "Query request failed!",
           addedText: res?.message,
-          position: "top-center",
+          position: "top-right",
         });
       }
     } catch (error: any) {
@@ -145,7 +145,7 @@ const QueryPage = () => {
       NotificationService.error({
         message: "Something went wrong",
         addedText: error?.message,
-        position: "top-center",
+        position: "top-right",
       });
     }
   };
@@ -206,7 +206,7 @@ const QueryPage = () => {
           NotificationService.error({
             message: "Query request failed!",
             addedText: res?.message,
-            position: "top-center",
+            position: "top-right",
           });
         }
       } catch (error: any) {
@@ -219,7 +219,7 @@ const QueryPage = () => {
         NotificationService.error({
           message: "Something went wrong",
           addedText: error?.message,
-          position: "top-center",
+          position: "top-right",
         });
       }
     }
