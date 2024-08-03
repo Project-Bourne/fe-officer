@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import QueryDisplay from "../components/QueryDisplay";
-import QuestionsDisplay from "../components/QuestionsDisplay";
+import QueryDisplay from "./components/QueryDisplay";
+import QuestionsDisplay from "./components/QuestionsDisplay";
 import { useEffect, useRef, useState } from "react";
 import NotificationService from "@/services/notification.service";
 import InterrogatorService from "@/services/interrogator.service";
@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { setUserInfo } from "@/redux/reducer/authReducer";
 import Link from "next/link";
-import InputSearch from "../components/InputSearch";
+import InputSearch from "./components/InputSearch";
 
 function QueryHistoryInfo() {
   const router = useRouter();
