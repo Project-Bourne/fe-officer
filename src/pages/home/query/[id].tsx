@@ -217,7 +217,7 @@ function QueryHistoryInfo() {
             routeName
           );
           break;
-        case "analyzer":
+        case "analyser":
           getDocById(
             `http://192.81.213.226:81/81/analysis/${routeId}`,
             routeName
@@ -249,6 +249,9 @@ function QueryHistoryInfo() {
 
       const data = await response.json();
       switch (name) {
+        case "analyser":
+          getDocInterrogation(data?.data?.text);
+          break;
         case "translator":
           getDocInterrogation(data?.data?.textTranslation);
           break;

@@ -27,6 +27,7 @@ const ActionIcons = ({  docId, }: ActionIconsProps) => {
   const permissions = userInfo?.role?.permissions;
 
   const handleRoute = (id: string, to: string) => {
+    console.log('Doc ID: ', id);
     if (to === "collab") {
       router.replace(`http://192.81.213.226:36/document/${id}&interrogator`);
     }
