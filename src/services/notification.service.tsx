@@ -6,7 +6,7 @@ import CustomToast, { ToastModel } from "../components/ui/CustomToast";
 interface Props {
     message: any,
     addedText?: any,
-    position?: 'bottom-left' | 'bottom-right' | 'bottom-center' | 'top-right' | 'top-left' | 'top-center'
+    position?: 'bottom-left' | 'bottom-right' | 'bottom-center' | 'top-right' | 'top-left'
 }
 
 

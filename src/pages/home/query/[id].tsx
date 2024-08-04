@@ -380,6 +380,8 @@ function QueryHistoryInfo() {
                   loadingId={id}
                   convoId={response?.uuid || response?.interrogationUuid || response?.interrogation?.uuid || id}
                   loading={loading}
+                  index={index}
+                  // messageID={response?.messages[index]?.uuid}
                 />
               </div>
             )

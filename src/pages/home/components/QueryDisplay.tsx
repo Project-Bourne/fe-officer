@@ -14,12 +14,15 @@ function QueryDisplay({
     convoId,
     facts,
     loadingId,
+    index,
+    // messageID,
     time,
     loading,
 }){
     const textareaRef = useRef(null);
     const [dHeight, setDHeight] = useState('15%');
     const [iconsToggle, setIconsToggle] = useState(false);
+    // const [messaageID, setMessageID] = useState(messageID);
 
     console.log(loadingId)
     console.log("Convo: ", convoId);
@@ -83,11 +86,15 @@ function QueryDisplay({
             </div>
 
 
-            {convoId !== "loading" && 
+            {convoId !== "loading" && index !== 0 &&
                 <div className="w-[2%] mr-3">
                     <MoreVertIcon
                     className="hover:cursor-pointer text-gray-400" 
-                    onClick={() => setIconsToggle(prevState => !prevState)} />
+                    onClick={() => {
+                        // set message ID
+                        // setMessageID(``)
+                        setIconsToggle(prevState => !prevState)
+                    }} />
                 </div> 
             }
 

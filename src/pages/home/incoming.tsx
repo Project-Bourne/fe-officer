@@ -124,7 +124,7 @@ useEffect(() => {
           NotificationService?.error({
             message: 'Error!',
             addedText: <p>{`${error?.message}, please try again`}</p>,
-            position: 'top-center'
+            position: 'top-right'
           });
         } finally {
           setLoading(false);
@@ -368,6 +368,8 @@ useEffect(() => {
                 convoId={response?.uuid}
                 loadingId={response?.uuid}
                 loading={loading}
+                index={index}
+                // messageID={response?.messages[index]?.uuid}
               />
             </div>
           ))
