@@ -16,7 +16,9 @@ function Home() {
   const [allInterrogations, setAllInterrogations] = useState([]);
   const [cookies, setCookies] = useCookies(['deep-access']);
   const { userInfo } = useSelector((state: any) => state.auth )
-  const url = 'http://192.81.213.226:81/80/token/user';
+  // Commented out hardcoded IP addresses
+  // const url = 'http://192.81.213.226:81/80/token/user';
+  const url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/80/token/user`;
 
   const interrogationService = new InterrogatorService();
   const dispatch = useDispatch();
@@ -72,7 +74,7 @@ function Home() {
         dispatch(setUserInfo(data?.data));
       } else {
         if(response.status === 403){
-          router.replace('http://192.81.213.226:30/auth/login')
+          router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
         }
         const data = await response.json();
         NotificationService.error({

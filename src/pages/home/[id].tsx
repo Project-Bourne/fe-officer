@@ -23,7 +23,9 @@ function QueryHistoryInfo() {
   const [queryResponse, setQueryResponse] = useState<any[]>([]);
   const [cookies, setCookies] = useCookies(["deep-access"]);
   const { userInfo } = useSelector((state: any) => state.auth);
-  const url = "http://192.81.213.226:81/80/token/user";
+
+  //   const url = "http://192.81.213.226:81/80/token/user";
+  const url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/80/token/user`;
 
   const scrollToBottom = () => {
     queryScreenRef.current.scrollTop = queryScreenRef.current.scrollHeight;
@@ -63,7 +65,8 @@ function QueryHistoryInfo() {
         dispatch(setUserInfo(data?.data));
       } else {
         if (response.status === 403) {
-            router.replace("http://192.81.213.226:30/auth/login");
+          // router.replace("http://192.81.213.226:30/auth/login");
+            router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
         }
         const data = await response.json();
         NotificationService.error({
@@ -195,37 +198,44 @@ function QueryHistoryInfo() {
       switch (routeName) {
         case "summarizer":
           getDocById(
-            `http://192.81.213.226:81/82/summary/${routeId}`,
+            // `http://192.81.213.226:81/82/summary/${routeId}`,
+            `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_SUMMARIZER_API_ROUTE}/summary/${routeId}`,
             routeName
           );
           break;
         case "translator":
           getDocById(
-            `http://192.81.213.226:81/83/translation/${routeId}`,
+            // `http://192.81.213.226:81/83/translation/${routeId}`,
+            `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_TRANSLATOR_API_ROUTE}/translation/${routeId}`,
             routeName
           );
           break;
         case "factcheck":
-          getDocById(`http://192.81.213.226:81/84/fact/${routeId}`, routeName);
+          // getDocById(`http://192.81.213.226:81/84/fact/${routeId}`, routeName);
+          getDocById(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_FACT_CHECKER_API_ROUTE}/fact/${routeId}`, routeName);
           break;
         case "irp":
-          getDocById(`http://192.81.213.226:81/84/fact/${routeId}`, routeName);
+          // getDocById(`http://192.81.213.226:81/84/fact/${routeId}`, routeName);
+          getDocById(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_FACT_CHECKER_API_ROUTE}/fact/${routeId}`, routeName);
           break;
         case "deepchat":
+          // getDocById(`http://192.81.213.226:81/85/deepchat/${routeId}`, routeName);
           getDocById(
-            `http://192.81.213.226:81/85/deepchat/${routeId}`,
+            `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_DEEP_CHAT_API_ROUTE}/deepchat/${routeId}`,
             routeName
           );
           break;
         case "analyser":
+          // getDocById(`http://192.81.213.226:81/81/analysis/${routeId}`, routeName);
           getDocById(
-            `http://192.81.213.226:81/81/analysis/${routeId}`,
+            `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_ANALYZER_API_ROUTE}/analysis/${routeId}`,
             routeName
           );
           break;
         case "collab":
+          // getDocById(`http://192.81.213.226:81/86/collab/${routeId}`, routeName);
           getDocById(
-            `http://192.81.213.226:81/86/api/v1/doc/${routeId}`,
+            `http://${process.env.NEXT_PUBLIC_SERVE6_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_COLLAB_API_PORT}/api/v1/doc/${routeId}`,
             routeName
           );
           break;

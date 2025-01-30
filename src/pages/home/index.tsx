@@ -26,7 +26,7 @@ const QueryPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const interrogatorService = new InterrogatorService();
-  const url = "http://192.81.213.226:81/80/token/user";
+  const url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/80/token/user`;
 
   const scrollToBottom = () => {
     queryScreenRef.current.scrollTop = queryScreenRef.current.scrollHeight;
@@ -57,7 +57,7 @@ const QueryPage = () => {
         dispatch(setUserInfo(data?.data));
       } else {
         if (response.status === 403) {
-          router.replace("http://192.81.213.226:30/auth/login");
+          router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
         }
         const data = await response.json();
         NotificationService.error({
@@ -273,6 +273,7 @@ const QueryPage = () => {
                 convoId={response?.uuid}
                 loadingId={response?.uuid}
                 loading={loading}
+                index={index}
               />
             </div>
           ))

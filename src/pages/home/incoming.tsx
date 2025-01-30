@@ -27,7 +27,9 @@ const QueryPage = () => {
   const dispatch = useDispatch();
   const interrogatorService = new InterrogatorService();
   const { incoming } = router.query;
-  const url = "http://192.81.213.226:81/80/token/user";
+
+  // const url = "http://192.81.213.226:81/80/token/user";
+  const url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/80/token/user`;
 
   const scrollToBottom = () => {
     queryScreenRef.current.scrollTop = queryScreenRef.current.scrollHeight;
@@ -53,28 +55,36 @@ useEffect(() => {
           let url;
           switch (routeName) {
             case 'summarizer':
-              url = `http://192.81.213.226:81/82/summary/${routeId}`;
+              // url = `http://192.81.213.226:81/82/summary/${routeId}`;
+              url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_SUMMARIZER_API_ROUTE}/summary/${routeId}`;
               break;
             case 'translator':
-              url = `http://192.81.213.226:81/83/translation/${routeId}`;
+              // url = `http://192.81.213.226:81/83/translation/${routeId}`;
+              url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_TRANSLATOR_API_ROUTE}/translation/${routeId}`;
               break;
             case 'factcheck':
-              url = `http://192.81.213.226:81/84/fact/${routeId}`;
+              // url = `http://192.81.213.226:81/84/fact/${routeId}`;
+              url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_FACT_CHECKER_API_ROUTE}/fact/${routeId}`;
               break;
             case 'irp':
-              url = `http://192.81.213.226:81/84/fact/${routeId}`;
+              // url = `http://192.81.213.226:81/84/fact/${routeId}`;
+              url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_FACT_CHECKER_API_ROUTE}/fact/${routeId}`;
               break;
             case 'deepchat':
-              url = `http://192.81.213.226:81/85/deepchat/${routeId}`;
+              // url = `http://192.81.213.226:81/85/deepchat/${routeId}`;
+              url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_DEEP_CHAT_API_ROUTE}/deepchat/${routeId}`;
               break;
             case 'analyser':
-              url = `http://192.81.213.226:81/81/analysis/${routeId}`;
+              // url = `http://192.81.213.226:81/86/analysis/${routeId}`;
+              url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_ANALYZER_API_ROUTE}/analysis/${routeId}`;
               break;
             case 'interrogator':
-              url = `http://192.81.213.226:81/87/interrogation/message/${routeId}`;
+              // url = `http://192.81.213.226:81/87/interrogation/message/${routeId}`;
+              url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_INTERROGATOR_API_ROUTE}/interrogation/message/${routeId}`;
               break;
             case 'collab':
-              url = `http://192.81.213.226:81/86/api/v1/doc/${routeId}`;
+              // url = `http://192.81.213.226:81/86/api/v1/doc/${routeId}`;
+              url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_COLLAB_API_PORT}/api/v1/doc/${routeId}`;
               break;
             default:
               throw new Error('Invalid routeName');
@@ -152,7 +162,7 @@ useEffect(() => {
         dispatch(setUserInfo(data?.data));
       } else {
         if (response.status === 403) {
-          router.replace("http://192.81.213.226:30/auth/login");
+          router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
         }
         const data = await response.json();
         NotificationService.error({

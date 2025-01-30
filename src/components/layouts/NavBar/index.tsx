@@ -9,7 +9,10 @@ function NavBar() {
   return (
     <div className="w-[15vw] md:w-[20vw] h-full border-3 border-r bg-white px-3 py-10 md:p-10 fixed z-[20]">
       <Link
-        href={"https://192.81.213.226:30"}
+        href={
+          // "https://192.81.213.226:30"
+          `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}`
+        }
         className="flex flex-row flex-wrap items-center cursor-pointer mb-20"
       >
         <Image
