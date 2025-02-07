@@ -106,13 +106,22 @@ function RightComp() {
 
       <div className="relative bg-sirp-lightGrey flex flex-row mr-2 py-2 px-2 md:px-5 h-[45px] rounded-[12px] items-center justify-center cursor-pointer">
         <div className="flex flex-row items-center justify-center" onClick={handleLogoutToggle}>
-          <img
-            src={userInfo?.image || userInitials() || avatar }
-            alt="userImage"
-            width={25}
-            height={25}
-            className="rounded-full object-fill"
-          />
+        {userInfo?.image ? (
+            <Image
+              src={userInfo?.image || userInitials() || "DS"}
+              alt="X"
+              width={25}
+              height={25}
+              className="rounded-full object-fill"
+              priority
+            />
+          ) : (
+            <div className="h-[32px] w-[32px] aspect-square flex items-center justify-center rounded-full bg-sirp-primary">
+              <p className="text-white text-[12px] font-extrabold">
+                {userInitials()}
+              </p>
+            </div>
+          )}
 
           <Image
             src={down}

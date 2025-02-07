@@ -5,6 +5,10 @@ import { NavBarContents } from "../../../utils/constants";
 import disclaimerIcon from "../../../../public/icons/disclaimer-icon.svg";
 import Link from "next/link";
 
+const COMPANY_INFO = {
+  copyright: `© ${new Date().getFullYear()} Powered by RIDU. All rights reserved.`,
+}
+
 function NavBar() {
   return (
     <div className="w-[15vw] md:w-[20vw] h-full border-3 border-r bg-white px-3 py-10 md:p-10 fixed z-[20]">
@@ -69,6 +73,11 @@ function NavBar() {
             assess the output before making any consequential decisions. <br />
             Kindly be advised that the application's output may not
             comprehensively address individual needs and circumstances.
+            <br />
+            <br />
+          </p>
+          <p className="bg-sirp-primary text-white px-2 py-1 rounded-md">
+              {COMPANY_INFO.copyright}
           </p>
         </div>
       </div>
