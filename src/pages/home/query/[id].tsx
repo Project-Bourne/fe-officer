@@ -227,7 +227,7 @@ function QueryHistoryInfo() {
         case "irp":
           // getDocById(`http://192.81.213.226:81/84/fact/${routeId}`, routeName);
           getDocById(
-            `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_IRP_API_ROUTE}/fact/${routeId}`,
+            `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_FACT_CHECKER_API_ROUTE}/fact/${routeId}`,
             routeName
           )
           break;
