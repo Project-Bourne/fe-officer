@@ -25,7 +25,8 @@
       "@/styles": ["./src/styles/*"],
       "@/shared": ["./src/shared/*"],
       "@/ui": ["./src/components/ui/*"],
-      "@/icons": ["./src/components/icons/*"]
+      "@/icons": ["./src/components/icons/*"],
+      "@/public": ["./public/*"]
     },
     "strictNullChecks": false, //oppose
     "plugins": [

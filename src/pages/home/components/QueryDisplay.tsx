@@ -1,10 +1,12 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import analyzerInvert from "../../../../public/icons/analyzerInvert.svg";
+// import analyzerInvert from "@/public/icons/analyzerInvert.svg";
 import TypewriterComponent from "typewriter-effect";
 import MetaData from "./MetaData";
 import ActionIcons from "./ActionIcons";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+
+const analyzerInvert = require("@/public/icons/analyzerInvert.svg");
 
 
 function QueryDisplay({

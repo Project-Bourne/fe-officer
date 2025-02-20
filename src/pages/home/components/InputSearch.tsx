@@ -1,6 +1,8 @@
 import SendIcon from '@mui/icons-material/Send';
 import Image from 'next/image';
-import LoaderGif from "../../../../public/icons/loader_dots.svg";
+// import LoaderGif from "../../../../public/icons/loader_dots.svg";
+
+const LoaderGif = require("@/public/icons/loader_dots.svg");
 
 function InputSearch({ QueryInputChange, handleQueryRequest, showInput, loading }) {
     return (
