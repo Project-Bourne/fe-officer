@@ -48,7 +48,51 @@ module.exports = {
         lg: "1200px",
         xl: "1700px",
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            color: '#545C62', // sirp-grey
+            a: {
+              color: '#4582C4', // sirp-primary
+              '&:hover': {
+                color: '#1293BA', // sirp-primaryBlue
+              },
+            },
+            h1: {
+              color: '#383E42', // sirp-grey1
+            },
+            h2: {
+              color: '#383E42', // sirp-grey1
+            },
+            h3: {
+              color: '#383E42', // sirp-grey1
+            },
+            h4: {
+              color: '#383E42', // sirp-grey1
+            },
+            code: {
+              color: '#4582C4', // sirp-primary
+              backgroundColor: '#F3F5F6', // sirp-lightGrey
+              padding: '0.2em 0.4em',
+              borderRadius: '0.25rem',
+            },
+            pre: {
+              backgroundColor: '#F3F5F6', // sirp-lightGrey
+              code: {
+                backgroundColor: 'transparent',
+                padding: '0',
+              },
+            },
+            blockquote: {
+              borderLeftColor: '#4582C4', // sirp-primary
+              color: '#545C62', // sirp-grey
+            },
+          },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 };

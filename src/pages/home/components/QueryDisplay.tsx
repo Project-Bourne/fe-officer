@@ -5,10 +5,23 @@ import TypewriterComponent from "typewriter-effect";
 import MetaData from "./MetaData";
 import ActionIcons from "./ActionIcons";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 const analyzerInvert = require("../../../../public/icons/analyzerInvert.svg");
 
-
+/**
+ * QueryDisplay component for rendering query responses with markdown support
+ * @param {Object} props - Component props
+ * @param {string} props.docText - The text content to display
+ * @param {Array} props.addedQuestion - Array of additional questions
+ * @param {Function} props.questionClick - Handler for question clicks
+ * @param {string} props.convoId - Conversation ID
+ * @param {Array} props.facts - Array of facts
+ * @param {string} props.loadingId - ID for loading state
+ * @param {number} props.index - Index of the query
+ * @param {string} props.time - Timestamp
+ * @param {boolean} props.loading - Loading state
+ */
 function QueryDisplay({
     docText,
     addedQuestion,
@@ -43,9 +56,23 @@ function QueryDisplay({
         questionClick(id, question)
     }
 
-    // const text = loadingId === 'loading' ? <i>Fetching response, may take a while...</i> : <TypewriterComponent options={{ strings: docText, autoStart: true, delay: 5, loop: false }} />
-    const text = loadingId === 'loading' ? <i>Fetching response, may take a moment...</i> : <p>{docText}</p>
-  
+    // Render loading state or markdown content
+    const content = loadingId === 'loading' ? (
+        <i>Fetching response, may take a moment...</i>
+    ) : (
+        <div className="prose max-w-none">
+            <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                    a: ({ href, children }) => (
+                        <a href={href} className="text-sirp-primary hover:underline">
+                            {children}
+                        </a>
+                    )
+                }}
+            >{docText}</ReactMarkdown>
+        </div>
+    );
 
     return (
         <div className={`w-full h-[${dHeight}] flex bg-gray-50 pt-2 pb-5 relative`}>
@@ -70,7 +97,7 @@ function QueryDisplay({
                         <MetaData facts={facts} />
                     </div>
                     }
-                    <div className="mb-5text-justify">{text}</div>
+                    <div className="mb-5 text-justify">{content}</div>
                     {loadingId !== 'loading' || docText === 'Related Questions' && <h3 className="font-semibold py-1">Related Questions</h3>}
 
                     <div className="flex flex-col text-justify w-fit mt-3">
