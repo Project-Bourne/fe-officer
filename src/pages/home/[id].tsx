@@ -103,14 +103,14 @@ function QueryHistoryInfo() {
 
     try {
       // Assuming interrogatorService.sendQuestion returns a promise
-      const res = await interrogatorService.sendQuestion(intId, data);
+      const res = await interrogatorService.sendQuestion(id, data);
       setLoading(false);
 
       if (res?.status) {
         const quesArr = res?.data?.fivewhQuestions;
         const ques = res?.data?.question;
         const answer = res?.data?.answer;
-        const uuid = id || res?.data?.interrogation?.uuid;
+        const uuid =  res?.data?.interrogationUuid || res?.data?.interrogation?.uuid;
         const time = res?.data?.updatedAt;
         const facts = [];
 

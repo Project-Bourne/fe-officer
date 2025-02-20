@@ -116,10 +116,10 @@ function RightComp() {
             //   priority
             // />
             <div className="h-[32px] w-[32px] aspect-square flex items-center justify-center rounded-full bg-sirp-primary">
-            <p className="text-white text-[12px] font-extrabold">
-              {userInitials()}
-            </p>
-          </div>
+              <p className="text-white text-[12px] font-extrabold">
+                {userInitials()}
+              </p>
+            </div>
           ) : (
             <div className="h-[32px] w-[32px] aspect-square flex items-center justify-center rounded-full bg-sirp-primary">
               <p className="text-white text-[12px] font-extrabold">
