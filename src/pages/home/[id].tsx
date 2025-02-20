@@ -110,7 +110,7 @@ function QueryHistoryInfo() {
         const quesArr = res?.data?.fivewhQuestions;
         const ques = res?.data?.question;
         const answer = res?.data?.answer;
-        const uuid = res?.data?.interrogationUuid || res?.data?.interrogation?.uuid;
+        const uuid = id || res?.data?.interrogation?.uuid;
         const time = res?.data?.updatedAt;
         const facts = [];
 
