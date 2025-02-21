@@ -6,7 +6,7 @@ import NotificationService from "@/services/notification.service";
 import InterrogatorService from "@/services/interrogator.service";
 import { Loader } from "@/components/ui";
 import { useDispatch, useSelector } from "react-redux";
-import { useCookies } from "react-cookie";
+import { useCookies, Cookies } from "react-cookie";
 import { setUserInfo } from "@/redux/reducer/authReducer";
 import Link from "next/link";
 import InputSearch from "../components/InputSearch";
@@ -30,6 +30,8 @@ function QueryHistoryInfo() {
     queryScreenRef.current.scrollTop = queryScreenRef.current.scrollHeight;
   };
 
+  const newCookies = new Cookies();
+
   useEffect(() => {
     if (id) {
       if (typeof id === "string") {
@@ -48,7 +50,7 @@ function QueryHistoryInfo() {
   }, []);
 
   const headers: any = {
-    "deep-token": cookies["deep-access"],
+    "deep-token": newCookies.get('deep-access'),
     "Content-Type": "application/json",
   };
 
