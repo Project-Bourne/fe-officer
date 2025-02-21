@@ -6,21 +6,11 @@
 import { Cookies } from "react-cookie";
 
 const cookies = new Cookies();
+let access = "";
+if (typeof window !== "undefined") {
+  access = cookies.get("deep-access");
+}
 
-/**
- * Get the access token from cookies
- * @returns {string} The access token or empty string if not found
- */
-const getAccessToken = () => {
-    if (typeof window !== "undefined") {
-        return cookies.get("deep-access") || "";
-    }
-    return "";
-};
-
-/**
- * Logout function that handles user logout
- */
 const logout = () => {
     const accessToken = getAccessToken();
     fetch(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/80/logout`, {
@@ -39,9 +29,6 @@ const logout = () => {
     });
 };
 
-/**
- * Request headers configuration
- */
 export const requestHeader = {
     Accept: "application/json",
     "Cache-Control": "no-cache",
@@ -64,32 +51,51 @@ export const requestHeader = {
 const API_USER_URL = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_INTERROGATOR_API_ROUTE}/`;
 
 export async function request(url, method, payload, token, text, form) {
-    const headers = {
-        ...requestHeader,
-        "Content-Type": form ? "multipart/form-data" : "application/json",
-        "deep-token": token ? getAccessToken() : getAccessToken(),
-    };
+  requestHeader["Content-Type"] =
+    form === true ? "multipart/form-data" : "application/json";
+  requestHeader["deep-token"] = token ? access : cookies.get("deep-access");
 
-    const requestOptions = {
-        method,
-        headers,
-    };
-
-    if (method !== "GET" && payload) {
-        requestOptions.body = form ? payload : JSON.stringify(payload);
-    }
-
-    try {
-        const response = await fetch(API_USER_URL + url, requestOptions);
-
-        if (response.status === 403) {
-            logout();
-            throw new Error("Access forbidden. Redirecting to login page.");
+  if (method === "GET") {
+    return fetch(API_USER_URL + url, {
+      method,
+      headers: Object.assign(requestHeader),
+    })
+      .then((res) => {
+        if (res.status === 403) {
+          // Redirect to the login page
+          logout();
+          throw new Error("Access forbidden. Redirecting to login page.");
+        } else if (text === true) {
+          return res.text();
+        } else {
+          return res.json();
         }
-
-        return text ? await response.text() : await response.json();
-    } catch (err) {
+      })
+      .catch((err) => {
         console.error(`Request Error ${url}: `, err);
-        throw err;
-    }
+        throw new Error(err);
+        // return err;
+      });
+  } else {
+    return fetch(API_USER_URL + url, {
+      method,
+      headers: Object.assign(requestHeader),
+      body: form === true ? payload : JSON.stringify(payload),
+    })
+      .then((res) => {
+        if (res.status === 403) {
+          // Redirect to the login page
+          logout();
+          throw new Error("Access forbidden. Redirecting to login page.");
+        } else if (text === true) {
+          return res.text();
+        } else {
+          return res.json();
+        }
+      })
+      .catch((err) => {
+        console.error(`Request Error ${url}: `, err);
+        return err;
+      });
+  }
 }
