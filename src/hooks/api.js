@@ -11,8 +11,12 @@ if (typeof window !== "undefined") {
   access = cookies.get("deep-access");
 }
 
+const getAccessToken = async () => {
+  return await cookies.get("deep-access");
+};
+
 const logout = () => {
-    const accessToken = getAccessToken();
+  const accessToken = getAccessToken();
     fetch(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/80/logout`, {
         method: "POST",
         headers: {
