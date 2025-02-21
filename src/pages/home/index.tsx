@@ -40,13 +40,13 @@ const QueryPage = () => {
     scrollToBottom();
   }, [queryResponse]);
 
-  const headers: any = {
-    "deep-token": cookies["deep-access"],
-    "Content-Type": "application/json",
-  };
-
   const getUserInfo = async () => {
     try {
+      const headers = {
+        "Content-Type": "application/json",
+        "deep-token": cookies["deep-access"] || "",
+      };
+
       const response: any = await fetch(url, {
         method: "GET",
         headers,

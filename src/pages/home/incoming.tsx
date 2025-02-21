@@ -146,8 +146,8 @@ useEffect(() => {
   }, [incoming]);
 
   const headers: any = {
-    "deep-token": cookies["deep-access"],
     "Content-Type": "application/json",
+    "deep-token": cookies["deep-access"] || "",
   };
 
   const getUserInfo = async () => {

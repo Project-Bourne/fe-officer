@@ -56,24 +56,22 @@ function Home() {
   }
 
   const headers: any = {
-    "deep-token": cookies["deep-access"],
     "Content-Type": "application/json",
-  }
+    "deep-token": cookies["deep-access"] || "",
+  };
 
   const getUserInfo = async () => {
     try {
-      const response: any = await fetch(url,
-        {
-          method: "GET",
-          headers,
-        },
-      );
-      
+      const response: any = await fetch(url, {
+        method: "GET",
+        headers,
+      });
+
       if (response?.ok) {
         const data = await response.json();
         dispatch(setUserInfo(data?.data));
       } else {
-        if(response.status === 403){
+        if (response.status === 403) {
           router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
         }
         const data = await response.json();
