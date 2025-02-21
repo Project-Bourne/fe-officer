@@ -3,13 +3,18 @@
 /**
  * Object Request Header
  */
-import { Cookies } from "react-cookie";
-
+import { Cookies } from 'react-cookie';
 const cookies = new Cookies();
-let access = "";
-if (typeof window !== "undefined") {
-  access = cookies.get("deep-access");
+let access = '';
+if (typeof window !== 'undefined') {
+  access = cookies.get('deep-access');
 }
+export const requestHeader = {
+  Accept: 'application/json',
+  'Cache-Control': 'no-cache',
+  'Content-Type': 'application/json',
+  'deep-token': access
+};
 
 const getAccessToken = async () => {
   return await cookies.get("deep-access");
@@ -33,12 +38,12 @@ const logout = () => {
     });
 };
 
-export const requestHeader = {
-    Accept: "application/json",
-    "Cache-Control": "no-cache",
-    "Content-Type": "application/json",
-    "deep-token": getAccessToken(),
-};
+// export const requestHeader = {
+//     Accept: "application/json",
+//     "Cache-Control": "no-cache",
+//     "Content-Type": "application/json",
+//     "deep-token": getAccessToken(),
+// };
 
 /**
  *
@@ -55,9 +60,10 @@ export const requestHeader = {
 const API_USER_URL = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_INTERROGATOR_API_ROUTE}/`;
 
 export async function request(url, method, payload, token, text, form) {
-  requestHeader["Content-Type"] =
-    form === true ? "multipart/form-data" : "application/json";
-  requestHeader["deep-token"] = token ? access : cookies.get("deep-access");
+  requestHeader['Content-Type'] =
+    form === true ? 'multipart/form-data' : 'application/json'
+
+  requestHeader['deep-token'] = access || cookies.get('deep-access');
 
   if (method === "GET") {
     return fetch(API_USER_URL + url, {
