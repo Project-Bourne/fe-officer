@@ -30,7 +30,7 @@ export const requestHeader = {
   Accept: "application/json",
   "Cache-Control": "no-cache",
   "Content-Type": "application/json",
-  "deep-token": "",
+  "deep-token": cookies.get("deep-access"),
 };
 
 /**
@@ -50,7 +50,7 @@ const API_USER_URL = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${proc
 export async function request(url, method, payload, token, text, form) {
   requestHeader["Content-Type"] =
     form === true ? "multipart/form-data" : "application/json";
-  requestHeader["deep-token"] = token ? access : "";
+  requestHeader["deep-token"] = token ? access : cookies.get("deep-access");
 
   if (method === "GET") {
     return fetch(API_USER_URL + url, {
