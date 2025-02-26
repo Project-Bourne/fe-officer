@@ -6,10 +6,10 @@ import NotificationService from "@/services/notification.service";
 import InterrogatorService from "@/services/interrogator.service";
 import { Loader } from "@/components/ui";
 import { useDispatch, useSelector } from "react-redux";
-import { useCookies, Cookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 import { setUserInfo } from "@/redux/reducer/authReducer";
-import Link from "next/link";
-import InputSearch from "../components/InputSearch";
+// import Link from "next/link";
+// import InputSearch from "../components/InputSearch";
 
 function QueryHistoryInfo() {
   const router = useRouter();
@@ -23,14 +23,17 @@ function QueryHistoryInfo() {
   const [queryResponse, setQueryResponse] = useState<any[]>([]);
   const [cookies, setCookies] = useCookies(["deep-access"]);
   const { userInfo } = useSelector((state: any) => state.auth);
-  // const url = "http://192.81.213.226:81/80/token/user";
+
+  //   const url = "http://192.81.213.226:81/80/token/user";
   const url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/80/token/user`;
-  
+
   const scrollToBottom = () => {
     queryScreenRef.current.scrollTop = queryScreenRef.current.scrollHeight;
   };
 
-  const newCookies = new Cookies();
+  useEffect(() => {
+    scrollToBottom();
+  }, [queryResponse]);
 
   useEffect(() => {
     if (id) {
@@ -49,41 +52,40 @@ function QueryHistoryInfo() {
     getUserInfo();
   }, []);
 
-  const headers: any = {
-    "deep-token": newCookies.get('deep-access'),
-    "Content-Type": "application/json",
+  const getAuthHeaders = () => {
+    const token = cookies["deep-access"];
+    if (!token) {
+      NotificationService.error({ message: "Authentication expired", position: "top-right" });
+      router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
+      return { "Content-Type": "application/json", "deep-token": "" };
+    }
+    return { "Content-Type": "application/json", "deep-token": token };
   };
 
   const getUserInfo = async () => {
     try {
-      const response: any = await fetch(url, {
-        method: "GET",
-        headers,
-      });
+      const headers = getAuthHeaders();
+      const response: any = await fetch(url, { method: "GET", headers });
 
       if (response?.ok) {
         const data = await response.json();
         dispatch(setUserInfo(data?.data));
       } else {
-        if (response.status === 403) {
-            router.replace(
-              // "http://192.81.213.226:30/auth/login"
-              `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`
-            );
-        }
-        const data = await response.json();
+        const errorData = await response.json();
         NotificationService.error({
-          message: "Error: failed to fetch user data",
-          addedText: data?.message,
+          message: "Authentication Error",
+          addedText: errorData?.message || "Please login again",
           position: "top-right",
         });
+        router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
       }
     } catch (err: any) {
       NotificationService.error({
-        message: "Error: failed to fetch user data ",
-        addedText: err?.message,
+        message: "Network Error",
+        addedText: "Unable to verify authentication status",
         position: "top-right",
       });
+      router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
     }
   };
 
@@ -91,6 +93,11 @@ function QueryHistoryInfo() {
   const handleQuestionClick = async (intId, question) => {
     console.log("Dets", intId, question);
     if (!intId || !question) return;
+
+    if (!cookies["deep-access"]) {
+      NotificationService.error({ message: "Authentication expired", position: "top-right" });
+      return router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
+    }
 
     intId = intId.split("&")[0]
 
@@ -113,7 +120,7 @@ function QueryHistoryInfo() {
         const quesArr = res?.data?.fivewhQuestions;
         const ques = res?.data?.question;
         const answer = res?.data?.answer;
-        const uuid = res?.data?.interrogationUuid || res?.data?.interrogation?.uuid;
+        const uuid =  res?.data?.interrogationUuid || res?.data?.interrogation?.uuid;
         const time = res?.data?.updatedAt;
         const facts = [];
 
@@ -200,68 +207,47 @@ function QueryHistoryInfo() {
     try {
       switch (routeName) {
         case "summarizer":
-          // getDocById(
-          //   `http://192.81.213.226:81/82/summary/${routeId}`,
-          //   routeName
-          // );
           getDocById(
+            // `http://192.81.213.226:81/82/summary/${routeId}`,
             `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_SUMMARIZER_API_ROUTE}/summary/${routeId}`,
             routeName
-          )
+          );
           break;
         case "translator":
-          // getDocById(
-          //   `http://192.81.213.226:81/83/translation/${routeId}`,
-          //   routeName
-          // );
           getDocById(
+            // `http://192.81.213.226:81/83/translation/${routeId}`,
             `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_TRANSLATOR_API_ROUTE}/translation/${routeId}`,
             routeName
-          )
+          );
           break;
         case "factcheck":
           // getDocById(`http://192.81.213.226:81/84/fact/${routeId}`, routeName);
-          getDocById(
-            `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_FACT_CHECKER_API_ROUTE}/fact/${routeId}`,
-            routeName
-          )
+          getDocById(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_FACT_CHECKER_API_ROUTE}/fact/${routeId}`, routeName);
           break;
         case "irp":
           // getDocById(`http://192.81.213.226:81/84/fact/${routeId}`, routeName);
-          getDocById(
-            `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_FACT_CHECKER_API_ROUTE}/fact/${routeId}`,
-            routeName
-          )
+          getDocById(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_FACT_CHECKER_API_ROUTE}/fact/${routeId}`, routeName);
           break;
         case "deepchat":
-          // getDocById(
-          //   `http://192.81.213.226:81/85/deepchat/${routeId}`,
-          //   routeName
-          // );
+          // getDocById(`http://192.81.213.226:81/85/deepchat/${routeId}`, routeName);
           getDocById(
             `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_DEEP_CHAT_API_ROUTE}/deepchat/${routeId}`,
             routeName
-          )
+          );
           break;
         case "analyser":
-          // getDocById(
-          //   `http://192.81.213.226:81/81/analysis/${routeId}`,
-          //   routeName
-          // );
+          // getDocById(`http://192.81.213.226:81/81/analysis/${routeId}`, routeName);
           getDocById(
             `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_ANALYZER_API_ROUTE}/analysis/${routeId}`,
             routeName
-          )
+          );
           break;
         case "collab":
-          // getDocById(
-          //   `http://192.81.213.226:81/86/api/v1/doc/${routeId}`,
-          //   routeName
-          // );
+          // getDocById(`http://192.81.213.226:81/86/collab/${routeId}`, routeName);
           getDocById(
-            `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_COLLAB_API_ROUTE}/doc/${routeId}`,
+            `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_COLLAB_API_PORT}/api/v1/doc/${routeId}`,
             routeName
-          )
+          );
           break;
         default:
           throw new Error("Invalid routeName");
@@ -274,7 +260,7 @@ function QueryHistoryInfo() {
     try {
       const response = await fetch(url, {
         method: "GET",
-        headers: headers,
+        headers: getAuthHeaders(),
       });
 
       if (!response.ok) {

@@ -8,8 +8,8 @@ import { Loader } from "@/components/ui";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { setUserInfo } from "@/redux/reducer/authReducer";
-import Link from "next/link";
-import InputSearch from "./components/InputSearch";
+// import Link from "next/link";
+// import InputSearch from "./components/InputSearch";
 
 function QueryHistoryInfo() {
   const router = useRouter();
@@ -32,6 +32,10 @@ function QueryHistoryInfo() {
   };
 
   useEffect(() => {
+    scrollToBottom();
+  }, [queryResponse]);
+
+  useEffect(() => {
     if (id) {
       if (typeof id === "string") {
         if (id.includes("&")) {
@@ -48,39 +52,40 @@ function QueryHistoryInfo() {
     getUserInfo();
   }, []);
 
-  const headers: any = {
-    "Content-Type": "application/json",
-    "deep-token": cookies["deep-access"] || "",
+  const getAuthHeaders = () => {
+    const token = cookies["deep-access"];
+    if (!token) {
+      NotificationService.error({ message: "Authentication expired", position: "top-right" });
+      router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
+      return { "Content-Type": "application/json", "deep-token": "" };
+    }
+    return { "Content-Type": "application/json", "deep-token": token };
   };
 
   const getUserInfo = async () => {
     try {
-      const response: any = await fetch(url, {
-        method: "GET",
-        headers,
-      });
+      const headers = getAuthHeaders();
+      const response: any = await fetch(url, { method: "GET", headers });
 
       if (response?.ok) {
         const data = await response.json();
         dispatch(setUserInfo(data?.data));
       } else {
-        if (response.status === 403) {
-          // router.replace("http://192.81.213.226:30/auth/login");
-            router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
-        }
-        const data = await response.json();
+        const errorData = await response.json();
         NotificationService.error({
-          message: "Error: failed to fetch user data",
-          addedText: data?.message,
+          message: "Authentication Error",
+          addedText: errorData?.message || "Please login again",
           position: "top-right",
         });
+        router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
       }
     } catch (err: any) {
       NotificationService.error({
-        message: "Error: failed to fetch user data ",
-        addedText: err?.message,
+        message: "Network Error",
+        addedText: "Unable to verify authentication status",
         position: "top-right",
       });
+      router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
     }
   };
 
@@ -88,6 +93,11 @@ function QueryHistoryInfo() {
   const handleQuestionClick = async (intId, question) => {
     console.log("Dets", intId, question);
     if (!intId || !question) return;
+
+    if (!cookies["deep-access"]) {
+      NotificationService.error({ message: "Authentication expired", position: "top-right" });
+      return router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
+    }
 
     intId = intId.split("&")[0]
 
@@ -235,7 +245,7 @@ function QueryHistoryInfo() {
         case "collab":
           // getDocById(`http://192.81.213.226:81/86/collab/${routeId}`, routeName);
           getDocById(
-            `http://${process.env.NEXT_PUBLIC_SERVE6_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_COLLAB_API_PORT}/api/v1/doc/${routeId}`,
+            `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_COLLAB_API_PORT}/api/v1/doc/${routeId}`,
             routeName
           );
           break;
@@ -250,7 +260,7 @@ function QueryHistoryInfo() {
     try {
       const response = await fetch(url, {
         method: "GET",
-        headers: headers,
+        headers: getAuthHeaders(),
       });
 
       if (!response.ok) {
