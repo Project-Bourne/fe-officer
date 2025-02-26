@@ -16,6 +16,9 @@ const nextConfig = {
         pathname: "/89/api/v1/download/**",
       },
     ],
+    unoptimized: true,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
   },
 }
 

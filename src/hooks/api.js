@@ -4,6 +4,7 @@
  * Object Request Header
  */
 import { Cookies } from 'react-cookie';
+import { getApiUrl } from '../utils/url';
 const cookies = new Cookies();
 let access = '';
 if (typeof window !== 'undefined') {
@@ -58,6 +59,7 @@ const logout = () => {
 
 // const API_USER_URL = 'http://localhost:4040/'
 const API_USER_URL = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/${process.env.NEXT_PUBLIC_INTERROGATOR_API_ROUTE}/`;
+const API_USER_URL_2 = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/`;
 
 export async function request(url, method, payload, token, text, form) {
   requestHeader['Content-Type'] =
@@ -90,6 +92,60 @@ export async function request(url, method, payload, token, text, form) {
       });
   } else {
     return fetch(API_USER_URL + url, {
+      method,
+      headers: Object.assign(requestHeader),
+      body: form === true ? payload : JSON.stringify(payload),
+    })
+      .then((res) => {
+        if (res.status === 403) {
+          // Redirect to the login page
+          logout();
+          throw new Error("Access forbidden. Redirecting to login page.");
+        } else if (text === true) {
+          return res.text();
+        } else {
+          return res.json();
+        }
+      })
+      .catch((err) => {
+        console.error(`Request Error ${url}: `, err);
+        return err;
+      });
+  }
+}
+
+export async function request2(url, method, payload, token, text, form) {
+  requestHeader['Content-Type'] =
+    form === true ? 'multipart/form-data' : 'application/json'
+
+  requestHeader['deep-token'] = access || cookies.get('deep-access');
+
+  console.log(requestHeader);
+
+  const fullUrl = getApiUrl(url);
+
+  if (method === "GET") {
+    return fetch(fullUrl, {
+      method,
+      headers: Object.assign(requestHeader),
+    })
+      .then((res) => {
+        if (res.status === 403) {
+          // Redirect to the login page
+          logout();
+          throw new Error("Access forbidden. Redirecting to login page.");
+        } else if (text === true) {
+          return res.text();
+        } else {
+          return res.json();
+        }
+      })
+      .catch((err) => {
+        console.error(`Request Error ${url}: `, err);
+        throw new Error(err);
+      });
+  } else {
+    return fetch(fullUrl, {
       method,
       headers: Object.assign(requestHeader),
       body: form === true ? payload : JSON.stringify(payload),

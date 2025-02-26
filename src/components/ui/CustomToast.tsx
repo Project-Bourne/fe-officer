@@ -41,7 +41,7 @@ function CustomToast({ message, addedText, position, type }: ToastModel) {
                     'bg-[#FFFBE5] border-[#FFE033]'} 
                     p-4 md:w-[40%] w-full rounded-md shadow-lg shadow-sirp-lightGrey border-l-[1.4rem] border-y-[1px] border-r-[1px] absolute z-[9999999999] translate-y-0 opacity-100 ${position ? _toast_position() : 'top-5 right-5' }
             `}>
-                <p className='flex justify-between items-center'>
+                <div className='flex justify-between items-center'>
                     <span className='text-[17px] font-bold'>{message}</span>
                     <Image
                         src={_toast_type()}
@@ -49,8 +49,8 @@ function CustomToast({ message, addedText, position, type }: ToastModel) {
                         width={25} 
                         height={25}
                     />
-                </p>
-                { addedText && <p className="text-[13px]">{addedText}</p> }
+                </div>
+                { addedText && <div className="text-[13px]">{addedText}</div> }
             </div>
         }
         </>

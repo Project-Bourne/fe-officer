@@ -8,6 +8,7 @@ import { Loader } from "@/components/ui";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { setUserInfo } from "@/redux/reducer/authReducer";
+import { request2 } from "@/hooks/api";
 // import Link from "next/link";
 // import InputSearch from "./components/InputSearch";
 
@@ -52,32 +53,11 @@ function QueryHistoryInfo() {
     getUserInfo();
   }, []);
 
-  const getAuthHeaders = () => {
-    const token = cookies["deep-access"];
-    if (!token) {
-      NotificationService.error({ message: "Authentication expired", position: "top-right" });
-      router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
-      return { "Content-Type": "application/json", "deep-token": "" };
-    }
-    return { "Content-Type": "application/json", "deep-token": token };
-  };
-
   const getUserInfo = async () => {
     try {
-      const headers = getAuthHeaders();
-      const response: any = await fetch(url, { method: "GET", headers });
-
-      if (response?.ok) {
-        const data = await response.json();
+      const data = await request2('80/token/user', 'GET', null, true);
+      if (data) {
         dispatch(setUserInfo(data?.data));
-      } else {
-        const errorData = await response.json();
-        NotificationService.error({
-          message: "Authentication Error",
-          addedText: errorData?.message || "Please login again",
-          position: "top-right",
-        });
-        router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
       }
     } catch (err: any) {
       NotificationService.error({
@@ -255,19 +235,11 @@ function QueryHistoryInfo() {
     } catch (err) {}
   };
 
-  const getDocById = async (url, name) => {
+  const getDocById = async (url: string, name: string) => {
     setLoading(true);
     try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: getAuthHeaders(),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
+      const data = await request2(url, 'GET', null, true);
+      
       switch (name) {
         case "analyser":
           getDocInterrogation(data?.data?.text);
@@ -284,7 +256,6 @@ function QueryHistoryInfo() {
         case "summarizer":
           getDocInterrogation(data?.data?.summaryArray[0].summary);
           break;
-        // case "deepchat":
         case "collab":
           const collabData: string[] = data?.data?.data?.ops.map((el) => {
             return el.insert;
