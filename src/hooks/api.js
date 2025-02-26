@@ -5,11 +5,15 @@
  */
 import { Cookies } from 'react-cookie';
 import { getApiUrl } from '../utils/url';
+import _Cookies from 'js-cookie';
+
 const cookies = new Cookies();
 let access = '';
+
 if (typeof window !== 'undefined') {
   access = cookies.get('deep-access');
 }
+
 export const requestHeader = {
   Accept: 'application/json',
   'Cache-Control': 'no-cache',
@@ -17,17 +21,10 @@ export const requestHeader = {
   'deep-token': access
 };
 
-function _getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-}
-
 const getAccessToken = async () => {
-  const token = await _getCookie("deep-access");
+  const token = _Cookies.get("deep-access");
   console.log({token, val: token.value}, token)
-  alert("HOOK");
-  return token
+  return access
 };
 
 const logout = async () => {
