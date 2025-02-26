@@ -20,6 +20,7 @@ export const requestHeader = {
 const getAccessToken = async () => {
   const token = await cookies.get("deep-access");
   console.log({token, val: token.value}, token)
+  alert("HOOK");
   return token
 };
 
