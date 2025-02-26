@@ -12,6 +12,7 @@ let access = '';
 
 if (typeof window !== 'undefined') {
   access = cookies.get('deep-access');
+  console.log({access})
 }
 
 export const requestHeader = {
@@ -128,10 +129,10 @@ export async function request2(url, method, payload, token, text, form) {
 
   console.log(requestHeader);
 
-  const fullUrl = getApiUrl(url);
+  // const fullUrl = getApiUrl(url);
 
   if (method === "GET") {
-    return fetch(fullUrl, {
+    return fetch(API_USER_URL_2 + url, {
       method,
       headers: Object.assign(requestHeader),
     })
@@ -151,7 +152,7 @@ export async function request2(url, method, payload, token, text, form) {
         throw new Error(err);
       });
   } else {
-    return fetch(fullUrl, {
+    return fetch(API_USER_URL_2 + url, {
       method,
       headers: Object.assign(requestHeader),
       body: form === true ? payload : JSON.stringify(payload),

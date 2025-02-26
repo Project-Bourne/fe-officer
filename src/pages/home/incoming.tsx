@@ -269,6 +269,8 @@ useEffect(() => {
         response: "fetching response...",
       });
 
+      setQuery('');
+
       try {
         // Assuming interrogatorService.sendQuery returns a promise
         const res = await interrogatorService.sendQuery(query);

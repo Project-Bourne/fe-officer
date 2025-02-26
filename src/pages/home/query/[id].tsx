@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { setUserInfo } from "@/redux/reducer/authReducer";
 import { request, request2 } from "@/hooks/api";
+import InputSearch from "../components/InputSearch";
 // import Link from "next/link";
 // import InputSearch from "../components/InputSearch";
 
@@ -19,9 +20,11 @@ function QueryHistoryInfo() {
   const interrogatorService = new InterrogatorService();
   const { id } = router.query;
   // const { incoming } = router.query;
+  const [query, setQuery] = useState<any>(null);
+  const [queryResponse, setQueryResponse] = useState<any[]>([]);
+  const [inputFieldDisplay, setInputFieldDisplay] = useState(true);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
-  const [queryResponse, setQueryResponse] = useState<any[]>([]);
   const [cookies, setCookies] = useCookies(["deep-access"]);
   const { userInfo } = useSelector((state: any) => state.auth);
 
@@ -52,16 +55,6 @@ function QueryHistoryInfo() {
   useEffect(() => {
     getUserInfo();
   }, []);
-
-  const getAuthHeaders = () => {
-    const token = cookies["deep-access"];
-    if (!token) {
-      NotificationService.error({ message: "Authentication expired", position: "top-right" });
-      router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
-      return { "Content-Type": "application/json", "deep-token": "" };
-    }
-    return { "Content-Type": "application/json", "deep-token": token };
-  };
 
   const getUserInfo = async () => {
     try {
@@ -352,6 +345,86 @@ function QueryHistoryInfo() {
         addedText: error?.message,
         position: "top-right",
       });
+    }
+  };
+
+  const handleInputSearch = (e) => {
+    console.log('Input: ', e.target.value);
+  };
+
+  const handleQueryRequest = async (e) => {
+    e.preventDefault();
+
+    if (query) {
+      setLoading(true);
+
+      const preResponseArr = queryResponse;
+      preResponseArr.push({
+        uuid: "loading",
+        title: query.query,
+        response: "fetching response...",
+      });
+
+      setQuery('');
+
+      try {
+        // Assuming interrogatorService.sendQuery returns a promise
+        const res = await interrogatorService.sendQuery(query);
+
+        setLoading(false);
+
+        if (res?.status) {
+          const quesArr = res?.data?.questions;
+          const ques = res?.data?.interrogation?.title;
+          const answer = res?.data?.interrogation?.documentText;
+          const uuid = res?.data?.interrogation?.uuid;
+          const time = res?.data?.interrogation?.updatedAt;
+          const facts = res?.data?.interrogation?.factCheck?.confidence;
+
+          // console.log('facts-indx1', facts)
+
+          // Remove the 'loading' object from queryResponse
+          const updatedResponseArr = preResponseArr?.filter(
+            (item) => item.uuid !== "loading"
+          );
+
+          updatedResponseArr.push({
+            uuid,
+            title: ques,
+            response: answer,
+            time,
+            moreQuestions: quesArr,
+            facts,
+          });
+
+          setQueryResponse(updatedResponseArr);
+          setQuery(null);
+          setInputFieldDisplay(false);
+        } else {
+          const respArr = preResponseArr?.filter(
+            (item) => item?.uuid !== "loading"
+          );
+          setQueryResponse(respArr);
+
+          NotificationService.error({
+            message: "Query request failed!",
+            addedText: res?.message,
+            position: "top-right",
+          });
+        }
+      } catch (error: any) {
+        setLoading(false);
+        const respArr = preResponseArr?.filter(
+          (item) => item?.uuid !== "loading"
+        );
+        setQueryResponse(respArr);
+
+        NotificationService.error({
+          message: "Something went wrong",
+          addedText: error?.message,
+          position: "top-right",
+        });
+      }
     }
   };
 
