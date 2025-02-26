@@ -57,7 +57,7 @@ function QueryHistoryInfo() {
     const token = cookies["deep-access"];
     if (!token) {
       NotificationService.error({ message: "Authentication expired", position: "top-right" });
-      // router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
+      router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
       return { "Content-Type": "application/json", "deep-token": "" };
     }
     return { "Content-Type": "application/json", "deep-token": token };
@@ -75,7 +75,7 @@ function QueryHistoryInfo() {
         addedText: "Unable to verify authentication status",
         position: "top-right",
       });
-      // router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
+      router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
     }
   };
 
@@ -86,7 +86,7 @@ function QueryHistoryInfo() {
 
     if (!cookies["deep-access"]) {
       NotificationService.error({ message: "Authentication expired", position: "top-right" });
-      // return router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
+      return router.replace(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_PORT}/auth/login`);
     }
 
     intId = intId.split("&")[0]
