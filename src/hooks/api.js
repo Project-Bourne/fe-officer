@@ -18,7 +18,9 @@ export const requestHeader = {
 };
 
 const getAccessToken = async () => {
-  return await cookies.get("deep-access");
+  const token = await cookies.get("deep-access");
+  console.log({token, val: token.value})
+  return token
 };
 
 const logout = async () => {
