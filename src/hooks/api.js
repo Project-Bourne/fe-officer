@@ -21,8 +21,8 @@ const getAccessToken = async () => {
   return await cookies.get("deep-access");
 };
 
-const logout = () => {
-  const accessToken = getAccessToken();
+const logout = async () => {
+  const accessToken = await getAccessToken();
     fetch(`http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/80/logout`, {
         method: "POST",
         headers: {
@@ -65,7 +65,7 @@ export async function request(url, method, payload, token, text, form) {
   requestHeader['Content-Type'] =
     form === true ? 'multipart/form-data' : 'application/json'
 
-  requestHeader['deep-token'] = access || cookies.get('deep-access');
+  requestHeader['deep-token'] = await getAccessToken();
 
   console.log(requestHeader);
 
@@ -118,7 +118,7 @@ export async function request2(url, method, payload, token, text, form) {
   requestHeader['Content-Type'] =
     form === true ? 'multipart/form-data' : 'application/json'
 
-  requestHeader['deep-token'] = access || cookies.get('deep-access');
+  requestHeader['deep-token'] = await getAccessToken();
 
   console.log(requestHeader);
 
