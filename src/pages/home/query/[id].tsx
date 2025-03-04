@@ -21,6 +21,7 @@ function QueryHistoryInfo() {
   const { id } = router.query;
   // const { incoming } = router.query;
   const [query, setQuery] = useState<any>(null);
+  const [interrogationUuid, setInterrogationUuid] = useState<string>('');
   const [queryResponse, setQueryResponse] = useState<any[]>([]);
   const [inputFieldDisplay, setInputFieldDisplay] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -96,7 +97,7 @@ function QueryHistoryInfo() {
 
     try {
       // Assuming interrogatorService.sendQuestion returns a promise
-      const res = await interrogatorService.sendQuestion(id, data);
+      const res = await interrogatorService.sendQuestion(interrogationUuid, data);
       setLoading(false);
 
       if (res?.status) {
@@ -304,6 +305,8 @@ function QueryHistoryInfo() {
         const uuid = res?.data?.interrogation?.uuid;
         const time = res?.data?.interrogation?.updatedAt;
         const facts = [];
+
+        setInterrogationUuid(uuid);
 
         // Remove the 'loading' object from queryResponse
         const updatedResponseArr = preResponseArr?.filter(
