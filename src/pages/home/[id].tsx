@@ -368,7 +368,7 @@ function QueryHistoryInfo() {
                   questionClick={handleQuestionClick}
                   docText={response?.response || response?.answer}
                   time={response?.time || response?.updatedAt}
-                  loadingId={id}
+                  loadingId={Array.isArray(id) ? id[0] : id}
                   convoId={response?.uuid || response?.interrogationUuid || response?.interrogation?.uuid || id}
                   loading={loading}
                   index={index}
