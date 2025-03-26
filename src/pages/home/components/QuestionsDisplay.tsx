@@ -1,6 +1,8 @@
 import Image from "next/image";
 import user from "../../../../public/images/user1.jpg";
 import { useSelector } from "react-redux";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 function QuestionsDisplay({ questionText }) {
     const { userInfo } = useSelector((state: any) => state?.auth);
@@ -25,10 +27,12 @@ function QuestionsDisplay({ questionText }) {
                 </div>
             </div>
             
-            <div className="w-[92%] ">
-                <div
-                    className="w-full h-full resize-none text-[14px] font-bold pl-3 pr-7 pt-3 capitalize"
-                >{questionText}</div>
+            <div className="w-[92%]">
+                <div className="w-full h-full resize-none text-[14px] font-bold pl-3 pr-7 pt-3 capitalize prose max-w-none">
+                    <ReactMarkdown 
+                        remarkPlugins={[remarkGfm]}
+                    >{questionText || ''}</ReactMarkdown>
+                </div>
             </div>
         </div>
     )
