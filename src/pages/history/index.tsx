@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import QueryUpload from "../home/components/QueryUpload";
 import Link from "next/link";
 import Content from "../home/components/Content";
 import InterrogatorService from "@/services/interrogator.service";
 import NotificationService from "@/services/notification.service";
-import CustomModal from "@/components/ui/CustomModal";
-import { Loader } from "@/components/ui";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "@/redux/reducer/authReducer";
+import { dummyInterrogations } from "@/utils/dummyData";
 
-function Home() {
-  const [loading, setLoading] =  useState(false);
-  const [allInterrogations, setAllInterrogations] = useState([]);
-  const [cookies, setCookies] = useCookies(['deep-access']);
-  const { userInfo } = useSelector((state: any) => state.auth )
-  // Commented out hardcoded IP addresses
-  // const url = 'http://192.81.213.226:81/80/token/user';
+/**
+ * History page component that displays a list of all interrogations
+ * @returns {JSX.Element} The rendered component
+ */
+function History(): JSX.Element {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [allInterrogations, setAllInterrogations] = useState<any[]>([]);
+  const [page, setPage] = useState<number>(0);
+  const [totalItems, setTotalItems] = useState<number>(0);
+  const [cookies] = useCookies(['deep-access']);
+  const { userInfo } = useSelector((state: any) => state.auth);
+  
   const url = `http://${process.env.NEXT_PUBLIC_SERVER_IP_ADDRESS}:${process.env.NEXT_PUBLIC_IRP_API_PORT}/80/token/user`;
 
   const interrogationService = new InterrogatorService();
@@ -25,44 +28,48 @@ function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    getInterrogations();
-    if(!userInfo){
+    // Simulate API call with dummy data
+    const loadDummyData = async () => {
+      setLoading(true);
+      try {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Calculate pagination
+        const itemsPerPage = 10;
+        const start = page * itemsPerPage;
+        const end = start + itemsPerPage;
+        const paginatedData = dummyInterrogations.slice(start, end);
+        
+        setAllInterrogations(paginatedData);
+        setTotalItems(dummyInterrogations.length);
+      } catch (err) {
+        NotificationService.error({
+          message: 'Failed to load data!',
+          addedText: 'Please try again later.'
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // loadDummyData();
+    if (!userInfo) {
       getUserInfo();
     }
-  },[]);
+  }, [page]); // Fetch data when page changes
 
-  const getInterrogations = async() => {
-    setLoading(true);
-    try{
-      const res = await interrogationService.getAllQueries();
-      setLoading(false)
-      if(res?.status){
-        setAllInterrogations(res?.data?.interrogations);
-      }
-      else{
-        setLoading(false);
-        NotificationService.error({
-          message: 'Failed to get interrogations!',
-          addedText: res?.message
-        })
-      }
-    }catch(err: any){
-      setLoading(false);
-      NotificationService.error({
-        message: 'Failed to get interrogations!',
-        addedText: err?.message
-      })
-    }
-  }
-
-  const headers: any = {
+  const headers: Record<string, string> = {
     "Content-Type": "application/json",
     "deep-token": cookies["deep-access"] || "",
   };
 
-  const getUserInfo = async () => {
+  /**
+   * Fetches user information from the server
+   */
+  const getUserInfo = async (): Promise<void> => {
     try {
-      const response: any = await fetch(url, {
+      const response = await fetch(url, {
         method: "GET",
         headers,
       });
@@ -90,36 +97,68 @@ function Home() {
     }
   };
 
+  /**
+   * Handles page change in the table
+   * @param {number} newPage - The new page number
+   */
+  const handlePageChange = (newPage: number): void => {
+    setPage(newPage);
+  };
+
+  /**
+   * Handles deletion of an interrogation
+   * @param {string} uuid - The UUID of the interrogation to delete
+   */
+  // const handleDelete = async (uuid: string): Promise<void> => {
+  //   try {
+  //     const res = await interrogationService.deleteQuery(uuid);
+  //     if (res?.status) {
+  //       NotificationService.success({
+  //         message: 'Query deleted successfully'
+  //       });
+  //       getInterrogations(); // Refresh the list
+  //     } else {
+  //       NotificationService.error({
+  //         message: 'Failed to delete query!',
+  //         addedText: res?.message
+  //       });
+  //     }
+  //   } catch (err: any) {
+  //     NotificationService.error({
+  //       message: 'Failed to delete query!',
+  //       addedText: err?.message
+  //     });
+  //   }
+  // };
 
   return (
-    <div className="pb-7">
-        <div>
-          <h1 className="text-[20px] md:text-[28px] font-bold md:ml-10 ml-5 mb-5">
+    <div className="min-h-screen bg-gray-50 pb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-gray-900">
             Query History
           </h1>
+          <Link
+            href="/home"
+            className="px-4 py-2 text-sm font-medium rounded-md bg-sirp-primary text-white hover:bg-sirp-primary/90 transition-colors duration-150"
+          >
+            New Query
+          </Link>
         </div>
 
-
-
-      {loading ? 
-      <div className="flex justify-center items-center mt-10"><Loader /></div>
-      :
-      <div className="bg-sirp-listBg border h-[100%] my-5 md:mx-10  rounded-t-[1rem]">
-        <div className="flex gap-x-4 items-center justify-end w-[100%] px-2 border-b-2 py-3">
-          <Link 
-            href="home"
-            className="py-2 px-3 text-[13px] rounded-md bg-sirp-primary text-white hover:bg-sirp-primary/[0.8] relative right-7">New Query</Link>
-        </div>
-
-        <div className="w-full">
-          <Content data={allInterrogations} />
+        <div className="bg-white shadow rounded-lg">
+          <Content 
+            data={allInterrogations}
+            loading={loading}
+            page={page}
+            totalItems={totalItems}
+            onPageChange={handlePageChange}
+            // onDelete={handleDelete}
+          />
         </div>
       </div>
-      }
-
     </div>
-
   );
 }
 
-export default Home;
+export default History;

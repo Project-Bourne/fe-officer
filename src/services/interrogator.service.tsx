@@ -92,14 +92,26 @@ class InterrogatorService {
     }
   }
 
-
   /**
-   * Get a workspace by its ID.
-   * @param {string} - The ID of the workspace to get.
-   * @returns {Promise<Object>} - The response data from the server.
+   * Delete an interrogation query
+   * @param {string} id - The ID of the query to delete
+   * @returns {Promise<Object>} - The response data from the server
    */
-
-  
+  // async deleteQuery(id: string) {
+  //   try {
+  //     const response = await request(
+  //       `interrogation/${id}`,
+  //       "DELETE",
+  //       {},
+  //       true,
+  //       false,
+  //       false,
+  //     );
+  //     return response;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 }
 
 // Export the Service class.
