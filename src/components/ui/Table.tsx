@@ -77,7 +77,7 @@ const Table: React.FC<TableProps> = ({
             render: (row: TableData) => (
                 <div className="text-[#383E42] truncate hover-bold">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {row.title}
+                        { row.title ? row.title : 'No title'}
                     </ReactMarkdown>
                 </div>
             )
