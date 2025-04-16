@@ -1,6 +1,6 @@
 export const NavBarContents = [
   {
-    name: 'Interrogate',
+    name: 'Home',
     icon: 'home.svg',
     id: 1,
     route: '/home'

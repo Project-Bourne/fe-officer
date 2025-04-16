@@ -27,8 +27,8 @@ function NavBar() {
           className="md:mr-[20px]"
           priority
         />
-        <h1 className="text-sirp-primary font-semibold text-[27px] hidden md:block">
-          Deep Soul
+        <h1 className="text-sirp-primary font-semibold text-[18px] hidden md:block">
+          Interrogator
         </h1>
       </Link>
       {/* items-center justify-center py-4 md:px-5 w-[100%] flex flex-row self-center */}

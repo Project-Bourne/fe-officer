@@ -29,20 +29,26 @@ function History(): JSX.Element {
 
   useEffect(() => {
     // Simulate API call with dummy data
-    const loadDummyData = async () => {
+    const loadData = async () => {
       setLoading(true);
       try {
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        const res = await interrogationService.getAllQueries();
+
+        console.log('Queries', res);
+        if (res?.status) {
+          setAllInterrogations(res?.data.interrogations);
+          setTotalItems(res?.data?.totalItems);
         
-        // Calculate pagination
-        const itemsPerPage = 10;
-        const start = page * itemsPerPage;
-        const end = start + itemsPerPage;
-        const paginatedData = dummyInterrogations.slice(start, end);
+          // Calculate pagination
+          // const itemsPerPage = 10;
+          // const start = page * itemsPerPage;
+          // const end = start + itemsPerPage;
+          // setPaginationData(res?.data.interrogations.slice(start, end))
+        }
+        // const paginatedData = dummyInterrogations.slice(start, end);
         
-        setAllInterrogations(paginatedData);
-        setTotalItems(dummyInterrogations.length);
+        // setAllInterrogations(paginatedData);
+        // setTotalItems(dummyInterrogations.length);
       } catch (err) {
         NotificationService.error({
           message: 'Failed to load data!',
@@ -53,7 +59,7 @@ function History(): JSX.Element {
       }
     };
 
-    // loadDummyData();
+    loadData()
     if (!userInfo) {
       getUserInfo();
     }

@@ -22,6 +22,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useTruncate } from '../custom-hooks';
 
 /**
  * Type definition for table column configuration
@@ -77,7 +78,7 @@ const Table: React.FC<TableProps> = ({
             render: (row: TableData) => (
                 <div className="text-[#383E42] truncate hover-bold">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        { row.title ? row.title : 'No title'}
+                        { row.title ? useTruncate(row.title, 40).replace(/\*\*/g, '') : 'No title'}
                     </ReactMarkdown>
                 </div>
             )
@@ -101,7 +102,7 @@ const Table: React.FC<TableProps> = ({
     ];
 
     const handleRowClick = (uuid: string) => {
-        router.push(`/history/${uuid}`);
+        router.push(`/home/query/${uuid}`);
     };
 
     if (loading) {
@@ -195,8 +196,8 @@ const Table: React.FC<TableProps> = ({
                 count={totalItems}
                 page={page}
                 onPageChange={(_, newPage) => onPageChange(newPage)}
-                rowsPerPage={10}
-                rowsPerPageOptions={[10]}
+                rowsPerPage={50}
+                rowsPerPageOptions={[50]}
                 sx={{
                     '.MuiTablePagination-select': {
                         display: 'none',
